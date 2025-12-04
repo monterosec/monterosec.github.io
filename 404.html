@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada | Montero's</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        
+        .bg-pattern {
+            background-color: #fff1f2;
+            background-image: radial-gradient(#fecdd3 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Animación flotante para el icono de error */
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen flex flex-col">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // ==========================================
+        //  INICIO DEL FOOTER (Mismo código para consistencia)
+        // ==========================================
+        const FooterIcons = {
+            MapPin: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>),
+            Phone: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>),
+            Sparkles: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M9 5H5"></path></svg>),
+            Instagram: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>),
+            TikTok: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>),
+            Send: ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>)
+        };
+
+        function Footer() {
+            const { MapPin, Phone, Sparkles, Instagram, TikTok, Send } = FooterIcons;
+            return (
+                <footer className="mt-auto bg-white rounded-t-3xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] border-t border-rose-100 p-8 w-full z-20 relative">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                             <div className="flex items-center gap-2 mb-4">
+                                <img src="https://monterosec.github.io/img/monteros.png" alt="Logo" className="h-8" />
+                            </div>
+                            <p className="text-sm text-gray-500 mb-4">© 2025 Todos los derechos reservados.</p>
+                            <div className="flex flex-col gap-1">
+                                <a href="#" className="text-xs text-gray-400 hover:text-rose-500 transition-colors">Términos y Condiciones</a>
+                                <a href="#" className="text-xs text-gray-400 hover:text-rose-500 transition-colors">Política de Privacidad</a>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                            <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <MapPin size={18} className="text-rose-500"/> Visítanos
+                            </h4>
+                            <p className="text-sm text-gray-500 mb-2">Tienda Física Montero's</p>
+                            <a href="https://maps.app.goo.gl/SodkgtYa32Giep1h7" target="_blank" rel="noreferrer" className="text-rose-600 font-bold text-sm hover:underline flex items-center gap-1">
+                                Ver Ubicación <Send size={12} className="-rotate-45" />
+                            </a>
+                        </div>
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                            <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Phone size={18} className="text-rose-500"/> Contacto
+                            </h4>
+                            <p className="text-sm text-gray-500 mb-1">Dudas o pedidos:</p>
+                            <p className="font-semibold text-gray-700">098 154 0453</p>
+                            <p className="text-xs text-gray-400 mt-1">Lunes a Sábado: 9am - 7pm</p>
+                        </div>
+                        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                            <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <Sparkles size={18} className="text-rose-500"/> Síguenos
+                            </h4>
+                            <div className="flex gap-3">
+                                <a href="https://instagram.com/monteros.ec" target="_blank" className="bg-rose-50 p-2.5 rounded-full text-rose-600 hover:bg-rose-100 hover:scale-110 transition-all border border-rose-100">
+                                    <Instagram size={20} />
+                                </a>
+                                <a href="https://tiktok.com/@monteros.ec" target="_blank" className="bg-rose-50 p-2.5 rounded-full text-rose-600 hover:bg-rose-100 hover:scale-110 transition-all border border-rose-100">
+                                    <TikTok size={20} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            );
+        }
+
+        // --- Iconos para la página 404 ---
+        const BrokenHeart = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                <path d="M12 5 9.04 11l5.92 2L12 19"/>
+            </svg>
+        );
+
+        const HomeIcon = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        );
+
+        function ErrorPage() {
+            return (
+                <div className="flex flex-col min-h-screen relative overflow-hidden">
+                    {/* Navbar simplificado */}
+                    <nav className="w-full py-4 px-6 flex justify-center items-center relative z-50">
+                        <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                            <img src="https://monterosec.github.io/img/monteros.png" alt="Montero's Logo" className="h-10 w-auto object-contain" />
+                        </a>
+                    </nav>
+
+                    {/* Contenido Central */}
+                    <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-8 relative z-10">
+                        
+                        <div className="relative mb-8">
+                            <div className="text-rose-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10 text-[180px] sm:text-[250px] font-black leading-none opacity-50 select-none">
+                                404
+                            </div>
+                            <div className="float-animation bg-white p-6 rounded-full shadow-xl border-4 border-rose-100">
+                                <BrokenHeart size={80} className="text-rose-500" />
+                            </div>
+                        </div>
+
+                        <h1 className="text-4xl sm:text-5xl font-extrabold text-rose-950 font-serif mb-4">
+                            ¡Oops! Página no encontrada
+                        </h1>
+                        
+                        <p className="text-lg text-gray-600 max-w-md mx-auto mb-8 leading-relaxed">
+                            Parece que el producto o la página que buscas se nos agotó o no existe. <br/>
+                            <span className="text-rose-500 italic">¡Pero no dejes que eso arruine tu maquillaje!</span>
+                        </p>
+
+                        <a 
+                            href="/" 
+                            className="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2 group"
+                        >
+                            <HomeIcon size={20} />
+                            <span>Regresar al Inicio</span>
+                        </a>
+
+                    </main>
+
+                    {/* Footer */}
+                    <Footer />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ErrorPage />);
+    </script>
+</body>
+</html>
