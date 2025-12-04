@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título Principal -->
+    <title>📅 ¡Reserva YA! Tu Calendario Adviento Montero's.</title>
+
+    <!-- Favicon (Icono de pestaña) -->
+    <link rel="icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
+    
+    <!-- Meta-etiquetas para SEO y Descripción -->
+    <meta name="description" content="Reserva tu Calendario de Adviento de Maquillaje en Montero's. 24 días de sorpresas full-size y belleza. ¡Edición Limitada! Aparta el tuyo hoy mismo con un clic.">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://monterosec.github.io/">
+    <meta property="og:title" content="📅 ¡Reserva YA! Tu Calendario Adviento Montero's.">
+    <meta property="og:description" content="¡La cuenta regresiva más linda! 24 días de maquillaje full-size. Pocas unidades disponibles.">
+    <meta property="og:image" content="https://monterosec.github.io/img/monteros.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://monterosec.github.io/">
+    <meta property="twitter:title" content="📅 ¡Reserva YA! Tu Calendario Adviento Montero's.">
+    <meta property="twitter:description" content="¡La cuenta regresiva más linda! 24 días de maquillaje full-size. Pocas unidades disponibles.">
+    <meta property="twitter:image" content="https://monterosec.github.io/img/monteros.png">
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel para traducir JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Animación suave para la selección */
+        .selected-ring { box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.3); transform: scale(1.02); }
+        
+        /* Animación para el texto deslizante (Marquee/Spam) */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            white-space: nowrap;
+            animation: marquee 20s linear infinite; /* Un poco más lento para legibilidad */
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-rose-50">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- Iconos SVG ---
+        const Gift = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg>);
+        const Send = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>);
+        const Star = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>);
+        const ShoppingBag = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>);
+        const Instagram = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>);
+        const TikTok = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>);
+        const Phone = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>);
+        const Sparkles = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M9 5H5"></path></svg>);
+        const Clock = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>);
+        const MapPin = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>);
+        const CheckCircle2 = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>);
+        const Truck = ({ size = 24, className = "" }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10 17h4V5H2v12h3"></path><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"></path><path d="M14 17h1"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>);
+
+        // --- DATOS DE LOS PRODUCTOS ACTUALIZADOS ---
+        const PRODUCTS = [
+            {
+                id: 'caja-rosa',
+                name: 'Edición Rosa - Glam',
+                price: '$35.00',
+                description: 'Ideal para el día a día. Contiene 24 sorpresas: labiales matte, paleta nude, rubor y skincare.',
+                image: 'https://monterosec.github.io/img/caja1.png', 
+                color: 'bg-rose-100'
+            },
+            {
+                id: 'caja-gold',
+                name: 'Edición Gold - Luxury',
+                price: '$45.00',
+                description: 'Brilla en tus fiestas. Incluye iluminadores, pigmentos metálicos, pestañas y productos premium.',
+                image: 'https://monterosec.github.io/img/caja2.png', 
+                color: 'bg-yellow-100'
+            }
+        ];
+
+        const PROVINCIAS = [
+            "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro", "Esmeraldas", "Galápagos", 
+            "Guayas", "Imbabura", "Loja", "Los Ríos", "Manabí", "Morona Santiago", "Napo", "Orellana", "Pastaza", 
+            "Pichincha", "Santa Elena", "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"
+        ];
+
+        // --- Componente Principal ---
+        function App() {
+            const [selectedProduct, setSelectedProduct] = useState(PRODUCTS[0]);
+            const [formData, setFormData] = useState({
+                nombre: '',
+                cedula: '',
+                telefono: '',
+                provincia: '',
+                ciudad: '',
+                calle: '',
+                cantidad: 1,
+                metodoPago: 'Transferencia'
+            });
+            const [isLoading, setIsLoading] = useState(false);
+            const phoneNumber = "593981540453"; // Ecuador
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({ ...prev, [name]: value }));
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setIsLoading(true);
+
+                // CREAMOS EL MENSAJE Y LO CODIFICAMOS PARA QUE NO SE CORTE
+                const message = `¡Hola Montero's! 🎄💄
+Quiero reservar mi *Calendario de Adviento*.
+
+🎁 *Producto Elegido:* ${selectedProduct.name} (${selectedProduct.price})
+🔗 *Foto Ref:* ${selectedProduct.image}
+
+📝 *Mis Datos:*
+👤 Nombre: ${formData.nombre}
+🆔 Cédula: ${formData.cedula}
+📱 Teléfono: ${formData.telefono}
+
+🚚 *Dirección de Envío:*
+🇪🇨 País: Ecuador
+📍 Provincia: ${formData.provincia}
+🏙️ Ciudad: ${formData.ciudad}
+🏠 Calle/Ref: ${formData.calle}
+
+📦 Cantidad: ${formData.cantidad}
+💳 Pago: ${formData.metodoPago}
+
+¡Espero confirmación! ✨`;
+
+                const encodedMessage = encodeURIComponent(message);
+                
+                setTimeout(() => {
+                    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+                    setIsLoading(false);
+                }, 800);
+            };
+
+            return (
+                <div className="min-h-screen bg-rose-50 font-sans text-gray-800">
+                    {/* Navbar */}
+                    <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-rose-100">
+                        <div className="max-w-6xl mx-auto px-4 py-2 flex justify-between items-center">
+                            {/* CAMBIO 1: Logo con redirección y sin efecto hover exagerado */}
+                            <a href="index.html" className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                                <img 
+                                    src="https://monterosec.github.io/img/monteros.png" 
+                                    alt="Montero's Logo" 
+                                    className="h-12 w-auto object-contain"
+                                />
+                            </a>
+                            
+                            <div className="flex items-center gap-3">
+                                <a href="https://maps.app.goo.gl/SodkgtYa32Giep1h7" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-rose-600 transition-colors" title="Ver ubicación">
+                                    <MapPin size={24} />
+                                </a>
+                                <a href="https://tiktok.com/@monteros.ec" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-rose-600 transition-colors">
+                                    <TikTok size={24} />
+                                </a>
+                                <a href="https://instagram.com/monteros.ec" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-rose-600 transition-colors">
+                                    <Instagram size={24} />
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-6xl mx-auto px-4 pb-12 pt-6">
+                        
+                        {/* FRANJA DE SPAM / MARQUESINA */}
+                        <div className="marquee-container bg-yellow-400 text-rose-900 overflow-hidden py-2 mb-8 rounded-lg shadow-md border border-yellow-500 relative">
+                             <div className="animate-marquee font-bold text-sm tracking-widest flex items-center">
+                                <span className="mx-4 flex items-center gap-2"><Sparkles size={14}/> EDICIÓN LIMITADA ✨ SOLO POR TIEMPO LIMITADO ✨ RESERVA TU CALENDARIO AHORA </span>
+                                <span className="mx-4 flex items-center gap-2"><Sparkles size={14}/> EDICIÓN LIMITADA ✨ SOLO POR TIEMPO LIMITADO ✨ RESERVA TU CALENDARIO AHORA </span>
+                                <span className="mx-4 flex items-center gap-2"><Sparkles size={14}/> EDICIÓN LIMITADA ✨ SOLO POR TIEMPO LIMITADO ✨ RESERVA TU CALENDARIO AHORA </span>
+                                <span className="mx-4 flex items-center gap-2"><Sparkles size={14}/> EDICIÓN LIMITADA ✨ SOLO POR TIEMPO LIMITADO ✨ RESERVA TU CALENDARIO AHORA </span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                            
+                            {/* COLUMNA IZQUIERDA: Información y Productos */}
+                            <div className="md:col-span-7 space-y-8">
+                                
+                                {/* Hero Section */}
+                                <div className="relative bg-gradient-to-br from-rose-500 to-rose-600 text-white p-8 rounded-[2rem] shadow-xl overflow-hidden">
+                                    <div className="absolute top-0 right-0 opacity-10 transform translate-x-10 -translate-y-10">
+                                        <Gift size={200} />
+                                    </div>
+                                    <div className="relative z-10 text-center md:text-left">
+                                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 font-serif tracking-tight leading-tight">Calendario de Adviento</h1>
+                                        <p className="text-rose-100 text-lg md:text-xl mb-6 font-light">Vive días de puro maquillaje y felicidad. ✨</p>
+                                        
+                                        <div className="inline-block bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                            <p className="text-4xl font-bold text-yellow-300">¡Elige cual gustes! 🥳</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Info Cards Grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="bg-white p-5 rounded-xl shadow-sm border border-rose-100 flex items-start gap-4 hover:shadow-md transition-shadow">
+                                        <div className="bg-rose-100 p-3 rounded-full text-rose-600 shrink-0">
+                                            <ShoppingBag size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-gray-800 text-lg">Productos Full Size</h3>
+                                            <p className="text-sm text-gray-500 leading-relaxed">Nada de muestras. Labiales, sombras y skincare en tamaño real.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="bg-white p-5 rounded-xl shadow-sm border border-rose-100 flex items-start gap-4 hover:shadow-md transition-shadow">
+                                        <div className="bg-yellow-100 p-3 rounded-full text-yellow-600 shrink-0">
+                                            <Clock size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-gray-800 text-lg">Reserva Fácil</h3>
+                                            <p className="text-sm text-gray-500 leading-relaxed">Asegura el tuyo hoy con un abono y paga el resto al recibir.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Selección de Productos */}
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                        1. Elige tu Caja <span className="text-xs font-normal text-rose-500 bg-rose-100 px-2 py-0.5 rounded-full border border-rose-200">Clic para seleccionar</span>
+                                    </h2>
+                                    
+                                    <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                                        {PRODUCTS.map((product) => (
+                                            <div 
+                                                key={product.id}
+                                                onClick={() => setSelectedProduct(product)}
+                                                className={`group relative cursor-pointer rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col h-full ${
+                                                    selectedProduct.id === product.id 
+                                                    ? 'border-rose-500 selected-ring bg-white shadow-lg' 
+                                                    : 'border-transparent bg-white shadow-sm hover:shadow-md opacity-90 hover:opacity-100'
+                                                }`}
+                                            >
+                                                {selectedProduct.id === product.id && (
+                                                    <div className="absolute top-3 right-3 bg-rose-500 text-white rounded-full p-1.5 z-10 shadow-md">
+                                                        <CheckCircle2 size={20} />
+                                                    </div>
+                                                )}
+                                                
+                                                <div className={`aspect-square w-full ${product.color} flex items-center justify-center overflow-hidden p-4 group-hover:scale-105 transition-transform duration-500`}>
+                                                    <img 
+                                                        src={product.image} 
+                                                        alt={product.name}
+                                                        className="w-full h-full object-contain drop-shadow-xl"
+                                                        onError={(e) => {e.target.onerror = null; e.target.src = 'https://placehold.co/400x400/e2e8f0/gray?text=No+Image'}}
+                                                    />
+                                                </div>
+                                                
+                                                <div className="p-4 text-center flex-1 flex flex-col justify-between bg-white">
+                                                    <div>
+                                                        <h3 className="font-bold text-gray-900 text-base leading-tight mb-2">{product.name}</h3>
+                                                        <p className="text-xs text-gray-500 leading-relaxed mb-3 px-1">{product.description}</p>
+                                                    </div>
+                                                    <p className="text-rose-600 font-extrabold text-lg">{product.price}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* COLUMNA DERECHA: Formulario */}
+                            <div className="md:col-span-5 relative">
+                                <div className="md:sticky md:top-24">
+                                    <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-rose-100 relative overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-rose-400 to-yellow-400"></div>
+                                        
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h2 className="text-2xl font-bold text-gray-800">Tu Reserva</h2>
+                                            <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Paso 2 de 2</span>
+                                        </div>
+
+                                        {/* Resumen de Selección */}
+                                        <div className="mb-6 p-4 bg-rose-50 rounded-2xl border border-rose-100 flex items-center gap-4">
+                                            <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white shadow-sm bg-white">
+                                                 <img src={selectedProduct.image} className="w-full h-full object-contain" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-xs text-rose-500 font-bold uppercase tracking-wider mb-1">Elegiste:</p>
+                                                <p className="text-sm font-bold text-gray-900 truncate leading-tight">{selectedProduct.name}</p>
+                                                <p className="text-sm font-bold text-rose-600 mt-1">{selectedProduct.price}</p>
+                                            </div>
+                                        </div>
+
+                                        <form onSubmit={handleSubmit} className="space-y-5">
+                                            {/* Datos Personales */}
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nombre Completo</label>
+                                                    <input
+                                                        type="text"
+                                                        name="nombre"
+                                                        required
+                                                        placeholder="Ej. María Pérez"
+                                                        value={formData.nombre}
+                                                        onChange={handleChange}
+                                                        className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 outline-none transition-all placeholder:text-gray-400"
+                                                    />
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Cédula</label>
+                                                        <input
+                                                            type="text"
+                                                            name="cedula"
+                                                            required
+                                                            placeholder="1710099801"
+                                                            value={formData.cedula}
+                                                            onChange={handleChange}
+                                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 outline-none transition-all"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Celular</label>
+                                                        <input
+                                                            type="tel"
+                                                            name="telefono"
+                                                            required
+                                                            placeholder="099988791"
+                                                            value={formData.telefono}
+                                                            onChange={handleChange}
+                                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 outline-none transition-all"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Dirección */}
+                                            <div className="pt-2">
+                                                <div className="flex items-center gap-2 mb-3 text-rose-600 border-b border-rose-100 pb-2">
+                                                    <Truck size={18} />
+                                                    <h3 className="font-bold text-sm">Datos de Envío</h3>
+                                                </div>
+                                                
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Provincia</label>
+                                                        <select 
+                                                            name="provincia" 
+                                                            required 
+                                                            value={formData.provincia} 
+                                                            onChange={handleChange} 
+                                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 outline-none cursor-pointer hover:bg-white"
+                                                        >
+                                                            <option value="" disabled>Selecciona...</option>
+                                                            {PROVINCIAS.map(p => (
+                                                                <option key={p} value={p}>{p}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Ciudad</label>
+                                                        <input
+                                                            type="text"
+                                                            name="ciudad"
+                                                            required
+                                                            placeholder="Ej. Guayaquil"
+                                                            value={formData.ciudad}
+                                                            onChange={handleChange}
+                                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 outline-none transition-all"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Dirección Exacta</label>
+                                                        <input
+                                                            type="text"
+                                                            name="calle"
+                                                            required
+                                                            placeholder="Calle principal, secundaria y # de casa"
+                                                            value={formData.calle}
+                                                            onChange={handleChange}
+                                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 outline-none transition-all"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-4 pt-2">
+                                                <div className="flex-1">
+                                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Cantidad</label>
+                                                    <select
+                                                        name="cantidad"
+                                                        value={formData.cantidad}
+                                                        onChange={handleChange}
+                                                        className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 outline-none"
+                                                    >
+                                                        {[1, 2, 3, 4, 5].map(num => (
+                                                            <option key={num} value={num}>{num} {num === 1 ? 'Caja' : 'Cajas'}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                
+                                                <div className="flex-1">
+                                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Pago</label>
+                                                    <select
+                                                        name="metodoPago"
+                                                        value={formData.metodoPago}
+                                                        onChange={handleChange}
+                                                        className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-rose-500 outline-none"
+                                                    >
+                                                        <option value="Transferencia">Transferencia</option>
+                                                        <option value="Efectivo">Efectivo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="submit"
+                                                disabled={isLoading}
+                                                className="w-full bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-200 transform hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 mt-4"
+                                            >
+                                                {isLoading ? (
+                                                    <span>Generando enlace...</span>
+                                                ) : (
+                                                    <>
+                                                        <span>Enviar pedido a WhatsApp</span>
+                                                        <Send size={20} />
+                                                    </>
+                                                )}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* CAMBIO 2: NUEVO FOOTER COMPLETO Y RESPONSIVE */}
+                        <footer className="mt-16 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                {/* Col 1: Brand & Legal */}
+                                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                                     <div className="flex items-center gap-2 mb-4">
+                                        <img src="https://monterosec.github.io/img/monteros.png" alt="Logo" className="h-8" />
+                                    </div>
+                                    <p className="text-sm text-gray-500 mb-4">© 2025 Todos los derechos reservados.</p>
+                                    <div className="flex flex-col gap-1">
+                                        <a href="#" className="text-xs text-gray-400 hover:text-rose-500 transition-colors">Términos y Condiciones</a>
+                                        <a href="#" className="text-xs text-gray-400 hover:text-rose-500 transition-colors">Política de Privacidad</a>
+                                    </div>
+                                </div>
+
+                                {/* Col 2: Visítanos */}
+                                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                                    <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                        <MapPin size={18} className="text-rose-500"/> Visítanos
+                                    </h4>
+                                    <p className="text-sm text-gray-500 mb-2">Tienda Física Montero's</p>
+                                    <a href="https://maps.app.goo.gl/SodkgtYa32Giep1h7" target="_blank" rel="noreferrer" className="text-rose-600 font-bold text-sm hover:underline">
+                                        Ver Ubicación en Mapa
+                                    </a>
+                                </div>
+
+                                {/* Col 3: Contacto */}
+                                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                                    <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                        <Phone size={18} className="text-rose-500"/> Contacto
+                                    </h4>
+                                    <p className="text-sm text-gray-500 mb-1">Dudas o pedidos:</p>
+                                    <p className="font-semibold text-gray-700">098 154 0453</p>
+                                    <p className="text-xs text-gray-400 mt-1">Lunes a Sábado: 9am - 7pm</p>
+                                </div>
+
+                                {/* Col 4: Redes Sociales */}
+                                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                                    <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                        <Sparkles size={18} className="text-rose-500"/> Síguenos
+                                    </h4>
+                                    <div className="flex gap-3">
+                                        <a href="https://instagram.com/monteros.ec" target="_blank" className="bg-rose-50 p-2.5 rounded-full text-rose-600 hover:bg-rose-100 hover:scale-110 transition-all border border-rose-100">
+                                            <Instagram size={20} />
+                                        </a>
+                                        <a href="https://tiktok.com/@monteros.ec" target="_blank" className="bg-rose-50 p-2.5 rounded-full text-rose-600 hover:bg-rose-100 hover:scale-110 transition-all border border-rose-100">
+                                            <TikTok size={20} />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
