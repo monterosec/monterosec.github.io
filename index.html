@@ -51,13 +51,10 @@
         }
         .animate-marquee {
             white-space: nowrap;
-            animation: marquee 15s linear infinite;
+            animation: marquee 20s linear infinite; /* Un poco más lento para legibilidad */
             display: inline-block;
         }
-        /* Pausar animación al pasar el mouse (opcional) */
-        .marquee-container:hover .animate-marquee {
-            animation-play-state: paused;
-        }
+        /* Eliminado el pause on hover para que no se detenga */
     </style>
 </head>
 <body class="bg-rose-50">
@@ -182,7 +179,7 @@
 
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
                             
-                            {/* COLUMNA IZQUIERDA: Información y Productos (Móvil: arriba, PC: izquierda) */}
+                            {/* COLUMNA IZQUIERDA: Información y Productos */}
                             <div className="md:col-span-7 space-y-8">
                                 
                                 {/* Hero Section */}
@@ -268,30 +265,10 @@
                                     </div>
                                 </div>
 
-                                {/* Ubicación (Visible en PC aquí) */}
-                                <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hidden md:block">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="bg-rose-50 p-2 rounded-full text-rose-600">
-                                            <MapPin size={24} />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-gray-800 text-lg">Visítanos</h3>
-                                            <p className="text-sm text-gray-500">Tienda Física Montero's</p>
-                                        </div>
-                                    </div>
-                                    <a 
-                                        href="https://maps.app.goo.gl/SodkgtYa32Giep1h7" 
-                                        target="_blank" 
-                                        rel="noreferrer"
-                                        className="inline-flex items-center gap-2 text-rose-600 font-medium hover:text-rose-700 hover:underline"
-                                    >
-                                        <span>Ver ubicación en Google Maps</span>
-                                        <Send size={16} className="-rotate-45" />
-                                    </a>
-                                </div>
+                                {/* Ubicación (Eliminado de aquí para moverlo al footer full-width) */}
                             </div>
 
-                            {/* COLUMNA DERECHA: Formulario (Móvil: abajo, PC: derecha sticky) */}
+                            {/* COLUMNA DERECHA: Formulario */}
                             <div className="md:col-span-5 relative">
                                 <div className="md:sticky md:top-24">
                                     <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-rose-100 relative overflow-hidden">
@@ -456,29 +433,46 @@
                                             </button>
                                         </form>
                                     </div>
+                                    {/* Footer anterior eliminado de aquí */}
+                                </div>
+                            </div>
+                        </div>
 
-                                    {/* Footer (Visible en PC aquí debajo del form) */}
-                                    <div className="text-center mt-8 text-gray-400 text-sm hidden md:block">
-                                        <div className="flex justify-center gap-1 mb-2 text-yellow-400">
-                                            <Star size={16} /><Star size={16} /><Star size={16} /><Star size={16} /><Star size={16} />
-                                        </div>
-                                        <p>© 2024 Montero's Tienda de Maquillaje</p>
+                        {/* NUEVO FOOTER UNIFICADO (Ubicación + Copyright) */}
+                        <footer className="mt-16 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                                {/* Lado Izquierdo: Ubicación */}
+                                <div className="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
+                                     <div className="bg-rose-50 p-4 rounded-full text-rose-600 shrink-0">
+                                        <MapPin size={28} />
+                                    </div>
+                                    <div className="text-center md:text-left">
+                                        <h3 className="font-bold text-gray-800 text-lg">Visítanos</h3>
+                                        <p className="text-sm text-gray-500 mb-1">Tienda Física Montero's</p>
+                                         <a 
+                                            href="https://maps.app.goo.gl/SodkgtYa32Giep1h7" 
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-1 text-rose-600 font-bold hover:text-rose-700 hover:underline text-sm"
+                                        >
+                                            <span>Ver en Google Maps</span>
+                                            <Send size={14} className="-rotate-45" />
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {/* Lado Derecho: Branding/Copyright */}
+                                <div className="text-center md:text-right w-full md:w-auto">
+                                     <div className="flex justify-center md:justify-end gap-1 mb-2 text-yellow-400">
+                                        <Star size={18} /><Star size={18} /><Star size={18} /><Star size={18} /><Star size={18} />
+                                    </div>
+                                    <p className="text-gray-400 text-sm font-medium">© 2024 Montero's Tienda de Maquillaje</p>
+                                     <div className="flex justify-center md:justify-end items-center gap-2 mt-2 text-gray-500 text-sm">
+                                        <Phone size={16} /> <span className="font-semibold">098 154 0453</span>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-
-                        {/* Footer (Solo Móvil) */}
-                        <div className="text-center mt-8 text-gray-400 text-sm pb-8 md:hidden">
-                            <div className="flex justify-center gap-1 mb-2 text-yellow-400">
-                                <Star size={16} /><Star size={16} /><Star size={16} /><Star size={16} /><Star size={16} />
-                            </div>
-                            <p>© 2024 Montero's Tienda de Maquillaje</p>
-                            <div className="flex justify-center items-center gap-2 mt-2">
-                                <Phone size={14} /> <span>098 154 0453</span>
-                            </div>
-                        </div>
+                        </footer>
 
                     </main>
                 </div>
