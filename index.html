@@ -130,10 +130,35 @@
                 e.preventDefault();
                 setIsLoading(true);
 
-                const message = `¡Hola Montero's! 🎄💄%0A%0AQuiero reservar mi *Calendario de Adviento*.%0A%0A🎁 *Producto Elegido:* ${selectedProduct.name} (${selectedProduct.price})%0A🔗 *Foto Ref:* ${selectedProduct.image}%0A%0A📝 *Mis Datos:*%0A👤 Nombre: ${formData.nombre}%0A🆔 Cédula: ${formData.cedula}%0A📱 Teléfono: ${formData.telefono}%0A%0A🚚 *Dirección de Envío:*%0A🇪🇨 País: Ecuador%0A📍 Provincia: ${formData.provincia}%0A🏙️ Ciudad: ${formData.ciudad}%0A🏠 Calle/Ref: ${formData.calle}%0A%0A📦 Cantidad: ${formData.cantidad}%0A💳 Pago: ${formData.metodoPago}%0A%0A¡Espero confirmación! ✨`;
+                // CREAMOS EL MENSAJE Y LO CODIFICAMOS PARA QUE NO SE CORTE
+                const message = `¡Hola Montero's! 🎄💄
+
+Quiero reservar mi *Calendario de Adviento*.
+
+🎁 *Producto Elegido:* ${selectedProduct.name} (${selectedProduct.price})
+🔗 *Foto Ref:* ${selectedProduct.image}
+
+📝 *Mis Datos:*
+👤 Nombre: ${formData.nombre}
+🆔 Cédula: ${formData.cedula}
+📱 Teléfono: ${formData.telefono}
+
+🚚 *Dirección de Envío:*
+🇪🇨 País: Ecuador
+📍 Provincia: ${formData.provincia}
+🏙️ Ciudad: ${formData.ciudad}
+🏠 Calle/Ref: ${formData.calle}
+
+📦 Cantidad: ${formData.cantidad}
+💳 Pago: ${formData.metodoPago}
+
+¡Espero confirmación! ✨`;
+
+                // IMPORTANTE: encodeURIComponent asegura que los espacios, tildes y caracteres especiales no rompan el enlace
+                const encodedMessage = encodeURIComponent(message);
 
                 setTimeout(() => {
-                    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+                    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
                     setIsLoading(false);
                 }, 800);
             };
@@ -264,8 +289,6 @@
                                         ))}
                                     </div>
                                 </div>
-
-                                {/* Ubicación (Eliminado de aquí para moverlo al footer full-width) */}
                             </div>
 
                             {/* COLUMNA DERECHA: Formulario */}
@@ -432,7 +455,6 @@
                                             </button>
                                         </form>
                                     </div>
-                                    {/* Footer anterior eliminado de aquí */}
                                 </div>
                             </div>
                         </div>
