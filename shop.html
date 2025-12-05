@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición Limitada - Montero's</title>
+    <link rel="icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'montero-pink': '#ffe4e6',
+                        'montero-dark': '#881337',
+                        'montero-gold': '#d4af37',
+                        'xmas-red': '#be123c',
+                        'xmas-green': '#15803d',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #fff0f3; }
+        h1, h2, h3, .brand-font { font-family: 'Playfair Display', serif; }
+        
+        /* Estilos para el Scroll Horizontal (Carrusel Móvil) */
+        .scrolling-wrapper {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .scrolling-wrapper::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+        
+        .mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open { max-height: 400px; opacity: 1; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800 pt-20">
+
+    <div id="navbar-container"></div>
+
+    <main class="flex-grow pb-10">
+        
+        <!-- Header Sección -->
+        <section class="text-center py-10 px-4">
+            <span class="inline-block py-1 px-3 rounded-full bg-montero-dark text-white text-xs font-bold tracking-widest mb-2">
+                <i class="fa-solid fa-snowflake animate-spin-slow"></i> STOCK LIMITADO
+            </span>
+            <h1 class="text-4xl md:text-5xl font-bold text-montero-dark mb-4">La Magia de la Navidad</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Selecciona tus calendarios de adviento favoritos. Desliza para ver más opciones en tu móvil.</p>
+        </section>
+
+        <!-- SECCIÓN DE PRODUCTOS (GRID Desktop / CAROUSEL Mobile) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <!-- Contenedor Flex con Scroll Horizontal para Móvil, Grid para Desktop -->
+            <div id="product-list" class="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible scrolling-wrapper snap-x snap-mandatory pb-8 md:pb-0">
+                
+                <!-- PRODUCTO 1: PINK WISH -->
+                <div class="min-w-[85%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col transform transition hover:-translate-y-1 hover:shadow-xl">
+                    <div class="relative h-64 overflow-hidden bg-pink-100">
+                        <img src="https://monterosec.github.io/img/caja1.png" alt="Pink Wish" class="w-full h-full object-contain p-4 hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 left-3 bg-montero-pink text-montero-dark font-bold text-xs px-2 py-1 rounded-full">9 Sorpresas</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold text-montero-dark mb-2">Pink Wish</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-grow">Un viaje de ensueño con tonos rosados y destellos sutiles. Ideal para looks románticos de día.</p>
+                        <div class="flex items-center justify-between mt-4">
+                            <span class="text-2xl font-bold text-gray-800">$38.00</span>
+                            <div class="flex items-center border border-gray-300 rounded-full overflow-hidden">
+                                <button onclick="updateQuantity('p1', -1)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-montero-dark font-bold">-</button>
+                                <span id="qty-p1" class="px-3 py-1 font-bold w-8 text-center">0</span>
+                                <button onclick="updateQuantity('p1', 1)" class="px-3 py-1 bg-montero-dark text-white hover:bg-red-800 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 2: RED VELVET -->
+                <div class="min-w-[85%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col transform transition hover:-translate-y-1 hover:shadow-xl">
+                    <div class="relative h-64 overflow-hidden bg-red-50">
+                        <img src="https://monterosec.github.io/img/caja2.png" alt="Red Velvet" class="w-full h-full object-contain p-4 hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 left-3 bg-montero-dark text-white font-bold text-xs px-2 py-1 rounded-full">12 Sorpresas</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold text-montero-dark mb-2">Red Velvet</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-grow">La elegancia hecha regalo. Tonos intensos, rojos vibrantes y acabados mate para noches inolvidables.</p>
+                        <div class="flex items-center justify-between mt-4">
+                            <span class="text-2xl font-bold text-gray-800">$48.00</span>
+                            <div class="flex items-center border border-gray-300 rounded-full overflow-hidden">
+                                <button onclick="updateQuantity('p2', -1)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-montero-dark font-bold">-</button>
+                                <span id="qty-p2" class="px-3 py-1 font-bold w-8 text-center">0</span>
+                                <button onclick="updateQuantity('p2', 1)" class="px-3 py-1 bg-montero-dark text-white hover:bg-red-800 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO 3: COMBO BESTIES -->
+                <div class="min-w-[85%] md:min-w-0 snap-center bg-gradient-to-br from-white to-yellow-50 rounded-2xl shadow-xl overflow-hidden border-2 border-montero-gold flex flex-col transform transition hover:-translate-y-1 hover:shadow-2xl relative">
+                    <div class="absolute top-0 right-0 bg-montero-gold text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-10">MEJOR VALOR</div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://monterosec.github.io/img/caja3.png" alt="Combo Besties" class="w-full h-full object-contain p-4 hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 left-3 bg-montero-gold text-white font-bold text-xs px-2 py-1 rounded-full">21 Sorpresas</div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold text-montero-dark mb-2"><i class="fa-solid fa-crown text-montero-gold mr-1"></i> Combo Besties</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-grow">¡Lo mejor de dos mundos! Llévate ambas colecciones (Pink + Red) con un descuento especial.</p>
+                        <div class="flex items-center justify-between mt-4">
+                            <span class="text-2xl font-bold text-xmas-red">$80.00</span>
+                            <div class="flex items-center border border-montero-gold rounded-full overflow-hidden">
+                                <button onclick="updateQuantity('p3', -1)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-montero-dark font-bold">-</button>
+                                <span id="qty-p3" class="px-3 py-1 font-bold w-8 text-center">0</span>
+                                <button onclick="updateQuantity('p3', 1)" class="px-3 py-1 bg-montero-gold text-white hover:bg-yellow-600 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Indicador visual para móvil -->
+            <div class="md:hidden text-center text-gray-400 text-sm mt-2 animate-pulse">
+                <i class="fa-solid fa-arrow-left"></i> Desliza para ver más <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </section>
+
+        <!-- Botón de Acción Principal -->
+        <section class="max-w-md mx-auto px-4 text-center">
+            <button onclick="goToCheckout()" class="w-full bg-montero-dark text-white text-xl font-bold py-4 rounded-full shadow-lg hover:bg-xmas-red hover:scale-105 transform transition duration-300 flex items-center justify-center gap-3">
+                <span>Ir a Pagar</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <p class="text-xs text-gray-500 mt-4">Podrás ingresar tus datos de envío en el siguiente paso.</p>
+        </section>
+
+    </main>
+
+    <div id="footer-container"></div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Datos de productos
+        const products = {
+            'p1': { id: 'p1', name: 'Pink Wish', price: 38.00, img: 'https://monterosec.github.io/img/caja1.png' },
+            'p2': { id: 'p2', name: 'Red Velvet', price: 48.00, img: 'https://monterosec.github.io/img/caja2.png' },
+            'p3': { id: 'p3', name: 'Combo Besties', price: 80.00, img: 'https://monterosec.github.io/img/caja3.png' }
+        };
+
+        // Estado del carrito (se inicia en 0)
+        let cartState = { 'p1': 0, 'p2': 0, 'p3': 0 };
+
+        // Recuperar carrito si existe (opcional, para persistencia si recarga)
+        const savedCart = localStorage.getItem('monteroCart');
+        if(savedCart) {
+            const parsed = JSON.parse(savedCart);
+            // Solo actualizamos si las llaves coinciden
+            if(parsed.p1 !== undefined) cartState = parsed;
+        }
+
+        // Función para actualizar cantidad visual y estado
+        function updateQuantity(productId, change) {
+            const currentQty = cartState[productId];
+            const newQty = currentQty + change;
+            
+            if (newQty >= 0) {
+                cartState[productId] = newQty;
+                document.getElementById(`qty-${productId}`).innerText = newQty;
+                updateCartIcon();
+                // Guardar en tiempo real para no perder selección al navegar
+                localStorage.setItem('monteroCart', JSON.stringify(cartState));
+            }
+        }
+
+        // Actualizar icono del carrito en el navbar (suma total)
+        function updateCartIcon() {
+            const totalItems = Object.values(cartState).reduce((a, b) => a + b, 0);
+            const badges = document.querySelectorAll('.cart-badge'); // Asumimos clase en el navbar
+            badges.forEach(badge => badge.innerText = totalItems);
+        }
+
+        // Ir al Checkout
+        function goToCheckout() {
+            // 1. Validar que haya productos
+            const totalItems = Object.values(cartState).reduce((a, b) => a + b, 0);
+            if (totalItems === 0) {
+                alert("Por favor, selecciona al menos un producto antes de continuar.");
+                return;
+            }
+
+            // 2. Redirigir directamente (ya se guarda el carrito en updateQuantity)
+            window.location.href = 'checkout';
+        }
+
+        // Inicializar UI al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restaurar cantidades visuales
+            for (const [key, val] of Object.entries(cartState)) {
+                const el = document.getElementById(`qty-${key}`);
+                if(el) el.innerText = val;
+            }
+            updateCartIcon();
+
+            // Cargar Navbar y Footer (Mismo código que index.html pero con Shop Activo)
+            const currentYear = new Date().getFullYear();
+            const navbarComponent = `
+            <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-20">
+                        <div class="flex-shrink-0 flex items-center">
+                            <a href="/" class="flex items-center gap-2">
+                                <img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Montero's Logo">
+                            </a>
+                        </div>
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="/" class="text-gray-600 hover:text-montero-dark font-medium transition relative group">Inicio<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-montero-dark transition-all group-hover:w-full"></span></a>
+                            <a href="productos" class="text-gray-600 hover:text-montero-dark font-medium transition relative group">Productos<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-montero-dark transition-all group-hover:w-full"></span></a>
+                            <a href="shop" class="text-xmas-red font-bold hover:text-red-700 transition flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a>
+                            <a href="contacto" class="text-gray-600 hover:text-montero-dark font-medium transition relative group">Contacto<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-montero-dark transition-all group-hover:w-full"></span></a>
+                            <a href="checkout" class="relative cursor-pointer group">
+                                <i class="fa-solid fa-cart-shopping text-xl text-montero-dark group-hover:text-montero-gold transition"></i>
+                                <span class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center cart-badge">0</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center md:hidden gap-4">
+                            <a href="checkout" class="relative cursor-pointer">
+                                <i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i>
+                                <span class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center cart-badge">0</span>
+                            </a>
+                            <button id="mobile-menu-btn" class="text-montero-dark hover:text-gray-600 focus:outline-none p-2">
+                                <i class="fa-solid fa-bars text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white shadow-lg">
+                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center">
+                        <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-montero-dark hover:bg-white w-full text-center transition">Inicio</a>
+                        <a href="productos" class="block px-3 py-2 rounded-md text-base font-medium text-montero-dark hover:bg-white w-full text-center transition">Productos</a>
+                        <a href="shop" class="block px-3 py-2 rounded-md text-base font-bold text-xmas-red hover:bg-white w-full text-center transition"><i class="fa-solid fa-star"></i> Edición Limitada</a>
+                        <a href="contacto" class="block px-3 py-2 rounded-md text-base font-medium text-montero-dark hover:bg-white w-full text-center transition">Contacto</a>
+                    </div>
+                </div>
+            </nav>`;
+
+            const footerComponent = `
+            <footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                            <img src="https://monterosec.github.io/img/monter0s.png" alt="Montero's Logo" class="h-20 mb-4 rounded-lg p-1">
+                            <p class="text-gray-400 text-sm mb-4">Realzando tu belleza natural con los mejores productos del mercado.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">Contáctanos</h3>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li class="flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-montero-pink"></i><a href="https://maps.app.goo.gl/Td4HtMzEt1oY1Yt49" target="_blank" class="hover:text-white transition">Pimampiro, Calle Juan Montalvo y Paquisha</a></li>
+                                <li class="flex items-center"><i class="fa-solid fa-phone mr-2 text-montero-pink"></i><a href="tel:+593981540453" class="hover:text-white transition">0981540453</a></li>
+                                <li class="flex items-center"><i class="fa-solid fa-envelope mr-2 text-montero-pink"></i><a href="mailto:monteros.ec@gmail.com" class="hover:text-white transition">monteros.ec@gmail.com</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">Menú</h3>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li><a href="/" class="hover:text-montero-pink transition">Inicio</a></li>
+                                <li><a href="productos" class="hover:text-montero-pink transition">Productos</a></li>
+                                <li><a href="shop" class="hover:text-montero-pink transition text-red-300">Edición Limitada</a></li>
+                                <li><a href="contacto" class="hover:text-montero-pink transition">Contacto</a></li>
+                                <li><a href="rastreo" class="hover:text-montero-pink transition text-montero-gold">Rastreo de Pedidos</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">Síguenos</h3>
+                            <div class="flex space-x-4 mb-6">
+                                <a href="https://www.facebook.com/" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/monteros.ec" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.tiktok.com/@monteros.ec" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-tiktok"></i></a>
+                            </div>
+                            <h3 class="text-montero-gold font-serif text-sm font-bold mb-2">Legal</h3>
+                            <ul class="space-y-1 text-xs text-gray-400">
+                                <li><a href="tyc" class="hover:underline">Términos y Condiciones</a></li>
+                                <li><a href="pdp" class="hover:underline">Política de Privacidad</a></li>
+                                <li><a href="cdd" class="hover:underline">Condiciones de devolución</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-500">
+                        <p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p>
+                    </div>
+                </div>
+            </footer>`;
+
+            document.getElementById('navbar-container').innerHTML = navbarComponent;
+            document.getElementById('footer-container').innerHTML = footerComponent;
+
+            // Lógica Menú Móvil
+            setTimeout(() => {
+                const btnMobile = document.getElementById('mobile-menu-btn');
+                const menuMobile = document.getElementById('mobile-menu');
+                if(btnMobile && menuMobile) {
+                    btnMobile.addEventListener('click', () => {
+                        menuMobile.classList.toggle('open');
+                    });
+                }
+                updateCartIcon(); // Update badge after rendering nav
+            }, 100);
+        });
+    </script>
+</body>
+</html>
