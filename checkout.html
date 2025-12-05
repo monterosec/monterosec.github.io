@@ -148,7 +148,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Cargar Navbar/Footer
             const currentYear = new Date().getFullYear();
-            const navbarComponent = `<nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20"><div class="flex-shrink-0 flex items-center"><a href="/" class="flex items-center gap-2"><img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo"><span class="md:hidden font-serif text-montero-dark font-bold text-lg ml-2">Montero's</span></a></div><div class="hidden md:flex items-center space-x-8"><a href="/" class="text-gray-600 hover:text-montero-dark font-medium">Inicio</a><a href="productos" class="text-gray-600 hover:text-montero-dark font-medium">Productos</a><a href="shop" class="text-xmas-red font-bold hover:text-red-700 flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a><a href="contacto" class="text-gray-600 hover:text-montero-dark font-medium">Contacto</a><a href="#" class="relative cursor-pointer group"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-desk" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a></div><div class="flex items-center md:hidden gap-4"><a href="#" class="relative cursor-pointer"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-mob" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a><button id="mobile-menu-btn" class="text-montero-dark p-2"><i class="fa-solid fa-bars text-2xl"></i></button></div></div></div><div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center"><a href="/" class="block px-3 py-2 text-montero-dark w-full text-center">Inicio</a><a href="shop" class="block px-3 py-2 text-xmas-red font-bold w-full text-center">Edición Limitada</a><a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center">Contacto</a></div></div></nav>`;
+            const navbarComponent = `<nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20"><div class="flex-shrink-0 flex items-center"><a href="/" class="flex items-center gap-2"><img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo"></a></div><div class="hidden md:flex items-center space-x-8"><a href="/" class="text-gray-600 hover:text-montero-dark font-medium">Inicio</a><a href="productos" class="text-gray-600 hover:text-montero-dark font-medium">Productos</a><a href="shop" class="text-xmas-red font-bold hover:text-red-700 flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a><a href="contacto" class="text-gray-600 hover:text-montero-dark font-medium">Contacto</a><a href="rastreo.html" class="text-gray-600 hover:text-montero-dark font-medium">Rastreo</a><a href="#" class="relative cursor-pointer group"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-desk" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a></div><div class="flex items-center md:hidden gap-4"><a href="#" class="relative cursor-pointer"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-mob" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a><button id="mobile-menu-btn" class="text-montero-dark p-2"><i class="fa-solid fa-bars text-2xl"></i></button></div></div></div><div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center"><a href="/" class="block px-3 py-2 text-montero-dark w-full text-center">Inicio</a><a href="shop" class="block px-3 py-2 text-xmas-red font-bold w-full text-center">Edición Limitada</a><a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center">Contacto</a><a href="rastreo.html" class="block px-3 py-2 text-montero-dark font-bold w-full text-center bg-white/50">Rastreo</a></div></div></nav>`;
             const footerComponent = `<footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div><div class="max-w-7xl mx-auto px-4"><div class="text-center"><p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p></div></div></footer>`;
 
             document.getElementById('navbar-container').innerHTML = navbarComponent;
@@ -275,10 +275,7 @@
             const city = document.getElementById('city').value;
             const address = document.getElementById('address').value;
 
-            // 4. (MODIFICADO) Ya NO guardamos los datos para futura comodidad
-            // localStorage.setItem('monteroShipping', JSON.stringify(shippingDataToSave)); <-- ELIMINADO
-
-            // 5. Construir Mensaje
+            // 4. Construir Mensaje
             let message = "*¡Hola Montero's! 🎄 Quiero realizar el siguiente pedido:*\n\n";
             message += "*PRODUCTOS:*\n";
             message += productListText;
@@ -291,20 +288,20 @@
             message += `📍 *Ubicación:* ${city}, ${province}\n`;
             message += `🏠 *Dirección:* ${address}`;
 
-            // 6. Enviar
+            // 5. Enviar a WhatsApp
             const whatsappNumber = "593981540453";
             const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             
             window.open(url, '_blank');
 
-            // 7. (NUEVO) Reiniciar formulario y asegurar que no quede nada guardado en datos de envío
+            // 6. Reiniciar TODO (Formulario y Carrito)
             form.reset();
-            localStorage.removeItem('monteroShipping');
+            localStorage.removeItem('monteroShipping'); // Borrar datos de envío guardados
             
-            // Si también quieres vaciar el carrito después de enviar, descomenta las siguientes líneas:
-            // cartState = {}; 
-            // localStorage.removeItem('monteroCart');
-            // renderCart();
+            // Vaciar carrito
+            cartState = {}; 
+            localStorage.removeItem('monteroCart'); // Borrar carrito guardado
+            renderCart(); // Actualizar UI
         }
     </script>
 </body>
