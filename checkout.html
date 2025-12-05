@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Montero's</title>
+    <link rel="icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'montero-pink': '#ffe4e6',
+                        'montero-dark': '#881337',
+                        'montero-gold': '#d4af37',
+                        'xmas-red': '#be123c',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #f8fafc; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open { max-height: 400px; opacity: 1; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800 pt-20">
+
+    <div id="navbar-container"></div>
+
+    <main class="flex-grow py-10 px-4">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl font-bold text-center text-montero-dark mb-8">Finalizar Compra</h1>
+
+            <!-- 1. RESUMEN DE PRODUCTOS -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 mb-8">
+                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <span class="font-bold text-gray-700"><i class="fa-solid fa-basket-shopping mr-2"></i>Resumen del Pedido</span>
+                    <a href="shop.html" class="text-xs text-blue-600 hover:underline">Volver a la tienda</a>
+                </div>
+
+                <div id="cart-items" class="divide-y divide-gray-100">
+                    <div class="p-8 text-center text-gray-500">Cargando carrito...</div>
+                </div>
+
+                <div class="bg-montero-pink/30 px-6 py-4 border-t border-gray-200">
+                    <div class="flex justify-between items-center text-xl font-bold text-montero-dark">
+                        <span>Total a Pagar:</span>
+                        <span id="total-amount">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. FORMULARIO DE ENVÍO -->
+            <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-montero-gold relative">
+                <div class="flex items-center gap-3 mb-6 border-b pb-4">
+                    <div class="bg-montero-dark text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">2</div>
+                    <h3 class="text-xl font-bold text-gray-800">Datos de Envío</h3>
+                </div>
+
+                <form id="shipping-form" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Nombre -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nombre y Apellido</label>
+                            <input type="text" id="fullname" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: María Montero">
+                        </div>
+                        <!-- Cédula -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Cédula / Pasaporte</label>
+                            <input type="text" id="id_number" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: 1726543210">
+                        </div>
+                        <!-- Celular -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Celular</label>
+                            <input type="tel" id="phone" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: 0981540453">
+                        </div>
+                        <!-- País -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">País</label>
+                            <input type="text" value="Ecuador" disabled class="w-full px-4 py-2 rounded border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
+                        </div>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Provincia</label>
+                            <select id="province" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none bg-white transition">
+                                <option value="">Selecciona...</option>
+                                <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Ciudad / Cantón</label>
+                            <input type="text" id="city" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: Pimampiro">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Dirección de las calles y referencia</label>
+                        <textarea id="address" required rows="2" class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: Calle Juan Montalvo y Paquisha, casa verde"></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- BOTÓN WHATSAPP (CORREGIDO: Ya no es sticky/pegajoso en móvil) -->
+            <div class="mt-8 text-center px-4">
+                <button onclick="sendToWhatsApp()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform transition hover:-translate-y-1 flex items-center justify-center gap-3 mx-auto border-2 border-white md:border-transparent ring-2 ring-green-600 md:ring-0">
+                    <i class="fa-brands fa-whatsapp text-3xl"></i>
+                    <div class="text-left">
+                        <span class="block text-xs uppercase tracking-wider opacity-90">Confirmar Pedido</span>
+                        <span class="block text-lg leading-none">Enviar a WhatsApp</span>
+                    </div>
+                </button>
+                <p class="text-xs text-gray-500 mt-4 mb-4">Se abrirá WhatsApp con los detalles de tu pedido.</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script>
+        const productsDB = {
+            'p1': { name: 'Pink Wish', price: 38.00 },
+            'p2': { name: 'Red Velvet', price: 48.00 },
+            'p3': { name: 'Combo Besties', price: 80.00 }
+        };
+
+        // Estado local
+        let cartState = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar Navbar/Footer
+            const currentYear = new Date().getFullYear();
+            const navbarComponent = `<nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20"><div class="flex-shrink-0 flex items-center"><a href="index.html" class="flex items-center gap-2"><img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo"><span class="md:hidden font-serif text-montero-dark font-bold text-lg ml-2">Montero's</span></a></div><div class="hidden md:flex items-center space-x-8"><a href="index.html" class="text-gray-600 hover:text-montero-dark font-medium">Inicio</a><a href="productos.html" class="text-gray-600 hover:text-montero-dark font-medium">Productos</a><a href="shop.html" class="text-xmas-red font-bold hover:text-red-700 flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a><a href="contacto.html" class="text-gray-600 hover:text-montero-dark font-medium">Contacto</a><a href="#" class="relative cursor-pointer group"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-desk" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a></div><div class="flex items-center md:hidden gap-4"><a href="#" class="relative cursor-pointer"><i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i><span id="badge-mob" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span></a><button id="mobile-menu-btn" class="text-montero-dark p-2"><i class="fa-solid fa-bars text-2xl"></i></button></div></div></div><div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center"><a href="index.html" class="block px-3 py-2 text-montero-dark w-full text-center">Inicio</a><a href="shop.html" class="block px-3 py-2 text-xmas-red font-bold w-full text-center">Edición Limitada</a><a href="contacto.html" class="block px-3 py-2 text-montero-dark w-full text-center">Contacto</a></div></div></nav>`;
+            const footerComponent = `<footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div><div class="max-w-7xl mx-auto px-4"><div class="text-center"><p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p></div></div></footer>`;
+
+            document.getElementById('navbar-container').innerHTML = navbarComponent;
+            document.getElementById('footer-container').innerHTML = footerComponent;
+
+             setTimeout(() => {
+                const btnMobile = document.getElementById('mobile-menu-btn');
+                const menuMobile = document.getElementById('mobile-menu');
+                if(btnMobile) btnMobile.addEventListener('click', () => menuMobile.classList.toggle('open'));
+            }, 100);
+
+            // LOGICA DEL CARRITO
+            loadCartData();
+            loadShippingDataIfAvailable(); // Intentar rellenar formulario si hay datos guardados
+        });
+
+        function loadCartData() {
+            const storedCart = localStorage.getItem('monteroCart');
+            if (storedCart) cartState = JSON.parse(storedCart);
+            renderCart();
+        }
+
+        // Rellenar formulario si existen datos previos (Mejora UX)
+        function loadShippingDataIfAvailable() {
+            const storedShip = localStorage.getItem('monteroShipping');
+            if (storedShip) {
+                const data = JSON.parse(storedShip);
+                if(document.getElementById('fullname')) document.getElementById('fullname').value = data.fullname || '';
+                if(document.getElementById('id_number')) document.getElementById('id_number').value = data.id || '';
+                if(document.getElementById('phone')) document.getElementById('phone').value = data.phone || '';
+                if(document.getElementById('province')) document.getElementById('province').value = data.province || '';
+                if(document.getElementById('city')) document.getElementById('city').value = data.city || '';
+                if(document.getElementById('address')) document.getElementById('address').value = data.address || '';
+            }
+        }
+
+        function updateQty(id, change) {
+            if (cartState[id] + change >= 0) {
+                cartState[id] += change;
+                localStorage.setItem('monteroCart', JSON.stringify(cartState));
+                renderCart();
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total-amount');
+            const badgeD = document.getElementById('badge-desk');
+            const badgeM = document.getElementById('badge-mob');
+            
+            let html = '';
+            let total = 0;
+            let totalCount = 0;
+
+            for (const [key, qty] of Object.entries(cartState)) {
+                if (qty > 0) {
+                    const product = productsDB[key];
+                    const subtotal = product.price * qty;
+                    total += subtotal;
+                    totalCount += qty;
+
+                    html += `
+                    <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="text-sm">
+                                <p class="font-bold text-gray-800">${product.name}</p>
+                                <p class="text-gray-500">$${product.price.toFixed(2)} c/u</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <!-- Controles de cantidad -->
+                            <div class="flex items-center border border-gray-300 rounded-lg bg-white">
+                                <button onclick="updateQty('${key}', -1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-l-lg transition">-</button>
+                                <span class="px-3 py-1 text-sm font-bold w-8 text-center">${qty}</span>
+                                <button onclick="updateQty('${key}', 1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-r-lg transition">+</button>
+                            </div>
+                            <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
+                        </div>
+                    </div>`;
+                }
+            }
+
+            if (total === 0) {
+                html = `<div class="p-8 text-center text-gray-500 flex flex-col items-center gap-2"><i class="fa-solid fa-basket-shopping text-4xl text-gray-300"></i><p>Tu carrito está vacío.</p><a href="shop.html" class="text-montero-dark font-bold hover:underline">Ir a la tienda</a></div>`;
+            }
+
+            container.innerHTML = html;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+            
+            if(badgeD) badgeD.innerText = totalCount;
+            if(badgeM) badgeM.innerText = totalCount;
+        }
+
+        function sendToWhatsApp() {
+            // 1. Validar Productos
+            let total = 0;
+            let productListText = "";
+            for (const [key, qty] of Object.entries(cartState)) {
+                if (qty > 0) {
+                    const product = productsDB[key];
+                    const subtotal = product.price * qty;
+                    total += subtotal;
+                    productListText += `▫️ ${product.name} (x${qty}): $${subtotal.toFixed(2)}\n`;
+                }
+            }
+
+            if (total === 0) {
+                alert("Tu carrito está vacío. Por favor agrega productos.");
+                return;
+            }
+
+            // 2. Validar Formulario
+            const form = document.getElementById('shipping-form');
+            if (!form.checkValidity()) {
+                form.reportValidity(); // Muestra los mensajes de error nativos del navegador
+                return;
+            }
+
+            // 3. Capturar Datos del Formulario
+            const fullname = document.getElementById('fullname').value;
+            const idNumber = document.getElementById('id_number').value;
+            const phone = document.getElementById('phone').value;
+            const province = document.getElementById('province').value;
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value;
+
+            // 4. Guardar datos para futura comodidad (opcional)
+            const shippingDataToSave = { fullname, id: idNumber, phone, province, city, address };
+            localStorage.setItem('monteroShipping', JSON.stringify(shippingDataToSave));
+
+            // 5. Construir Mensaje
+            let message = "*¡Hola Montero's! 🎄 Quiero realizar el siguiente pedido:*\n\n";
+            message += "*PRODUCTOS:*\n";
+            message += productListText;
+            message += `\n*TOTAL A PAGAR: $${total.toFixed(2)}*\n`;
+            message += "----------------------------------\n";
+            message += "*DATOS DE ENVÍO:*\n";
+            message += `👤 *Cliente:* ${fullname}\n`;
+            message += `🆔 *Cédula:* ${idNumber}\n`;
+            message += `📱 *Celular:* ${phone}\n`;
+            message += `📍 *Ubicación:* ${city}, ${province}\n`;
+            message += `🏠 *Dirección:* ${address}`;
+
+            // 6. Enviar
+            const whatsappNumber = "593981540453";
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
