@@ -112,6 +112,15 @@
         .lock-icon {
             z-index: 10;
         }
+
+        /* Estilos para el Scroll Horizontal (Carrusel Móvil) */
+        .scrolling-wrapper {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .scrolling-wrapper::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
     </style>
 </head>
 <!-- Agregamos pt-20 (padding-top) al body para compensar el navbar fijo -->
@@ -177,7 +186,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: PRÓXIMAMENTE (ACTUALIZADA: GRID DE PRODUCTOS BORROSOS) -->
+        <!-- SECCIÓN: PRÓXIMAMENTE (ACTUALIZADA: GRID DE PRODUCTOS BORROSOS + CARRUSEL MOVIL) -->
         <section class="py-20 px-4 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <span class="inline-block py-1 px-3 rounded-full bg-montero-pink text-montero-dark text-xs font-bold tracking-widest mb-3">
@@ -192,11 +201,11 @@
                 </p>
             </div>
 
-            <!-- Grid de Productos "Cargando" -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- Grid de Productos "Cargando" (Modo Flex/Carousel en móvil, Grid en Desktop) -->
+            <div class="flex md:grid md:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible scrolling-wrapper snap-x snap-mandatory pb-8 md:pb-0 px-2 md:px-0">
                 
                 <!-- Card 1 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
+                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
                     <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
                         <!-- Icono y Texto superpuesto -->
                         <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
@@ -219,7 +228,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
+                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
                     <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
                         <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
                             <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
@@ -241,7 +250,7 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100 hidden md:block">
+                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
                     <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
                         <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
                             <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
@@ -263,7 +272,7 @@
                 </div>
 
                 <!-- Card 4 -->
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100 hidden md:block">
+                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
                     <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
                         <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
                             <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
@@ -285,6 +294,11 @@
                 </div>
 
             </div>
+
+             <!-- Indicador visual para móvil -->
+             <div class="md:hidden text-center text-gray-400 text-sm mt-2 animate-pulse">
+                <i class="fa-solid fa-arrow-left"></i> Desliza para ver más <i class="fa-solid fa-arrow-right"></i>
+            </div>
             
             <div class="text-center mt-12">
                  <a href="productos" class="inline-block px-8 py-3 bg-gray-100 text-gray-500 font-bold rounded-full hover:bg-gray-200 transition text-sm">
@@ -293,40 +307,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE MARCAS (CARRUSEL INFINITO) -->
-        <section class="py-12 bg-white overflow-hidden border-t border-gray-100">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-serif text-gray-400">Trabajamos con las mejores marcas</h3>
-            </div>
-            
-            <div class="relative w-full overflow-hidden">
-                <!-- Contenedor del Slider con doble set de imágenes para el bucle -->
-                <div class="brands-slider flex items-center gap-12 md:gap-24">
-                    <!-- SET 1 -->
-                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    
-                    <!-- SET 2 (Duplicado exacto para efecto infinito) -->
-                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-
-                     <!-- SET 3 (Triplicado para pantallas muy anchas, asegura continuidad) -->
-                     <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                </div>
-            </div>
-        </section>
-
-        <!-- NUEVA SECCIÓN: INFORMACIÓN / BENEFICIOS (Tipo Banner Iconos) -->
+        <!-- SECCIÓN: INFORMACIÓN / BENEFICIOS (Movida antes de las marcas) -->
         <section class="py-12 bg-gray-50 border-t border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -363,6 +344,39 @@
                         <h4 class="font-bold text-gray-800 text-sm md:text-base uppercase tracking-wide">ENVUELVE TUS<br>REGALOS</h4>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE MARCAS (Movida al final, antes del Footer) -->
+        <section class="py-12 bg-white overflow-hidden border-t border-gray-100">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-serif text-gray-400">Trabajamos con las mejores marcas</h3>
+            </div>
+            
+            <div class="relative w-full overflow-hidden">
+                <!-- Contenedor del Slider con doble set de imágenes para el bucle -->
+                <div class="brands-slider flex items-center gap-12 md:gap-24">
+                    <!-- SET 1 -->
+                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    
+                    <!-- SET 2 (Duplicado exacto para efecto infinito) -->
+                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+
+                     <!-- SET 3 (Triplicado para pantallas muy anchas, asegura continuidad) -->
+                     <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                     <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                     <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                     <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
+                     <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
                 </div>
             </div>
         </section>
