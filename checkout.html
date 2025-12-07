@@ -156,6 +156,27 @@
                 <p class="text-xs text-gray-500 mt-4 mb-4">Se abrirá WhatsApp con los detalles de tu pedido.</p>
             </div>
         </div>
+
+        <!-- COMPONENTE: MODAL PERSONALIZADO (Nuevo) -->
+        <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300 px-4">
+            <div id="modal-content" class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 transition-all duration-300 border-t-8 border-montero-gold relative">
+                <!-- Icono -->
+                <div id="modal-icon" class="w-16 h-16 bg-montero-pink/30 rounded-full flex items-center justify-center mx-auto mb-4 text-montero-dark text-3xl shadow-inner">
+                    <!-- El icono se insertará dinámicamente -->
+                </div>
+                
+                <!-- Texto -->
+                <h3 id="modal-title" class="text-2xl font-bold text-montero-dark mb-2 font-serif">Título</h3>
+                <p id="modal-message" class="text-gray-600 mb-6 text-sm">Mensaje...</p>
+                
+                <!-- Botones -->
+                <div id="modal-buttons" class="flex gap-3 justify-center">
+                    <button id="btn-cancel" class="hidden px-6 py-2 rounded-full border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition">Cancelar</button>
+                    <button id="btn-confirm" class="px-8 py-2 rounded-full bg-montero-dark text-white font-bold hover:bg-montero-gold transition shadow-lg">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <div id="footer-container"></div>
@@ -169,14 +190,14 @@
 
         // Estado local
         let cartState = {};
+        // Callback para el modal de confirmación
+        let confirmCallback = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             // Cargar Navbar/Footer
             const currentYear = new Date().getFullYear();
 
-            // ==========================================
-            // NAVBAR CON MEGA MENÚ (ACTUALIZADO)
-            // ==========================================
+            // Navbar Component (MEGA MENÚ ACTUALIZADO)
             const navbarComponent = `
             <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -371,13 +392,61 @@
             }
         }
 
+        // --- FUNCIONES DEL MODAL ---
+        function showModal(title, message, type = 'alert', iconClass = 'fa-solid fa-bell text-montero-dark', onConfirm = null) {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            const iconContainer = document.getElementById('modal-icon');
+            
+            // Texto
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            
+            // Icono
+            iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+
+            // Botones
+            const btnCancel = document.getElementById('btn-cancel');
+            const btnConfirm = document.getElementById('btn-confirm');
+            
+            if (type === 'confirm') {
+                btnCancel.classList.remove('hidden');
+                confirmCallback = onConfirm;
+                btnConfirm.innerText = "Sí, continuar";
+                btnConfirm.onclick = () => {
+                    if (confirmCallback) confirmCallback();
+                    closeModal();
+                };
+                btnCancel.onclick = closeModal;
+            } else {
+                btnCancel.classList.add('hidden');
+                confirmCallback = null;
+                btnConfirm.innerText = "Entendido";
+                btnConfirm.onclick = closeModal;
+            }
+
+            // Mostrar
+            modal.classList.remove('invisible', 'opacity-0');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('invisible', 'opacity-0');
+            content.classList.add('scale-95');
+            content.classList.remove('scale-100');
+        }
+
+        // --- FUNCIONES DE CARRITO ---
+
         function loadCartData() {
             const storedCart = localStorage.getItem('monteroCart');
             if (storedCart) cartState = JSON.parse(storedCart);
             renderCart();
         }
 
-        // Rellenar formulario si existen datos previos
         function loadShippingDataIfAvailable() {
             const storedShip = localStorage.getItem('monteroShipping');
             if (storedShip) {
@@ -394,34 +463,42 @@
         function updateQty(id, change) {
             if (cartState[id] + change >= 0) {
                 cartState[id] += change;
-                // Si llega a 0, se mantiene en 0 pero se deja de mostrar en el bucle > 0
-                // Podríamos eliminar la key si es 0 para limpiar el objeto
                 if (cartState[id] === 0) delete cartState[id];
-
                 localStorage.setItem('monteroCart', JSON.stringify(cartState));
                 renderCart();
             }
         }
 
-        // --- NUEVA FUNCIÓN: ELIMINAR UN PRODUCTO ---
+        // ELIMINAR PRODUCTO (Actualizado con Modal)
         function removeProduct(id) {
-            if(confirm('¿Deseas eliminar este producto del carrito?')) {
-                delete cartState[id];
-                localStorage.setItem('monteroCart', JSON.stringify(cartState));
-                renderCart();
-            }
+            showModal(
+                'Eliminar Producto',
+                '¿Estás seguro de que quieres eliminar este producto de tu carrito?',
+                'confirm',
+                'fa-solid fa-trash-can text-red-500',
+                () => {
+                    delete cartState[id];
+                    localStorage.setItem('monteroCart', JSON.stringify(cartState));
+                    renderCart();
+                }
+            );
         }
 
-        // --- NUEVA FUNCIÓN: VACIAR TODO EL CARRITO ---
+        // VACIAR CARRITO (Actualizado con Modal)
         function clearCart() {
-            // Verificar si hay algo que borrar
             if (Object.keys(cartState).length === 0) return;
 
-            if(confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
-                cartState = {};
-                localStorage.removeItem('monteroCart');
-                renderCart();
-            }
+            showModal(
+                'Vaciar Carrito',
+                '¿Estás seguro de que quieres eliminar todos los productos del carrito? Esta acción no se puede deshacer.',
+                'confirm',
+                'fa-solid fa-triangle-exclamation text-orange-500',
+                () => {
+                    cartState = {};
+                    localStorage.removeItem('monteroCart');
+                    renderCart();
+                }
+            );
         }
 
         function renderCart() {
@@ -459,8 +536,6 @@
                             
                             <div class="flex items-center gap-3">
                                 <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
-                                
-                                <!-- BOTÓN ELIMINAR INDIVIDUAL (NUEVO) -->
                                 <button onclick="removeProduct('${key}')" class="text-gray-400 hover:text-red-500 transition px-2" title="Eliminar producto">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
@@ -481,6 +556,7 @@
             if(badgeM) badgeM.innerText = totalCount;
         }
 
+        // ENVIAR WHATSAPP (Actualizado con Modal de Alerta)
         function sendToWhatsApp() {
             // 1. Validar Productos
             let total = 0;
@@ -495,18 +571,24 @@
             }
 
             if (total === 0) {
-                alert("Tu carrito está vacío. Por favor agrega productos.");
+                // MODAL EN LUGAR DE ALERT
+                showModal(
+                    'Carrito Vacío',
+                    'Tu carrito está vacío. Por favor agrega productos antes de confirmar el pedido.',
+                    'alert',
+                    'fa-solid fa-basket-shopping text-montero-dark'
+                );
                 return;
             }
 
             // 2. Validar Formulario
             const form = document.getElementById('shipping-form');
             if (!form.checkValidity()) {
-                form.reportValidity(); // Muestra los mensajes de error nativos del navegador
+                form.reportValidity();
                 return;
             }
 
-            // 3. Capturar Datos del Formulario
+            // 3. Capturar Datos
             const fullname = document.getElementById('fullname').value;
             const idNumber = document.getElementById('id_number').value;
             const phone = document.getElementById('phone').value;
@@ -527,20 +609,17 @@
             message += `📍 *Ubicación:* ${city}, ${province}\n`;
             message += `🏠 *Dirección:* ${address}`;
 
-            // 5. Enviar a WhatsApp
+            // 5. Enviar
             const whatsappNumber = "593981540453";
             const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-            
             window.open(url, '_blank');
 
-            // 6. Reiniciar TODO (Formulario y Carrito)
+            // 6. Reiniciar
             form.reset();
-            localStorage.removeItem('monteroShipping'); // Borrar datos de envío guardados
-            
-            // Vaciar carrito
+            localStorage.removeItem('monteroShipping');
             cartState = {}; 
-            localStorage.removeItem('monteroCart'); // Borrar carrito guardado
-            renderCart(); // Actualizar UI
+            localStorage.removeItem('monteroCart');
+            renderCart();
         }
     </script>
 </body>
