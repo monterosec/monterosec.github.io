@@ -64,9 +64,19 @@
 
             <!-- 1. RESUMEN DE PRODUCTOS -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 mb-8">
-                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <span class="font-bold text-gray-700"><i class="fa-solid fa-basket-shopping mr-2"></i>Resumen del Pedido</span>
-                    <a href="shop" class="text-xs text-blue-600 hover:underline">Volver a la tienda</a>
+                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex flex-wrap justify-between items-center gap-3">
+                    <span class="font-bold text-gray-700 flex items-center">
+                        <i class="fa-solid fa-basket-shopping mr-2"></i>Resumen del Pedido
+                    </span>
+                    
+                    <div class="flex items-center gap-4 text-xs">
+                        <!-- BOTÓN VACIAR CARRITO (NUEVO) -->
+                        <button onclick="clearCart()" class="text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition" title="Eliminar todos los productos">
+                            <i class="fa-solid fa-trash-can"></i> Vaciar Carrito
+                        </button>
+                        <span class="text-gray-300">|</span>
+                        <a href="shop" class="text-blue-600 hover:underline">Volver a la tienda</a>
+                    </div>
                 </div>
 
                 <div id="cart-items" class="divide-y divide-gray-100">
@@ -384,7 +394,32 @@
         function updateQty(id, change) {
             if (cartState[id] + change >= 0) {
                 cartState[id] += change;
+                // Si llega a 0, se mantiene en 0 pero se deja de mostrar en el bucle > 0
+                // Podríamos eliminar la key si es 0 para limpiar el objeto
+                if (cartState[id] === 0) delete cartState[id];
+
                 localStorage.setItem('monteroCart', JSON.stringify(cartState));
+                renderCart();
+            }
+        }
+
+        // --- NUEVA FUNCIÓN: ELIMINAR UN PRODUCTO ---
+        function removeProduct(id) {
+            if(confirm('¿Deseas eliminar este producto del carrito?')) {
+                delete cartState[id];
+                localStorage.setItem('monteroCart', JSON.stringify(cartState));
+                renderCart();
+            }
+        }
+
+        // --- NUEVA FUNCIÓN: VACIAR TODO EL CARRITO ---
+        function clearCart() {
+            // Verificar si hay algo que borrar
+            if (Object.keys(cartState).length === 0) return;
+
+            if(confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
+                cartState = {};
+                localStorage.removeItem('monteroCart');
                 renderCart();
             }
         }
@@ -407,21 +442,29 @@
                     totalCount += qty;
 
                     html += `
-                    <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 transition gap-4">
                         <div class="flex items-center gap-4">
                             <div class="text-sm">
                                 <p class="font-bold text-gray-800">${product.name}</p>
                                 <p class="text-gray-500">$${product.price.toFixed(2)} c/u</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
                             <!-- Controles de cantidad -->
                             <div class="flex items-center border border-gray-300 rounded-lg bg-white">
                                 <button onclick="updateQty('${key}', -1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-l-lg transition">-</button>
                                 <span class="px-3 py-1 text-sm font-bold w-8 text-center">${qty}</span>
                                 <button onclick="updateQty('${key}', 1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-r-lg transition">+</button>
                             </div>
-                            <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
+                            
+                            <div class="flex items-center gap-3">
+                                <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
+                                
+                                <!-- BOTÓN ELIMINAR INDIVIDUAL (NUEVO) -->
+                                <button onclick="removeProduct('${key}')" class="text-gray-400 hover:text-red-500 transition px-2" title="Eliminar producto">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>`;
                 }
