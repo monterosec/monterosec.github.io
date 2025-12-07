@@ -353,6 +353,30 @@
     <!-- 2. CONTENEDOR DEL FOOTER -->
     <div id="footer-container"></div>
 
+    <!-- BANNER DE COOKIES (NUEVO) -->
+    <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-montero-gold shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-6 z-50 transform translate-y-full transition-transform duration-500">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+                <div class="bg-montero-pink/30 p-3 rounded-full text-montero-dark shrink-0 hidden sm:block">
+                    <i class="fa-solid fa-cookie-bite text-xl"></i>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-montero-dark text-lg font-serif">¡Nos encantan las galletas! 🍪</h4>
+                    <p class="text-sm text-gray-600">
+                        Utilizamos cookies propias y de terceros para mejorar tu experiencia de usuario y ofrecerte el mejor servicio. 
+                        Si continúas navegando, consideramos que aceptas su uso.
+                    </p>
+                    <a href="pdc.html" class="text-xs font-bold text-montero-gold hover:underline mt-1 inline-block">Ver Política de Cookies</a>
+                </div>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <button onclick="acceptCookies()" class="px-8 py-3 bg-montero-dark text-white font-bold rounded-full hover:bg-montero-gold transition shadow-md text-sm w-full md:w-auto">
+                    Aceptar Todo
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- JAVASCRIPT -->
     <script>
@@ -524,61 +548,46 @@
 
                         <a href="shop" class="block px-3 py-2 text-xmas-red font-bold w-full text-center hover:bg-white rounded transition">Edición Limitada</a>
                         <a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition">Contacto</a>
+                        <a href="rastreo" class="block px-3 py-2 text-montero-dark font-bold w-full text-center bg-white/50 rounded transition">Rastreo</a>
                     </div>
                 </div>
             </nav>`;
 
-            // Footer REESTRUCTURADO
+            // Footer Component (SIN DIRECTORIO PRE-FOOTER, SOLO FOOTER OSCURO)
             const footerComponent = `
             <footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        
-                        <!-- COLUMNA 1: Logo y Descripción -->
                         <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                            <img src="https://monterosec.github.io/img/monter0s.png" alt="Montero's Logo" class="h-20 mb-4 rounded-lg p-1">
+                            <img src="https://monterosec.github.io/img/monter0s.png" alt="Logo" class="h-20 mb-4 rounded-lg p-1">
                             <p class="text-gray-400 text-sm mb-4">Realzando tu belleza natural con los mejores productos del mercado.</p>
                         </div>
-
-                        <!-- COLUMNA 2: SERVICIO AL CLIENTE -->
                         <div class="text-center md:text-left">
                             <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">SERVICIO AL CLIENTE</h3>
                             <ul class="space-y-2 text-sm text-gray-300">
                                 <li><a href="preguntas_frecuentes" class="hover:text-montero-pink transition">Preguntas Frecuentes</a></li>
                                 <li><a href="tyc" class="hover:text-montero-pink transition">Términos y Condiciones</a></li>
                                 <li><a href="pdp" class="hover:text-montero-pink transition">Política de Privacidad</a></li>
+                                <li><a href="pdc" class="hover:text-montero-pink transition">Política de Cookies</a></li>
+                                <li><a href="pdc" class="hover:text-montero-pink transition">Política de Cookies</a></li>
                                 <li><a href="cdd" class="hover:text-montero-pink transition">Condiciones de devolución</a></li>
                                 <li><a href="rastreo" class="hover:text-montero-pink transition">Rastreo de Pedidos</a></li>
                             </ul>
                         </div>
-
-                        <!-- COLUMNA 3: ACERCA DE NOSOTROS -->
                         <div class="text-center md:text-left">
                             <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">ACERCA DE NOSOTROS</h3>
                             <ul class="space-y-3 text-sm text-gray-300">
-                                <!-- Enlace Modificado: Equipo -->
                                 <li>
-                                    <a href="equipo" class="hover:text-montero-pink transition font-bold text-white flex items-center justify-center md:justify-start gap-2">
+                                    <a href="equipo" class="text-montero-pink font-bold transition flex items-center justify-center md:justify-start gap-2">
                                         <i class="fa-solid fa-users text-montero-gold"></i> Equipo
                                     </a>
                                 </li>
-                                <li class="flex items-start justify-center md:justify-start">
-                                    <i class="fa-solid fa-location-dot mt-1 mr-2 text-montero-pink"></i>
-                                    <a href="https://maps.app.goo.gl/Td4HtMzEt1oY1Yt49" target="_blank" class="hover:text-white transition">Pimampiro, Calle Juan Montalvo y Paquisha</a>
-                                </li>
-                                <li class="flex items-center justify-center md:justify-start">
-                                    <i class="fa-solid fa-phone mr-2 text-montero-pink"></i>
-                                    <a href="tel:+593981540453" class="hover:text-white transition">0981540453</a>
-                                </li>
-                                <li class="flex items-center justify-center md:justify-start">
-                                    <i class="fa-solid fa-envelope mr-2 text-montero-pink"></i>
-                                    <a href="mailto:monteros.ec@gmail.com" class="hover:text-white transition">monteros.ec@gmail.com</a>
-                                </li>
+                                <li class="flex items-start justify-center md:justify-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-montero-pink"></i><a href="https://maps.app.goo.gl/Td4HtMzEt1oY1Yt49" target="_blank" class="hover:text-white transition">Pimampiro, Calle Juan Montalvo y Paquisha</a></li>
+                                <li class="flex items-center justify-center md:justify-start"><i class="fa-solid fa-phone mr-2 text-montero-pink"></i><a href="tel:+593981540453" class="hover:text-white transition">0981540453</a></li>
+                                <li class="flex items-center justify-center md:justify-start"><i class="fa-solid fa-envelope mr-2 text-montero-pink"></i><a href="mailto:monteros.ec@gmail.com" class="hover:text-white transition">monteros.ec@gmail.com</a></li>
                             </ul>
                         </div>
-
-                        <!-- COLUMNA 4: SÍGUENOS -->
                         <div class="text-center md:text-left">
                             <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">SÍGUENOS</h3>
                             <div class="flex justify-center md:justify-start space-x-4 mb-6">
@@ -589,45 +598,29 @@
                                 <a href="https://t.me/+lgjZ4bwTftdhN2Qx" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-telegram"></i></a>
                             </div>
                         </div>
-
                     </div>
                     <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-500">
                         <p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p>
                     </div>
                 </div>
-            </footer>
-            `;
+            </footer>`;
 
-            // ==========================================
-            // 2. INYECCIÓN EN EL DOM
-            // ==========================================
-            
-            const navContainer = document.getElementById('navbar-container');
-            const footerContainer = document.getElementById('footer-container');
+            document.getElementById('navbar-container').innerHTML = navbarComponent;
+            document.getElementById('footer-container').innerHTML = footerComponent;
 
-            if (navContainer) navContainer.innerHTML = navbarComponent;
-            if (footerContainer) footerContainer.innerHTML = footerComponent;
-
-            // ==========================================
-            // 3. RECUPERAR DATOS DEL CARRITO (NUEVO)
-            // ==========================================
+            // Recuperar carrito para badge
             const savedCart = localStorage.getItem('monteroCart');
             if(savedCart) {
                 const cartState = JSON.parse(savedCart);
                 const totalItems = Object.values(cartState).reduce((a, b) => a + b, 0);
-                
-                // Actualizar todas las etiquetas con clase .cart-badge
                 const badges = document.querySelectorAll('.cart-badge');
                 badges.forEach(badge => badge.innerText = totalItems);
             }
 
-            // ==========================================
-            // 4. LÓGICA DEL MENÚ MÓVIL
-            // ==========================================
+            // Menú Móvil
             setTimeout(() => {
                 const btnMobile = document.getElementById('mobile-menu-btn');
                 const menuMobile = document.getElementById('mobile-menu');
-                
                 if(btnMobile && menuMobile) {
                     btnMobile.addEventListener('click', () => {
                         menuMobile.classList.toggle('open');
@@ -665,6 +658,17 @@
                     }
                 }
             }, 1000);
+
+            // ==========================================
+            // 6. LÓGICA DE COOKIE CONSENT
+            // ==========================================
+            setTimeout(() => {
+                const consent = localStorage.getItem('monteroCookies');
+                if (!consent) {
+                    const banner = document.getElementById('cookie-consent');
+                    if(banner) banner.classList.remove('translate-y-full');
+                }
+            }, 2000); // Mostrar después de 2 segundos para no ser intrusivo
         });
 
         // Función global para cerrar menú móvil al hacer click
@@ -694,6 +698,13 @@
                     }
                 });
             }
+        }
+
+        // Función para aceptar Cookies
+        function acceptCookies() {
+            localStorage.setItem('monteroCookies', 'accepted');
+            const banner = document.getElementById('cookie-consent');
+            if(banner) banner.classList.add('translate-y-full');
         }
     </script>
 </body>

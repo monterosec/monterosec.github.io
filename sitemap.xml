@@ -33,7 +33,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Equipo (Nueva página - Importante para confianza de marca) -->
+  <!-- Equipo -->
   <url>
     <loc>https://monterosec.github.io/equipo</loc>
     <lastmod>2025-12-06</lastmod>
@@ -83,6 +83,13 @@
 
   <url>
     <loc>https://monterosec.github.io/pdp</loc>
+    <lastmod>2025-12-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://monterosec.github.io/pdc</loc>
     <lastmod>2025-12-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
