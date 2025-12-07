@@ -64,16 +64,35 @@
 
             <!-- 1. RESUMEN DE PRODUCTOS -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 mb-8">
+                <!-- Header del Resumen con Botón Vaciar -->
                 <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <span class="font-bold text-gray-700"><i class="fa-solid fa-basket-shopping mr-2"></i>Resumen del Pedido</span>
-                    <a href="shop" class="text-xs text-blue-600 hover:underline">Volver a la tienda</a>
+                    <span class="font-bold text-gray-700"><i class="fa-solid fa-basket-shopping mr-2"></i>Resumen</span>
+                    <div class="flex items-center gap-4">
+                        <button onclick="clearCart()" class="text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition" title="Vaciar todo el carrito">
+                            <i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">Vaciar</span>
+                        </button>
+                        <div class="h-4 w-px bg-gray-300"></div>
+                        <a href="shop" class="text-xs text-blue-600 hover:underline">Volver a tienda</a>
+                    </div>
                 </div>
 
                 <div id="cart-items" class="divide-y divide-gray-100">
                     <div class="p-8 text-center text-gray-500">Cargando carrito...</div>
                 </div>
 
-                <div class="bg-montero-pink/30 px-6 py-4 border-t border-gray-200">
+                <!-- SECCIÓN DE TOTALES (SUBTOTAL + IVA + TOTAL) -->
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 space-y-2">
+                    <div class="flex justify-between text-gray-600 text-sm">
+                        <span>Subtotal:</span>
+                        <span id="subtotal-amount" class="font-bold">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600 text-sm">
+                        <span>IVA (15%):</span>
+                        <span id="iva-amount" class="font-bold">$0.00</span>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 my-2 pt-2"></div>
+                    
                     <div class="flex justify-between items-center text-xl font-bold text-montero-dark">
                         <span>Total a Pagar:</span>
                         <span id="total-amount">$0.00</span>
@@ -164,9 +183,7 @@
             // Cargar Navbar/Footer
             const currentYear = new Date().getFullYear();
 
-            // ==========================================
-            // NAVBAR CON MEGA MENÚ (ACTUALIZADO)
-            // ==========================================
+            // Navbar Component (MEGA MENÚ ACTUALIZADO)
             const navbarComponent = `
             <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -336,7 +353,7 @@
                 </div>
             </nav>`;
 
-            // Footer Component (Sin cambios)
+            // Footer Component
             const footerComponent = `<footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div><div class="max-w-7xl mx-auto px-4"><div class="text-center"><p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p></div></div></footer>`;
 
             document.getElementById('navbar-container').innerHTML = navbarComponent;
@@ -358,6 +375,35 @@
             const el = document.getElementById(id);
             if(el) {
                 el.classList.toggle('hidden');
+            }
+        }
+
+        // Función para Vaciar Carrito (NUEVA)
+        window.clearCart = function() {
+            if(Object.keys(cartState).length === 0) {
+                alert("Tu carrito ya está vacío.");
+                return;
+            }
+            
+            if(confirm("¿Estás seguro de que quieres vaciar todo tu carrito?")) {
+                cartState = {};
+                localStorage.removeItem('monteroCart');
+                renderCart();
+            }
+        }
+
+        // Función personalizada de redondeo (NUEVA)
+        function customRound(value) {
+            // Convierte a string con 3 decimales para analizar el tercero
+            const strVal = value.toFixed(3);
+            const thirdDecimal = parseInt(strVal.split('.')[1][2]);
+            
+            // Si el tercer decimal es >= 5, redondea hacia arriba el segundo
+            if (thirdDecimal >= 5) {
+                return (Math.ceil(value * 100) / 100);
+            } else {
+                // Si es < 5, trunca a 2 decimales (redondeo hacia abajo)
+                return (Math.floor(value * 100) / 100);
             }
         }
 
@@ -384,6 +430,7 @@
         function updateQty(id, change) {
             if (cartState[id] + change >= 0) {
                 cartState[id] += change;
+                if(cartState[id] === 0) delete cartState[id]; // Eliminar si es 0
                 localStorage.setItem('monteroCart', JSON.stringify(cartState));
                 renderCart();
             }
@@ -391,19 +438,21 @@
 
         function renderCart() {
             const container = document.getElementById('cart-items');
+            const subtotalEl = document.getElementById('subtotal-amount');
+            const ivaEl = document.getElementById('iva-amount');
             const totalEl = document.getElementById('total-amount');
             const badgeD = document.getElementById('badge-desk');
             const badgeM = document.getElementById('badge-mob');
             
             let html = '';
-            let total = 0;
+            let subtotal = 0; // Usaremos esto para calcular
             let totalCount = 0;
 
             for (const [key, qty] of Object.entries(cartState)) {
                 if (qty > 0) {
                     const product = productsDB[key];
-                    const subtotal = product.price * qty;
-                    total += subtotal;
+                    const lineTotal = product.price * qty;
+                    subtotal += lineTotal;
                     totalCount += qty;
 
                     html += `
@@ -421,17 +470,25 @@
                                 <span class="px-3 py-1 text-sm font-bold w-8 text-center">${qty}</span>
                                 <button onclick="updateQty('${key}', 1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-r-lg transition">+</button>
                             </div>
-                            <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
+                            <span class="font-bold text-montero-dark w-20 text-right">$${lineTotal.toFixed(2)}</span>
                         </div>
                     </div>`;
                 }
             }
 
-            if (total === 0) {
+            if (subtotal === 0) {
                 html = `<div class="p-8 text-center text-gray-500 flex flex-col items-center gap-2"><i class="fa-solid fa-basket-shopping text-4xl text-gray-300"></i><p>Tu carrito está vacío.</p><a href="shop" class="text-montero-dark font-bold hover:underline">Ir a la tienda</a></div>`;
             }
 
+            // Cálculos Automáticos CON REDONDEO PERSONALIZADO
+            const rawIva = subtotal * 0.15;
+            const iva = customRound(rawIva); // Aplicamos la regla >=5 sube, <5 baja
+            const total = subtotal + iva;
+
+            // Actualizar DOM
             container.innerHTML = html;
+            subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
+            ivaEl.innerText = `$${iva.toFixed(2)}`;
             totalEl.innerText = `$${total.toFixed(2)}`;
             
             if(badgeD) badgeD.innerText = totalCount;
@@ -439,27 +496,33 @@
         }
 
         function sendToWhatsApp() {
-            // 1. Validar Productos
-            let total = 0;
+            // 1. Calcular Totales para el mensaje
+            let subtotal = 0;
             let productListText = "";
+            
             for (const [key, qty] of Object.entries(cartState)) {
                 if (qty > 0) {
                     const product = productsDB[key];
-                    const subtotal = product.price * qty;
-                    total += subtotal;
-                    productListText += `▫️ ${product.name} (x${qty}): $${subtotal.toFixed(2)}\n`;
+                    const lineTotal = product.price * qty;
+                    subtotal += lineTotal;
+                    productListText += `▫️ ${product.name} (x${qty}): $${lineTotal.toFixed(2)}\n`;
                 }
             }
 
-            if (total === 0) {
+            if (subtotal === 0) {
                 alert("Tu carrito está vacío. Por favor agrega productos.");
                 return;
             }
 
+            // Cálculos Finales CON REDONDEO PERSONALIZADO
+            const rawIva = subtotal * 0.15;
+            const iva = customRound(rawIva);
+            const total = subtotal + iva;
+
             // 2. Validar Formulario
             const form = document.getElementById('shipping-form');
             if (!form.checkValidity()) {
-                form.reportValidity(); // Muestra los mensajes de error nativos del navegador
+                form.reportValidity();
                 return;
             }
 
@@ -471,11 +534,14 @@
             const city = document.getElementById('city').value;
             const address = document.getElementById('address').value;
 
-            // 4. Construir Mensaje
+            // 4. Construir Mensaje (ACTUALIZADO con desglose)
             let message = "*¡Hola Montero's! 🎄 Quiero realizar el siguiente pedido:*\n\n";
             message += "*PRODUCTOS:*\n";
             message += productListText;
-            message += `\n*TOTAL A PAGAR: $${total.toFixed(2)}*\n`;
+            message += "----------------------------------\n";
+            message += `*Subtotal:* $${subtotal.toFixed(2)}\n`;
+            message += `*IVA (15%):* $${iva.toFixed(2)}\n`;
+            message += `*TOTAL A PAGAR:* $${total.toFixed(2)}\n`;
             message += "----------------------------------\n";
             message += "*DATOS DE ENVÍO:*\n";
             message += `👤 *Cliente:* ${fullname}\n`;
@@ -490,14 +556,13 @@
             
             window.open(url, '_blank');
 
-            // 6. Reiniciar TODO (Formulario y Carrito)
+            // 6. Reiniciar TODO
             form.reset();
-            localStorage.removeItem('monteroShipping'); // Borrar datos de envío guardados
+            localStorage.removeItem('monteroShipping');
             
-            // Vaciar carrito
             cartState = {}; 
-            localStorage.removeItem('monteroCart'); // Borrar carrito guardado
-            renderCart(); // Actualizar UI
+            localStorage.removeItem('monteroCart');
+            renderCart();
         }
     </script>
 </body>
