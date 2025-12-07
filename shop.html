@@ -161,6 +161,20 @@
             <p class="text-xs text-gray-500 mt-4">Podrás ingresar tus datos de envío en el siguiente paso.</p>
         </section>
 
+        <!-- COMPONENTE: MODAL PERSONALIZADO (Reemplaza al alert) -->
+        <div id="custom-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300 px-4">
+            <div id="modal-content" class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 transition-all duration-300 border-t-8 border-montero-gold">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-xmas-red text-3xl shadow-inner">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-montero-dark mb-2 font-serif">¡Carrito Vacío!</h3>
+                <p class="text-gray-600 mb-6 text-sm">Por favor, selecciona al menos un calendario para poder continuar con tu compra.</p>
+                <button onclick="closeModal()" class="w-full bg-montero-dark text-white py-3 rounded-full font-bold hover:bg-montero-gold hover:text-white transition shadow-lg">
+                    Entendido
+                </button>
+            </div>
+        </div>
+
     </main>
 
     <div id="footer-container"></div>
@@ -197,13 +211,32 @@
             }
         }
 
-        // Función para ir al checkout
+        // --- FUNCIONES DEL MODAL PERSONALIZADO ---
+        function showModal() {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.remove('invisible', 'opacity-0');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.add('invisible', 'opacity-0');
+            content.classList.add('scale-95');
+            content.classList.remove('scale-100');
+        }
+
+        // Función para ir al checkout (MODIFICADA)
         function goToCheckout() {
             const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
             
             if (totalItems === 0) {
-                // Feedback visual si no hay productos
-                alert("Tu carrito está vacío. Por favor selecciona al menos un calendario.");
+                // REEMPLAZADO alert() POR showModal()
+                showModal();
                 return;
             }
             
