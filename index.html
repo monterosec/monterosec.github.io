@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Montero's - Tienda de Maquillaje</title>
+    <title>Montero's - Tienda de Maquillaje | 2026</title>
     
     <!-- Metaetiquetas SEO Básicas -->
-    <meta name="description" content="Descubre Montero's, tu tienda de maquillaje en Ecuador. Productos 100% originales, envíos nacionales y atención personalizada. ¡Realza tu belleza natural con nosotros!">
-    <meta name="keywords" content="maquillaje, ecuador, cosméticos, belleza, montero's, pimampiro, envíos nacionales, tienda online">
+    <meta name="description" content="Descubre Montero's, tu tienda de maquillaje en Ecuador. Productos 100% originales para tu nueva rutina de belleza 2026.">
+    <meta name="keywords" content="maquillaje, ecuador, cosméticos, belleza, montero's, tendencias 2026, skin care">
     <meta name="author" content="Montero's">
 
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://monterosec.github.io/">
-    <meta property="og:title" content="Montero's - Tienda de Maquillaje">
-    <meta property="og:description" content="Descubre Montero's, tu tienda de maquillaje en Ecuador. Productos 100% originales, envíos nacionales y atención personalizada.">
+    <meta property="og:title" content="Montero's - Nueva Temporada 2026">
+    <meta property="og:description" content="Empieza el año con tu mejor versión. Envíos a todo el Ecuador.">
     <meta property="og:image" content="https://monterosec.github.io/img/monteros_web.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://monterosec.github.io/">
-    <meta property="twitter:title" content="Montero's - Tienda de Maquillaje">
-    <meta property="twitter:description" content="Descubre Montero's, tu tienda de maquillaje en Ecuador. Productos 100% originales, envíos nacionales y atención personalizada.">
-    <meta property="twitter:image" content="https://monterosec.github.io/img/monteros_web.png">
 
     <!-- Favicon -->
     <link rel="icon" href="https://monterosec.github.io/img/LG.ico" type="image/x-icon">
@@ -44,8 +36,7 @@
                         'montero-pink': '#ffe4e6',
                         'montero-dark': '#881337',
                         'montero-gold': '#d4af37',
-                        'xmas-red': '#be123c',
-                        'xmas-green': '#15803d',
+                        'fresh-pink': '#fb7185', // Color 2026
                     },
                     fontFamily: {
                         sans: ['Lato', 'sans-serif'],
@@ -55,73 +46,19 @@
             }
         }
     </script>
-    
     <style>
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: #fff0f3;
-        }
-        h1, h2, h3, .brand-font {
-            font-family: 'Playfair Display', serif;
-        }
-        /* Animación menú */
+        body { font-family: 'Lato', sans-serif; background-color: #fff; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        
+        /* Animaciones y Utilidades */
         .mobile-menu {
             transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
             max-height: 0;
             opacity: 0;
             overflow: hidden;
         }
-        .mobile-menu.open {
-            max-height: 800px;
-            opacity: 1;
-        }
-        /* Estilos para el contador */
-        .countdown-box {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-            border: 2px solid #d4af37;
-        }
-        
-        /* Animación Carrusel Infinito de Marcas */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
-        }
-        .brands-slider {
-            display: flex;
-            width: max-content;
-            animation: scroll 25s linear infinite; 
-        }
-        .brands-slider:hover {
-            animation-play-state: running;
-        }
+        .mobile-menu.open { max-height: 800px; opacity: 1; }
 
-        /* Efecto Blur para Productos */
-        .blur-card {
-            position: relative;
-        }
-        .blur-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(4px);
-            z-index: 1;
-        }
-        .lock-icon {
-            z-index: 10;
-        }
-
-        /* Estilos para el Scroll Horizontal (Carrusel Móvil) */
-        .scrolling-wrapper {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-        .scrolling-wrapper::-webkit-scrollbar {
-            display: none; /* Safari and Chrome */
-        }
-
-        /* Mega Menú Desktop - Ajuste de Transición */
         .group:hover .mega-menu {
             opacity: 1;
             visibility: visible;
@@ -133,257 +70,253 @@
             opacity: 0;
             visibility: hidden;
         }
+
+        .blob-shape {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        /* Animación para carrusel de marcas */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 5)); } /* Ajustado a 5 logos originales */
+        }
+        .slider {
+            height: 100px;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .slide-track {
+            animation: scroll 30s linear infinite;
+            display: flex;
+            width: calc(250px * 10); /* Ajustado para el doble de logos */
+        }
+        .slide {
+            height: 100px;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+        .slide img {
+            max-height: 60px;
+            width: auto;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+        .slide:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen text-gray-800 pt-20">
 
-    <!-- 1. CONTENEDOR DEL NAVBAR -->
     <div id="navbar-container"></div>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-grow">
         
-        <!-- Hero Section: Calendario de Adviento -->
-        <section class="relative bg-montero-dark overflow-hidden text-white">
-            <div class="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1544967082-d9d3f9ec67b9?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <!-- HERO SECTION 2026 -->
+        <section class="relative bg-gradient-to-br from-gray-50 to-pink-50 overflow-hidden">
+            <div class="absolute right-0 top-0 w-1/2 h-full bg-montero-pink/20 blob-shape translate-x-1/4 -translate-y-1/4 blur-3xl opacity-50"></div>
             
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10 flex flex-col items-center text-center">
-                <span class="text-montero-gold font-bold tracking-widest uppercase text-xs md:text-sm mb-4 bg-white/10 px-4 py-1 rounded-full border border-montero-gold">
-                    <i class="fa-solid fa-star animate-pulse"></i> Edición Limitada 2025
-                </span>
-                
-                <h1 class="text-4xl md:text-7xl font-bold mb-6 drop-shadow-lg leading-tight">
-                    Calendario de Adviento <br> <span class="text-montero-gold italic">Montero's Exclusive</span>
-                </h1>
-                
-                <p class="text-lg md:text-xl text-pink-100 mb-8 max-w-2xl drop-shadow-md px-2">
-                    24 días de sorpresas de belleza. Desde nuestros labiales más vendidos hasta productos exclusivos que solo encontrarás aquí. ¡Resérvalo antes de que se agote!
-                </p>
-
-                <!-- CUENTA REGRESIVA -->
-                <div class="mb-10 w-full overflow-hidden">
-                    <p class="text-sm uppercase tracking-widest mb-3 text-montero-pink">La preventa termina en:</p>
-                    <div class="flex flex-wrap justify-center gap-2 md:gap-4 text-montero-dark px-2">
-                        <div class="countdown-box rounded-lg p-2 md:p-3 w-16 md:w-24 flex flex-col items-center shadow-lg">
-                            <span id="days" class="text-2xl md:text-4xl font-bold">00</span>
-                            <span class="text-[10px] md:text-xs font-bold uppercase">Días</span>
-                        </div>
-                        <div class="countdown-box rounded-lg p-2 md:p-3 w-16 md:w-24 flex flex-col items-center shadow-lg">
-                            <span id="hours" class="text-2xl md:text-4xl font-bold">00</span>
-                            <span class="text-[10px] md:text-xs font-bold uppercase">Horas</span>
-                        </div>
-                        <div class="countdown-box rounded-lg p-2 md:p-3 w-16 md:w-24 flex flex-col items-center shadow-lg">
-                            <span id="minutes" class="text-2xl md:text-4xl font-bold">00</span>
-                            <span class="text-[10px] md:text-xs font-bold uppercase">Min</span>
-                        </div>
-                        <div class="countdown-box rounded-lg p-2 md:p-3 w-16 md:w-24 flex flex-col items-center shadow-lg">
-                            <span id="seconds" class="text-2xl md:text-4xl font-bold text-xmas-red">00</span>
-                            <span class="text-[10px] md:text-xs font-bold uppercase">Seg</span>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 relative z-10 flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0">
+                    <span class="inline-block py-1 px-3 rounded-full bg-white border border-gray-200 text-montero-dark text-xs font-bold tracking-widest mb-6 shadow-sm">
+                        <i class="fa-solid fa-star text-montero-gold mr-1"></i> NUEVA COLECCIÓN
+                    </span>
+                    <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 text-gray-900">
+                        Tu belleza, <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-montero-dark to-fresh-pink italic pr-2">reinventada.</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto md:mx-0 font-light">
+                        Comienza el 2026 con productos que cuidan tu piel y realzan tu brillo natural. Descubre lo último en tendencias globales.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="productos" class="px-8 py-4 bg-montero-dark text-white font-bold rounded-full hover:bg-gray-900 transition shadow-lg hover:-translate-y-1 transform">
+                            Ver Catálogo
+                        </a>
+                        <a href="shop" class="px-8 py-4 bg-white text-montero-dark border-2 border-montero-pink font-bold rounded-full hover:bg-montero-pink transition shadow-sm hover:-translate-y-1 transform">
+                            Edición Limitada
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <!-- Imagen Hero (Actualizada) -->
+                    <div class="relative w-full max-w-md mx-auto">
+                        <div class="absolute inset-0 bg-montero-gold/20 rounded-full transform rotate-6 scale-105"></div>
+                        <img src="https://monterosec.github.io/img/productos/cleanbeauty_in.png" alt="Maquillaje 2026" class="relative rounded-3xl shadow-2xl object-cover h-[500px] w-full border-4 border-white">
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-3 animate-bounce hidden md:flex">
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <i class="fa-solid fa-leaf text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Tendencia</p>
+                                <p class="text-sm font-bold text-gray-800">Clean Beauty</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 justify-center">
-                    <a href="shop" class="bg-montero-gold text-montero-dark font-bold px-8 py-4 rounded-full hover:bg-white hover:scale-105 transition shadow-lg transform duration-300 inline-flex items-center justify-center">
-                        <i class="fa-solid fa-cart-plus mr-2"></i> Reservar Ahora
+        <!-- SECCIÓN CATEGORÍAS RÁPIDAS -->
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Explora por Categoría</h2>
+                    <p class="text-gray-500">Todo lo que necesitas para tu rutina diaria.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <!-- Cat 1: Skin Care (Actualizada) -->
+                    <a href="productos.html#lomejor-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                        <img src="https://monterosec.github.io/img/productos/skincare_in.png" alt="Skin Care" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute bottom-4 left-4 z-20">
+                            <h3 class="text-white font-bold text-lg">Skin Care</h3>
+                            <span class="text-white/80 text-xs flex items-center gap-1 group-hover:translate-x-2 transition">Ver más <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                    
+                    <!-- Cat 2: Maquillaje (Actualizada) -->
+                    <a href="productos.html#categorias-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                        <img src="https://monterosec.github.io/img/productos/maquillaje_in.png" alt="Maquillaje" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute bottom-4 left-4 z-20">
+                            <h3 class="text-white font-bold text-lg">Maquillaje</h3>
+                            <span class="text-white/80 text-xs flex items-center gap-1 group-hover:translate-x-2 transition">Ver más <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- Cat 3: Perfumes (Actualizada) -->
+                    <a href="productos.html#categorias-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                        <img src="https://monterosec.github.io/img/productos/perfume_in.png" alt="Perfumes" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute bottom-4 left-4 z-20">
+                            <h3 class="text-white font-bold text-lg">Perfumes</h3>
+                            <span class="text-white/80 text-xs flex items-center gap-1 group-hover:translate-x-2 transition">Ver más <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- Cat 4 -->
+                    <a href="shop" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition border-2 border-montero-gold/50">
+                        <div class="absolute inset-0 bg-montero-dark/80 z-10 flex flex-col items-center justify-center text-center p-4">
+                            <i class="fa-solid fa-crown text-4xl text-montero-gold mb-3 animate-pulse"></i>
+                            <h3 class="text-white font-bold text-xl">Edición 2026</h3>
+                            <span class="mt-2 inline-block px-4 py-1 bg-white text-montero-dark rounded-full text-xs font-bold">Ver Exclusivos</span>
+                        </div>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN: PRÓXIMAMENTE -->
-        <section class="py-20 px-4 max-w-7xl mx-auto">
-            <div class="text-center mb-12">
-                <span class="inline-block py-1 px-3 rounded-full bg-montero-pink text-montero-dark text-xs font-bold tracking-widest mb-3">
-                    <i class="fa-solid fa-eye-slash"></i> SPOILER ALERT
+        <!-- BANNER BENEFICIOS (Diseño solicitado) -->
+        <section class="py-16 bg-montero-pink/20 border-y border-montero-pink/50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-montero-dark/10">
+                    <div class="p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white text-montero-dark mb-4 shadow-md">
+                            <i class="fa-solid fa-truck-fast text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-montero-dark">ENVÍOS A TODO ECUADOR</h3>
+                        <p class="text-gray-600 text-sm max-w-xs mx-auto">Recibe tus favoritos en la puerta de tu casa de forma segura y rápida.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white text-montero-gold mb-4 shadow-md">
+                            <i class="fa-solid fa-medal text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-montero-dark">100% ORIGINALES</h3>
+                        <p class="text-gray-600 text-sm max-w-xs mx-auto">Garantizamos la autenticidad de cada producto. Trabajamos con marcas oficiales.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white text-green-600 mb-4 shadow-md">
+                            <i class="fa-brands fa-whatsapp text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-montero-dark">ASESORÍA PERSONALIZADA</h3>
+                        <p class="text-gray-600 text-sm max-w-xs mx-auto">¿Dudas? Escríbenos y te ayudamos a elegir el tono perfecto para ti.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARRUSEL DE MARCAS -->
+        <section class="py-12 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 mb-8 text-center">
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Nuestras Marcas Oficiales</p>
+            </div>
+            <div class="slider">
+                <div class="slide-track">
+                    <!-- Logos repetidos para efecto infinito -->
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne Dor"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue"></div>
+                    <!-- Repetición para el efecto infinito -->
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne Dor"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy"></div>
+                    <div class="slide"><img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN COMUNIDAD (Actualizada) -->
+        <section class="py-20 px-4 relative overflow-hidden bg-montero-dark text-white">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-montero-gold text-montero-dark text-xs font-bold tracking-widest mb-4 animate-pulse">
+                    <i class="fa-solid fa-users"></i> COMUNIDAD VIP
                 </span>
-                <h2 class="text-3xl md:text-5xl text-montero-dark font-bold font-serif mb-4">
-                    Nueva Colección en Camino
-                </h2>
-                <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-                    Estamos preparando los productos más virales para ti. <br>
-                    <span class="text-montero-gold font-bold">Cargando la belleza...</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Únete al Club Montero's</h2>
+                <p class="text-xl text-pink-100 mb-10 font-light max-w-3xl mx-auto">
+                    Sé parte de nuestra comunidad exclusiva. Entérate antes que nadie de lanzamientos, recibe cupones sorpresa y tips de belleza directamente en tu celular.
                 </p>
-            </div>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <!-- Botón WhatsApp -->
+                    <a href="https://chat.whatsapp.com/HTnBdNevj7mB7uDFPQLYZS" target="_blank" class="flex items-center justify-center gap-4 px-8 py-5 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto min-w-[280px] group border-2 border-transparent hover:border-white/20">
+                        <i class="fa-brands fa-whatsapp text-4xl group-hover:scale-110 transition-transform"></i>
+                        <div class="text-left">
+                            <span class="block text-xs font-light uppercase tracking-wider opacity-90">Únete al Grupo</span>
+                            <span class="text-2xl leading-none">WhatsApp</span>
+                        </div>
+                    </a>
 
-            <!-- Grid de Productos -->
-            <div class="flex md:grid md:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible scrolling-wrapper snap-x snap-mandatory pb-8 md:pb-0 px-2 md:px-0">
-                <!-- Card 1 -->
-                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
-                    <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
-                            <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3 animate-bounce">
-                                <i class="fa-solid fa-lock text-2xl text-montero-dark"></i>
-                            </div>
-                            <span class="bg-montero-dark text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">Próximamente</span>
+                    <!-- Botón Telegram -->
+                    <a href="https://t.me/+lgjZ4bwTftdhN2Qx" target="_blank" class="flex items-center justify-center gap-4 px-8 py-5 bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold rounded-2xl shadow-xl transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto min-w-[280px] group border-2 border-transparent hover:border-white/20">
+                        <i class="fa-brands fa-telegram text-4xl group-hover:scale-110 transition-transform"></i>
+                        <div class="text-left">
+                            <span class="block text-xs font-light uppercase tracking-wider opacity-90">Canal Oficial</span>
+                            <span class="text-2xl leading-none">Telegram</span>
                         </div>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-                        <div class="h-3 bg-gray-100 rounded w-1/2 animate-pulse"></div>
-                    </div>
+                    </a>
                 </div>
-                <!-- Card 2 -->
-                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
-                    <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
-                            <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
-                                <i class="fa-solid fa-cloud-arrow-down text-2xl text-gray-400"></i>
-                            </div>
-                            <span class="bg-gray-400 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">Cargando...</span>
-                        </div>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
-                        <div class="h-3 bg-gray-100 rounded w-1/2 animate-pulse"></div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
-                    <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
-                            <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
-                                <i class="fa-solid fa-lock text-2xl text-montero-dark"></i>
-                            </div>
-                            <span class="bg-montero-dark text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">Top Secret</span>
-                        </div>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-4/5 animate-pulse"></div>
-                        <div class="h-3 bg-gray-100 rounded w-1/3 animate-pulse"></div>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="min-w-[70%] sm:min-w-[45%] md:min-w-0 snap-center bg-white rounded-2xl shadow-lg overflow-hidden relative group border border-gray-100">
-                    <div class="h-64 bg-gray-200 blur-card flex items-center justify-center relative">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center lock-icon z-20">
-                            <div class="bg-white/80 backdrop-blur-md p-4 rounded-full shadow-lg mb-3">
-                                <i class="fa-solid fa-spinner fa-spin text-2xl text-montero-gold"></i>
-                            </div>
-                            <span class="bg-montero-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">Revelando</span>
-                        </div>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-                        <div class="h-3 bg-gray-100 rounded w-1/2 animate-pulse"></div>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Indicador visual para móvil -->
-             <div class="md:hidden text-center text-gray-400 text-sm mt-2 animate-pulse">
-                <i class="fa-solid fa-arrow-left"></i> Desliza para ver más <i class="fa-solid fa-arrow-right"></i>
-            </div>
-            
-            <div class="text-center mt-12">
-                 <!-- Botón con Notificaciones del Sistema -->
-                 <button onclick="requestNotificationPermission()" class="inline-block px-8 py-3 bg-gray-100 text-gray-500 font-bold rounded-full hover:bg-gray-200 transition text-sm cursor-pointer border border-gray-200">
-                    <i class="fa-solid fa-bell mr-2"></i> Avísame cuando lleguen
-                </button>
-            </div>
-        </section>
-
-        <!-- SECCIÓN: INFORMACIÓN / BENEFICIOS -->
-        <section class="py-12 bg-gray-50 border-t border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <!-- Item 1 -->
-                    <div class="flex flex-col items-center group">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-xmas-red text-3xl shadow-md mb-4 border-2 border-transparent group-hover:border-xmas-red transition duration-300 transform group-hover:-translate-y-2">
-                            <i class="fa-solid fa-box-open"></i>
-                        </div>
-                        <h4 class="font-bold text-gray-800 text-sm md:text-base uppercase tracking-wide">ENVÍOS A TODO<br>ECUADOR</h4>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="flex flex-col items-center group">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-xmas-red text-3xl shadow-md mb-4 border-2 border-transparent group-hover:border-xmas-red transition duration-300 transform group-hover:-translate-y-2">
-                            <i class="fa-solid fa-store"></i>
-                        </div>
-                        <h4 class="font-bold text-gray-800 text-sm md:text-base uppercase tracking-wide">RETIRO EN<br>TIENDAS</h4>
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="flex flex-col items-center group">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-xmas-red text-3xl shadow-md mb-4 border-2 border-transparent group-hover:border-xmas-red transition duration-300 transform group-hover:-translate-y-2">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-                        <h4 class="font-bold text-gray-800 text-sm md:text-base uppercase tracking-wide">COMPRA POR<br>NUESTRA WEB</h4>
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="flex flex-col items-center group">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-xmas-red text-3xl shadow-md mb-4 border-2 border-transparent group-hover:border-xmas-red transition duration-300 transform group-hover:-translate-y-2">
-                            <i class="fa-solid fa-gift"></i>
-                        </div>
-                        <h4 class="font-bold text-gray-800 text-sm md:text-base uppercase tracking-wide">ENVUELVE TUS<br>REGALOS</h4>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN DE MARCAS -->
-        <section class="py-12 bg-white overflow-hidden border-t border-gray-100">
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-serif text-gray-400">Trabajamos con las mejores marcas</h3>
-            </div>
-            
-            <div class="relative w-full overflow-hidden">
-                <div class="brands-slider flex items-center gap-12 md:gap-24">
-                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    
-                    <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                    <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-
-                     <img src="https://monterosec.github.io/img/marca/ligne.png" alt="Ligne" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/lula.png" alt="Lula" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/myk.png" alt="MyK" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/samy.png" alt="Samy" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                     <img src="https://monterosec.github.io/img/marca/vogue.png" alt="Vogue" class="h-12 md:h-16 w-auto object-contain opacity-70 hover:opacity-100 transition grayscale hover:grayscale-0">
-                </div>
+                
+                <p class="text-sm text-white/50 mt-8">
+                    * Tu privacidad es importante. Solo enviamos contenido relevante.
+                </p>
             </div>
         </section>
 
     </main>
 
-    <!-- 2. CONTENEDOR DEL FOOTER -->
     <div id="footer-container"></div>
 
-    <!-- BANNER DE COOKIES (NUEVO) -->
-    <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-montero-gold shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-6 z-50 transform translate-y-full transition-transform duration-500">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-start gap-4">
-                <div class="bg-montero-pink/30 p-3 rounded-full text-montero-dark shrink-0 hidden sm:block">
-                    <i class="fa-solid fa-cookie-bite text-xl"></i>
-                </div>
-                <div class="text-center md:text-left">
-                    <h4 class="font-bold text-montero-dark text-lg font-serif">¡Nos encantan las galletas! 🍪</h4>
-                    <p class="text-sm text-gray-600">
-                        Utilizamos cookies propias y de terceros para mejorar tu experiencia de usuario y ofrecerte el mejor servicio. 
-                        Si continúas navegando, consideramos que aceptas su uso.
-                    </p>
-                    <a href="pdc.html" class="text-xs font-bold text-montero-gold hover:underline mt-1 inline-block">Ver Política de Cookies</a>
-                </div>
-            </div>
-            <div class="flex gap-3 shrink-0">
-                <button onclick="acceptCookies()" class="px-8 py-3 bg-montero-dark text-white font-bold rounded-full hover:bg-montero-gold transition shadow-md text-sm w-full md:w-auto">
-                    Aceptar Todo
-                </button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- JAVASCRIPT -->
+    <!-- Script Global -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const currentYear = new Date().getFullYear();
 
-            // Navbar Component (MEGA MENÚ ACTUALIZADO)
+            // Navbar Component (Mismo que shop.html)
             const navbarComponent = `
             <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -396,19 +329,16 @@
                         
                         <!-- MENÚ ESCRITORIO -->
                         <div class="hidden md:flex items-center space-x-8">
-                            <a href="/" class="text-gray-600 hover:text-montero-dark font-medium transition">Inicio</a>
+                            <a href="/" class="text-montero-dark font-bold hover:text-montero-dark transition border-b-2 border-montero-gold">Inicio</a>
                             
-                            <!-- Dropdown Productos MEGA MENÚ (Posición Fija) -->
+                            <!-- Dropdown Productos MEGA MENÚ -->
                             <div class="relative group h-full flex items-center">
                                 <a href="productos" class="text-gray-600 hover:text-montero-dark font-medium transition flex items-center gap-1 cursor-pointer py-6">
                                     Productos <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
                                 </a>
                                 
-                                <!-- Mega Menú Contenedor AJUSTADO -->
                                 <div class="fixed left-0 right-0 top-20 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible mega-menu z-50">
                                     <div class="bg-white shadow-2xl rounded-b-xl border-t-4 border-montero-gold overflow-hidden grid grid-cols-12 divide-x divide-gray-100">
-                                        
-                                        <!-- COL 1: CATEGORÍAS (35%) -->
                                         <div class="col-span-4 p-8 bg-gray-50">
                                             <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-gray-200 pb-2 uppercase tracking-wider">Categorías</h3>
                                             <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-gray-600">
@@ -425,8 +355,6 @@
                                                 <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Cuidado Masculino</a>
                                             </div>
                                         </div>
-
-                                        <!-- COL 2: MARCAS (40%) -->
                                         <div class="col-span-5 p-8 bg-white">
                                             <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-gray-100 pb-2 uppercase tracking-wider">Marcas</h3>
                                             <div class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-600">
@@ -449,13 +377,11 @@
                                             </div>
                                             <a href="productos.html#marcas-sec" class="block mt-6 text-xs font-bold text-montero-gold hover:underline">Ver todas las marcas &rarr;</a>
                                         </div>
-
-                                        <!-- COL 3: LO MEJOR PARA TI (25%) -->
                                         <div class="col-span-3 p-8 bg-montero-pink/10">
                                             <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-white pb-2 uppercase tracking-wider">Lo Mejor Para Ti</h3>
                                             <div class="flex flex-col gap-4 text-sm">
-                                                <a href="shop" class="flex items-center gap-2 font-bold text-montero-dark hover:text-xmas-red transition">
-                                                    <i class="fa-solid fa-gift text-montero-gold text-lg"></i> Regalos Navidad
+                                                <a href="shop" class="flex items-center gap-2 font-bold text-montero-dark hover:text-fresh-pink transition">
+                                                    <i class="fa-solid fa-gem text-montero-gold text-lg"></i> Edición 2026
                                                 </a>
                                                 <a href="productos.html#lomejor-sec" class="flex items-center gap-2 text-gray-700 hover:text-montero-dark transition">
                                                     <i class="fa-solid fa-star text-montero-pink text-lg"></i> K-Beauty
@@ -466,19 +392,17 @@
                                                 <a href="productos.html#lomejor-sec" class="flex items-center gap-2 text-gray-700 hover:text-montero-dark transition">
                                                     <i class="fa-solid fa-percent text-green-500 text-lg"></i> Ofertas del Mes
                                                 </a>
-                                                
                                                 <div class="mt-6 p-4 bg-white rounded-lg shadow-sm border border-montero-pink/30 text-center">
                                                     <p class="text-xs text-gray-500 mb-2 font-medium">¿No sabes qué elegir?</p>
                                                     <a href="contacto" class="text-xs font-bold text-montero-dark hover:underline border border-montero-dark px-3 py-1 rounded-full">Escríbenos</a>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="shop" class="text-xmas-red font-bold hover:text-red-700 transition flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a>
+                            <a href="shop" class="text-fresh-pink font-bold hover:text-red-700 transition flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> 2026</a>
                             <a href="contacto" class="text-gray-600 hover:text-montero-dark font-medium transition relative group">Contacto</a>
                             
                             <!-- Icono Carrito -->
@@ -501,19 +425,16 @@
                     </div>
                 </div>
 
-                <!-- MENÚ MÓVIL (Con acordeón para Productos CENTRADO) -->
+                <!-- MENÚ MÓVIL -->
                 <div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white shadow-lg overflow-y-auto">
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center">
-                        <a href="/" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition">Inicio</a>
-                        
-                        <!-- Productos Submenú Móvil ACORDEÓN -->
+                        <a href="/" class="block px-3 py-2 text-montero-dark font-bold bg-white rounded w-full text-center transition">Inicio</a>
                         <div class="w-full">
-                            <button onclick="toggleMobileSubmenu('mob-prod-sub')" class="w-full px-3 py-3 text-montero-dark font-bold bg-white/30 rounded relative flex items-center justify-center">
+                            <button onclick="toggleMobileSubmenu('mob-prod-sub')" class="w-full px-3 py-3 text-montero-dark font-bold bg-white/30 rounded relative flex items-center justify-center mt-1">
                                 <span>Productos</span>
                                 <i class="fa-solid fa-chevron-down text-xs absolute right-4 text-montero-dark/70"></i>
                             </button>
                             <div id="mob-prod-sub" class="hidden pl-2 pr-2 pb-2 space-y-4 bg-white/40 mt-1 rounded text-left">
-                                <!-- Categorías Móvil -->
                                 <div class="mt-2">
                                     <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Categorías</p>
                                     <div class="grid grid-cols-2 gap-2 pl-2">
@@ -525,35 +446,21 @@
                                         <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Infantil</a>
                                     </div>
                                 </div>
-                                <!-- Marcas Móvil -->
-                                <div>
-                                    <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Marcas Top</p>
-                                    <div class="grid grid-cols-2 gap-2 pl-2">
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Ligne D'or</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">MyK</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Vogue</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Ruby Rose</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Dolce Bella</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700 font-bold">Ver Todas</a>
-                                    </div>
-                                </div>
-                                <!-- Lo Mejor Móvil -->
                                 <div>
                                     <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Destacados</p>
-                                    <a href="shop" class="block text-sm text-xmas-red font-bold pl-2 mb-1"><i class="fa-solid fa-gift mr-1"></i> Navidad</a>
+                                    <a href="shop" class="block text-sm text-fresh-pink font-bold pl-2 mb-1"><i class="fa-solid fa-gem mr-1"></i> 2026</a>
                                     <a href="productos.html#lomejor-sec" class="block text-sm text-gray-700 pl-2 mb-1"><i class="fa-solid fa-fire mr-1 text-orange-400"></i> Lo Más Vendido</a>
                                 </div>
                             </div>
                         </div>
-
-                        <a href="shop" class="block px-3 py-2 text-xmas-red font-bold w-full text-center hover:bg-white rounded transition">Edición Limitada</a>
-                        <a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition">Contacto</a>
-                        <a href="rastreo" class="block px-3 py-2 text-montero-dark font-bold w-full text-center bg-white/50 rounded transition">Rastreo</a>
+                        <a href="shop" class="block px-3 py-2 text-fresh-pink font-bold w-full text-center hover:bg-white rounded transition mt-1">Edición 2026</a>
+                        <a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition mt-1">Contacto</a>
+                        <a href="rastreo" class="block px-3 py-2 text-montero-dark font-bold w-full text-center bg-white/50 rounded transition mt-1">Rastreo</a>
                     </div>
                 </div>
             </nav>`;
 
-            // Footer Component (SIN DIRECTORIO PRE-FOOTER, SOLO FOOTER OSCURO)
+            // Footer Component (SIMPLIFICADO: Solo información esencial)
             const footerComponent = `
             <footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div>
@@ -569,7 +476,6 @@
                                 <li><a href="preguntas_frecuentes" class="hover:text-montero-pink transition">Preguntas Frecuentes</a></li>
                                 <li><a href="tyc" class="hover:text-montero-pink transition">Términos y Condiciones</a></li>
                                 <li><a href="pdp" class="hover:text-montero-pink transition">Política de Privacidad</a></li>
-                                <li><a href="pdc" class="hover:text-montero-pink transition">Política de Cookies</a></li>
                                 <li><a href="pdc" class="hover:text-montero-pink transition">Política de Cookies</a></li>
                                 <li><a href="cdd" class="hover:text-montero-pink transition">Condiciones de devolución</a></li>
                                 <li><a href="rastreo" class="hover:text-montero-pink transition">Rastreo de Pedidos</a></li>
@@ -627,48 +533,6 @@
                     });
                 }
             }, 100);
-
-            // ==========================================
-            // 5. LÓGICA DE CUENTA REGRESIVA
-            // ==========================================
-            const countDownDate = new Date("Dec 20, 2025 16:00:00").getTime();
-
-            let countdownInterval = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
-
-                const elDays = document.getElementById("days");
-                if (!elDays) return;
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                elDays.innerText = days < 10 ? "0" + days : days;
-                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    const container = document.getElementById("days").parentElement.parentElement;
-                    if (container) {
-                        container.innerHTML = "<div class='text-2xl font-bold text-red-500 bg-white px-6 py-2 rounded-lg'>¡OFERTA EXPIRADA!</div>";
-                    }
-                }
-            }, 1000);
-
-            // ==========================================
-            // 6. LÓGICA DE COOKIE CONSENT
-            // ==========================================
-            setTimeout(() => {
-                const consent = localStorage.getItem('monteroCookies');
-                if (!consent) {
-                    const banner = document.getElementById('cookie-consent');
-                    if(banner) banner.classList.remove('translate-y-full');
-                }
-            }, 2000); // Mostrar después de 2 segundos para no ser intrusivo
         });
 
         // Función global para cerrar menú móvil al hacer click
@@ -683,28 +547,6 @@
             if(el) {
                 el.classList.toggle('hidden');
             }
-        }
-
-        // Función para solicitar permiso de notificaciones
-        function requestNotificationPermission() {
-            if (!("Notification" in window)) {
-                alert("Tu navegador no soporta notificaciones de escritorio.");
-            } else if (Notification.permission === "granted") {
-                new Notification("¡Genial!", { body: "Te avisaremos cuando la nueva colección esté disponible.", icon: "https://monterosec.github.io/img/LG.ico" });
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    if (permission === "granted") {
-                        new Notification("¡Gracias!", { body: "Has activado las notificaciones para Montero's.", icon: "https://monterosec.github.io/img/LG.ico" });
-                    }
-                });
-            }
-        }
-
-        // Función para aceptar Cookies
-        function acceptCookies() {
-            localStorage.setItem('monteroCookies', 'accepted');
-            const banner = document.getElementById('cookie-consent');
-            if(banner) banner.classList.add('translate-y-full');
         }
     </script>
 </body>
