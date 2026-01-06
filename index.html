@@ -112,6 +112,12 @@
             opacity: 1;
             transform: scale(1.1);
         }
+        
+        /* Efecto Hover Tarjetas Producto */
+        .product-card:hover .cart-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen text-gray-800 pt-20">
@@ -175,7 +181,7 @@
                 </div>
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <!-- Cat 1: Skin Care (Actualizada) -->
+                    <!-- Cat 1: Skin Care -->
                     <a href="productos.html#lomejor-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
                         <img src="https://monterosec.github.io/img/productos/skincare_in.png" alt="Skin Care" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -185,7 +191,7 @@
                         </div>
                     </a>
                     
-                    <!-- Cat 2: Maquillaje (Actualizada) -->
+                    <!-- Cat 2: Maquillaje -->
                     <a href="productos.html#categorias-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
                         <img src="https://monterosec.github.io/img/productos/maquillaje_in.png" alt="Maquillaje" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -195,7 +201,7 @@
                         </div>
                     </a>
 
-                    <!-- Cat 3: Perfumes (Actualizada) -->
+                    <!-- Cat 3: Perfumes -->
                     <a href="productos.html#categorias-sec" class="group relative rounded-2xl overflow-hidden aspect-square shadow-md hover:shadow-xl transition">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
                         <img src="https://monterosec.github.io/img/productos/perfume_in.png" alt="Perfumes" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
@@ -217,7 +223,38 @@
             </div>
         </section>
 
-        <!-- BANNER BENEFICIOS (Diseño solicitado) -->
+        <!-- === NUEVA SECCIÓN: PRODUCTOS DESTACADOS DEL DÍA === -->
+        <section class="py-16 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                    <div class="text-center md:text-left w-full md:w-auto">
+                        <span class="text-montero-gold font-bold text-xs tracking-widest uppercase mb-2 block">Selección Diaria</span>
+                        <h2 class="text-3xl font-bold text-gray-900">Favoritos del Día <i class="fa-regular fa-calendar-check ml-2 text-montero-pink"></i></h2>
+                        <p class="text-gray-500 mt-2 text-sm">Descubre nuestra selección especial que cambia cada 24 horas.</p>
+                    </div>
+                    <a href="productos" class="hidden md:inline-flex items-center gap-2 text-montero-dark font-bold hover:text-fresh-pink transition">
+                        Ver todo el inventario <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Grid Dinámico de Productos -->
+                <div id="daily-products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <!-- Los productos se inyectan aquí con JS -->
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-solid fa-spinner fa-spin text-3xl text-montero-gold"></i>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center md:hidden">
+                    <a href="productos" class="inline-block px-6 py-3 bg-white border border-montero-dark text-montero-dark font-bold rounded-full hover:bg-montero-pink transition">
+                        Ver todo el inventario
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- =================================================== -->
+
+        <!-- BANNER BENEFICIOS -->
         <section class="py-16 bg-montero-pink/20 border-y border-montero-pink/50">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-montero-dark/10">
@@ -269,7 +306,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN COMUNIDAD (Actualizada) -->
+        <!-- SECCIÓN COMUNIDAD -->
         <section class="py-20 px-4 relative overflow-hidden bg-montero-dark text-white">
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
             <div class="max-w-5xl mx-auto text-center relative z-10">
@@ -300,10 +337,6 @@
                         </div>
                     </a>
                 </div>
-                
-                <p class="text-sm text-white/50 mt-8">
-                    * Tu privacidad es importante. Solo enviamos contenido relevante.
-                </p>
             </div>
         </section>
 
@@ -313,10 +346,127 @@
 
     <!-- Script Global -->
     <script>
+        // --- BASE DE DATOS DE PRODUCTOS ---
+        const productsDB = [
+            { id: "EC/MT-0001", name: "Sérum con vitamina C 3 en 1", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0002", name: "Sérum Iluminador Hyalu Glow", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0003", name: "Sérum con Retinol", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0004", name: "Sérum Nutritivo", category: "Cuidado Facial", brand: "Samy Cosmetics", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0005", name: "Sérum para Labios 01 Crystal Clear", category: "Labios", brand: "Samy Cosmetics", price: 6.50, unit: "5 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0006", name: "Tónico Facial con agua de rosas", category: "Cuidado Facial", brand: "Ligne D’or", price: 4.00, unit: "240 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0007", name: "Tónico LB Despigmentante Manchas", category: "Cuidado Facial", brand: "LB", price: 10.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0008", name: "Aceite de Ricino Pestañas", category: "Cuidado de Pestañas", brand: "Ligne D’or", price: 4.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0009", name: "Aceite Reparador de puntas", category: "Cuidado Capilar", brand: "Lissia", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-010", name: "Aceite de coco capilar y corporal", category: "Cuidado Capilar", brand: "Lissia", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-011", name: "Aceite de argán reparador", category: "Cuidado Capilar", brand: "Johnverly", price: 5.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-012", name: "Rimel Vive Amor a Primera Vista", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.50, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-013", name: "Máscara Efecto Pestañas de Muñeca", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-014", name: "Máscara de Pestañas - Iconic Length", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-015", name: "Máscara para Pestañas Volumen Lash Negro", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 8.00, unit: "10 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-016", name: "Máscara de Pestañas Mayor Definición Waterproof", category: "Maquillaje de Ojos", brand: "Dolce Bella", price: 5.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-017", name: "Máscara para Pestañas Waterproof Maybelline", category: "Maquillaje de Ojos", brand: "Falsies Surreal", price: 18.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-018", name: "Pestañina - Al Infinito", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.50, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-019", name: "Pestañina a Prueba de Agua Luzette", category: "Maquillaje de Ojos", brand: "Vogue", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-020", name: "Pestañina - Iconic Volume", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-021", name: "Pestañina - Mascara 3d #2 Café", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-022", name: "Tintas de labios JBL", category: "Labios", brand: "JBL", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-023", name: "Brillo Voluminizador", category: "Labios", brand: "Karité", price: 3.00, unit: "5 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-024", name: "Tinta de labios paleta de helado", category: "Labios", brand: "Nice Face", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-025", name: "Tinta para labios Ohayo", category: "Labios", brand: "Ohayo", price: 2.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-026", name: "Voluminizador Volu Lip – Miis Cosmetics", category: "Labios", brand: "Miis Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-027", name: "Brillo Labial Diamond Sparks", category: "Labios", brand: "Samy Cosmetics", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-028", name: "Hidratante de Labios", category: "Labios", brand: "Ligne D’or", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-029", name: "Iconic Lip Gloss Bari Atenea", category: "Labios", brand: "Atenea", price: 4.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-030", name: "Labial Líquido Mate Vogue Colorissimo", category: "Labios", brand: "Vogue", price: 3.50, unit: "5 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-031", name: "Labial Resist a prueba de besos", category: "Labios", brand: "Vogue", price: 7.00, unit: "3 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-032", name: "Labial Humectante y Vitamina E", category: "Labios", brand: "Samy Cosmetics", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-033", name: "Labial Mate Engol collections", category: "Labios", brand: "Engol", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-034", name: "Labial Voluminizador", category: "Labios", brand: "Áloe Karite", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-035", name: "Lapiz delineador Labios Kolor Factory", category: "Labios", brand: "Samy Cosmetics", price: 2.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-036", name: "Rubor individual", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 3.50, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-037", name: "Rubor Maybelucky 2 en 1", category: "Maquillaje de Rostro", brand: "Maybelucky", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-038", name: "Rubor Ushas Duo", category: "Maquillaje de Rostro", brand: "Ushas", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-039", name: "Rubor en barra Yaxi Beauty", category: "Maquillaje de Rostro", brand: "Yaxi Beauty", price: 5.00, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-040", name: "Primer Rosado", category: "Preparación de Piel", brand: "MYK", price: 5.00, unit: "32 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-041", name: "Gel primer reductor de poros", category: "Preparación de Piel", brand: "Ligne D’or", price: 6.00, unit: "20 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-042", name: "Primer Spray Engol Collections", category: "Preparación de Piel", brand: "Engol", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-043", name: "Corrector de Ojeras", category: "Maquillaje de Rostro", brand: "Dolce Bella", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-044", name: "Corrector de Liquido", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-045", name: "Corrector de Liquido", category: "Maquillaje de Rostro", brand: "Nailen", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-046", name: "Base Correctora Cremosa", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-047", name: "Paleta De Correctores Y Neutralizadores Samy X6", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-048", name: "Paleta De Correctores Y Contornos Samy X6", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-049", name: "Fijador de Maquillaje Myk Fixing spray", category: "Fijadores", brand: "MYK", price: 6.50, unit: "85 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-050", name: "Fijador Matte", category: "Fijadores", brand: "Engol", price: 5.00, unit: "85 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-051", name: "Fijador de maquillaje", category: "Fijadores", brand: "Samy Cosmetics", price: 10.50, unit: "80 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-052", name: "Polvo Suelto Translúcido Matte Touch", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 5.50, unit: "7 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-053", name: "Polvo Suelto Traslucido", category: "Maquillaje de Rostro", brand: "MYK", price: 4.50, unit: "8 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-054", name: "Polvo Compacto Flawless Skin Piel Mixta a Grasa", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.50, unit: "9 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-055", name: "Polvo compacto Samy Banana", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.50, unit: "9.5 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-056", name: "Polvo de hadas crso beauty", category: "Iluminadores", brand: "CRSO", price: 5.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-057", name: "Polvo de hada Maybelucky 5D", category: "Iluminadores", brand: "Maybelucky", price: 3.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-058", name: "Paleta de Sombras x 12 Tonos Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 8.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-059", name: "Paleta de sombras x 30 tonos", category: "Maquillaje de Ojos", brand: "Otros", price: 10.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-060", name: "Paleta neutral", category: "Maquillaje de Ojos", brand: "Miis Cosmetics", price: 9.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-061", name: "Paleta de sombras Karol G", category: "Maquillaje de Ojos", brand: "Otros", price: 9.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-062", name: "Paleta dolce bella Nude", category: "Maquillaje de Ojos", brand: "Dolce Bella", price: 8.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-063", name: "Paleta de iluminadores MyK", category: "Iluminadores", brand: "MYK", price: 5.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-064", name: "Paleta Huda Beauty Empowered", category: "Maquillaje de Ojos", brand: "Huda Beauty", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-065", name: "Paleta Make up Beauty", category: "Maquillaje de Ojos", brand: "Otros", price: 12.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-066", name: "Ofra Pro Palette", category: "Iluminadores", brand: "Otros", price: 11.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-067", name: "Palette elements", category: "Maquillaje de Ojos", brand: "Otros", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-068", name: "Base Líquida Resist", category: "Base de Maquillaje", brand: "Vogue", price: 7.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-069", name: "Base Vogue Mate Natural", category: "Base de Maquillaje", brand: "Vogue", price: 5.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-070", name: "Base liquida Vogue Efecto total 6", category: "Base de Maquillaje", brand: "Vogue", price: 5.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-071", name: "Base Líquida Go Bright Samy", category: "Base de Maquillaje", brand: "Samy Cosmetics", price: 9.00, unit: "30 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-072", name: "Base Líquida Matificante", category: "Base de Maquillaje", brand: "Samy Cosmetics", price: 9.00, unit: "23 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-073", name: "Base líquida matificante BBROSE alta cobertura", category: "Base de Maquillaje", brand: "Bbrose", price: 8.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-074", name: "Crema Facial Dia y Noche Antiedad", category: "Cuidado Facial", brand: "Ligne D’or", price: 6.00, unit: "60 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-075", name: "Espuma facial", category: "Cuidado Facial", brand: "Ligne D’or", price: 6.00, unit: "150 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-076", name: "Agua Micelar Rosada Todo en uno 400 ml", category: "Cuidado Facial", brand: "Garnier Skinactive", price: 8.00, unit: "400 ml", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-077", name: "Agua micelar fine lady x 220 ml", category: "Cuidado Facial", brand: "Johnverly", price: 4.00, unit: "220 ml", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-078", name: "Desodorante LB Antitranspirante y Aclarador", category: "Cuidado Corporal", brand: "LB", price: 10.00, unit: "60 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-079", name: "Cera Fijadora en Barra Dromatic", category: "Cuidado Capilar", brand: "Dromatic", price: 7.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-080", name: "Body Glow 6039 Myk", category: "Cuidado Corporal", brand: "MYK", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-081", name: "Papeles Antigrasa Absorbentes de Arroz + Pomo Aplicador", category: "Cuidado Facial", brand: "MYK", price: 4.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-082", name: "Gel Para Cejas Y Pestañas Samy", category: "Cejas y Pestañas", brand: "Samy Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-083", name: "Jabón de cejas RIMOCOO", category: "Cejas y Pestañas", brand: "Rimocoo", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-084", name: "Maquillaje cremoso para cejas SAMY", category: "Cejas y Pestañas", brand: "Samy Cosmetics", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-085", name: "Kit de cejas LULA", category: "Cejas y Pestañas", brand: "LULA", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-086", name: "Tinta líquida de cejas", category: "Cejas y Pestañas", brand: "Vogue", price: 5.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-087", name: "Lápiz Bbrose para cejas", category: "Cejas y Pestañas", brand: "Bbrose", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-088", name: "Toallitas Desmaquillantes 0% alcohol", category: "Cuidado Facial", brand: "LULA", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-089", name: "Plumon Perfect Liner Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 6.50, unit: "1.2 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-090", name: "Delineador Ultramate Precision Liner Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "1.2 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-091", name: "Delineador Líquido de Ojos Negro", category: "Maquillaje de Ojos", brand: "Vogue", price: 4.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-092", name: "Sombras Compactas Trio Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 3.50, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-093", name: "Splash dama", category: "Perfumes", brand: "Otros", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-094", name: "Exfoliantes corporales", category: "Cuidado Corporal", brand: "Otros", price: 5.00, unit: "350 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-095", name: "Henna para cejas", category: "Cejas y Pestañas", brand: "Otros", price: 6.00, unit: "3 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-096", name: "Pestañas Individuales Premium", category: "Pestañas Postizas", brand: "Atenea", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-097", name: "Kit de Pestañas Reflect", category: "Pestañas Postizas", brand: "Atenea", price: 7.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-098", name: "Pestañas New Show", category: "Pestañas Postizas", brand: "New Show", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-099", name: "Pestañas Volumen Ruso 10D", category: "Pestañas Postizas", brand: "Otros", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-100", name: "Laca Profesional Fijacion Fuerte", category: "Cuidado Capilar", brand: "René Chardon", price: 6.00, unit: "170 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-101", name: "Beauty blender X2 corazon", category: "Herramientas", brand: "Otros", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-102", name: "Beautyblender Krismar", category: "Herramientas", brand: "Krismar", price: 1.50, unit: "170 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-103", name: "Borlas Engol collections", category: "Herramientas", brand: "Engol", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-104", name: "Borlas 4pcs Engol", category: "Herramientas", brand: "Engol", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-105", name: "Borlas x2", category: "Herramientas", brand: "Engol", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-106", name: "50 cepillos para cejas y pestañas", category: "Herramientas", brand: "Otros", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-107", name: "Brocha para polvo", category: "Herramientas", brand: "Espression", price: 4.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-108", name: "Brocha profesional para cejas", category: "Herramientas", brand: "Otros", price: 3.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-109", name: "Brocha para polvo Engol", category: "Herramientas", brand: "Engol", price: 4.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-110", name: "Kit 12 brochas", category: "Herramientas", brand: "Otros", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-111", name: "Brochas para ojos x7", category: "Herramientas", brand: "Otros", price: 5.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-112", name: "Cosmetiquera cartuchera", category: "Accesorios", brand: "Otros", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-113", name: "Enchinadores Cristy", category: "Herramientas", brand: "Otros", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
             const currentYear = new Date().getFullYear();
 
-            // Navbar Component (Mismo que shop.html)
+            // Navbar Component
             const navbarComponent = `
             <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -460,7 +610,7 @@
                 </div>
             </nav>`;
 
-            // Footer Component (SIMPLIFICADO: Solo información esencial)
+            // Footer Component
             const footerComponent = `
             <footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div>
@@ -533,7 +683,90 @@
                     });
                 }
             }, 100);
+
+            // ==========================================
+            // LÓGICA DE PRODUCTOS DEL DÍA (Random Daily)
+            // ==========================================
+            loadDailyProducts();
         });
+
+        // Función global para añadir al carrito
+        window.addToCart = function(name, price) {
+            let cart = JSON.parse(localStorage.getItem('monteroCart')) || {};
+            cart[name] = (cart[name] || 0) + 1;
+            localStorage.setItem('monteroCart', JSON.stringify(cart));
+            
+            // Actualizar Badge
+            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+            document.querySelectorAll('.cart-badge').forEach(b => b.innerText = totalItems);
+            
+            // Notificación visual
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-4 right-4 bg-montero-dark text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce flex items-center';
+            notif.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i> Añadido al carrito';
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2000);
+        }
+
+        // Función para cargar productos aleatorios basados en la fecha
+        function loadDailyProducts() {
+            const container = document.getElementById('daily-products-grid');
+            if (!container) return;
+
+            // 1. Obtener una "semilla" única para hoy (YYYYMMDD)
+            const today = new Date();
+            const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+
+            // 2. Función de aleatoriedad determinista (Simple LCG)
+            // Esto asegura que con la misma "semilla" (fecha), siempre salga el mismo orden.
+            function seededRandom(s) {
+                let x = Math.sin(s++) * 10000;
+                return x - Math.floor(x);
+            }
+
+            // 3. Crear una copia del array y mezclarlo usando la semilla
+            let shuffledProducts = [...productsDB];
+            for (let i = shuffledProducts.length - 1; i > 0; i--) {
+                const j = Math.floor(seededRandom(seed + i) * (i + 1));
+                [shuffledProducts[i], shuffledProducts[j]] = [shuffledProducts[j], shuffledProducts[i]];
+            }
+
+            // 4. Tomar los primeros 8 productos
+            const dailySelection = shuffledProducts.slice(0, 8);
+
+            // 5. Renderizar
+            let html = '';
+            dailySelection.forEach(product => {
+                // Etiqueta aleatoria para darle vida (Solo visual)
+                let badge = '';
+                if(seededRandom(seed + product.price) > 0.7) {
+                     badge = `<span class="absolute top-2 left-2 bg-montero-gold text-white text-[10px] font-bold px-2 py-1 rounded-sm z-10">DESTACADO</span>`;
+                }
+
+                html += `
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 group overflow-hidden border border-gray-100 flex flex-col product-card relative">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50 flex items-center justify-center">
+                        ${badge}
+                        <img src="${product.image}" alt="${product.name}" class="object-cover w-full h-full group-hover:scale-110 transition duration-500 opacity-90 hover:opacity-100">
+                        
+                        <!-- Botón flotante -->
+                        <button onclick="addToCart('${product.name}', ${product.price})" class="cart-btn absolute bottom-3 right-3 bg-white text-montero-dark w-10 h-10 rounded-full shadow-lg flex items-center justify-center opacity-0 transform translate-y-4 transition-all duration-300 hover:bg-montero-dark hover:text-white" title="Agregar al carrito">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">${product.brand}</p>
+                        <h3 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2 leading-tight min-h-[2.5em] hover:text-montero-dark transition cursor-pointer" title="${product.name}">${product.name}</h3>
+                        <div class="mt-auto pt-2 flex justify-between items-center border-t border-gray-50">
+                            <span class="font-bold text-montero-dark">$${product.price.toFixed(2)}</span>
+                            <span class="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 rounded">${product.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+        }
 
         // Función global para cerrar menú móvil al hacer click
         function closeMobileMenu() {
