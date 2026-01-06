@@ -39,19 +39,6 @@
             overflow: hidden;
         }
         .mobile-menu.open { max-height: 800px; opacity: 1; }
-
-        /* Mega Menú Desktop - Transición */
-        .group:hover .mega-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        .mega-menu {
-            transition: all 0.2s ease-out;
-            transform: translateY(10px);
-            opacity: 0;
-            visibility: hidden;
-        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen text-gray-800 pt-20">
@@ -59,32 +46,32 @@
     <div id="navbar-container"></div>
 
     <main class="flex-grow py-10 px-4">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-4xl mx-auto">
             <h1 class="text-3xl font-bold text-center text-montero-dark mb-8">Finalizar Compra</h1>
 
             <!-- 1. RESUMEN DE PRODUCTOS -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 mb-8">
                 <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex flex-wrap justify-between items-center gap-3">
                     <span class="font-bold text-gray-700 flex items-center">
-                        <i class="fa-solid fa-basket-shopping mr-2"></i>Resumen del Pedido
+                        <i class="fa-solid fa-basket-shopping mr-2"></i>Tu Carrito
                     </span>
                     
                     <div class="flex items-center gap-4 text-xs">
-                        <!-- BOTÓN VACIAR CARRITO (NUEVO) -->
                         <button onclick="clearCart()" class="text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition" title="Eliminar todos los productos">
-                            <i class="fa-solid fa-trash-can"></i> Vaciar Carrito
+                            <i class="fa-solid fa-trash-can"></i> Vaciar
                         </button>
-                        <span class="text-gray-300">|</span>
-                        <a href="shop" class="text-blue-600 hover:underline">Volver a la tienda</a>
                     </div>
                 </div>
 
                 <div id="cart-items" class="divide-y divide-gray-100">
-                    <div class="p-8 text-center text-gray-500">Cargando carrito...</div>
+                    <div class="p-12 text-center text-gray-500">
+                        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-montero-gold"></i>
+                        <p class="mt-2">Cargando productos...</p>
+                    </div>
                 </div>
 
-                <div class="bg-montero-pink/30 px-6 py-4 border-t border-gray-200">
-                    <div class="flex justify-between items-center text-xl font-bold text-montero-dark">
+                <div class="bg-montero-pink/30 px-6 py-6 border-t border-gray-200">
+                    <div class="flex justify-between items-center text-2xl font-bold text-montero-dark">
                         <span>Total a Pagar:</span>
                         <span id="total-amount">$0.00</span>
                     </div>
@@ -145,24 +132,24 @@
             </div>
 
             <!-- BOTÓN WHATSAPP -->
-            <div class="mt-8 text-center px-4">
-                <button onclick="sendToWhatsApp()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform transition hover:-translate-y-1 flex items-center justify-center gap-3 mx-auto border-2 border-white md:border-transparent ring-2 ring-green-600 md:ring-0">
+            <div class="mt-8 text-center px-4 pb-12">
+                <button onclick="sendToWhatsApp()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-full shadow-xl hover:shadow-2xl transform transition hover:-translate-y-1 flex items-center justify-center gap-3 mx-auto border-4 border-white ring-4 ring-green-100">
                     <i class="fa-brands fa-whatsapp text-3xl"></i>
                     <div class="text-left">
-                        <span class="block text-xs uppercase tracking-wider opacity-90">Confirmar Pedido</span>
-                        <span class="block text-lg leading-none">Enviar a WhatsApp</span>
+                        <span class="block text-xs uppercase tracking-wider opacity-90">Todo listo</span>
+                        <span class="block text-lg leading-none">Confirmar Pedido</span>
                     </div>
                 </button>
-                <p class="text-xs text-gray-500 mt-4 mb-4">Se abrirá WhatsApp con los detalles de tu pedido.</p>
+                <p class="text-xs text-gray-500 mt-4">Se abrirá WhatsApp con el detalle completo.</p>
             </div>
         </div>
 
-        <!-- COMPONENTE: MODAL PERSONALIZADO (Nuevo) -->
+        <!-- COMPONENTE: MODAL PERSONALIZADO -->
         <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300 px-4">
             <div id="modal-content" class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 transition-all duration-300 border-t-8 border-montero-gold relative">
                 <!-- Icono -->
                 <div id="modal-icon" class="w-16 h-16 bg-montero-pink/30 rounded-full flex items-center justify-center mx-auto mb-4 text-montero-dark text-3xl shadow-inner">
-                    <!-- El icono se insertará dinámicamente -->
+                    <!-- Dinámico -->
                 </div>
                 
                 <!-- Texto -->
@@ -182,215 +169,160 @@
     <div id="footer-container"></div>
 
     <script>
-        const productsDB = {
-            'p1': { name: 'Pink Wish', price: 38.00 },
-            'p2': { name: 'Red Velvet', price: 48.00 },
-            'p3': { name: 'Combo Besties', price: 80.00 }
-        };
+        // BASE DE DATOS COMPLETA (Sincronizada con Productos)
+        const productsDB = [
+            { id: "EC/MT-0001", name: "Sérum con vitamina C 3 en 1", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0002", name: "Sérum Iluminador Hyalu Glow", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0003", name: "Sérum con Retinol", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0004", name: "Sérum Nutritivo", category: "Cuidado Facial", brand: "Samy Cosmetics", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0005", name: "Sérum para Labios 01 Crystal Clear", category: "Labios", brand: "Samy Cosmetics", price: 6.50, unit: "5 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0006", name: "Tónico Facial con agua de rosas", category: "Cuidado Facial", brand: "Ligne D’or", price: 4.00, unit: "240 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0007", name: "Tónico LB Despigmentante Manchas", category: "Cuidado Facial", brand: "LB", price: 10.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0008", name: "Aceite de Ricino Pestañas", category: "Cuidado de Pestañas", brand: "Ligne D’or", price: 4.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-0009", name: "Aceite Reparador de puntas", category: "Cuidado Capilar", brand: "Lissia", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-010", name: "Aceite de coco capilar y corporal", category: "Cuidado Capilar", brand: "Lissia", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-011", name: "Aceite de argán reparador", category: "Cuidado Capilar", brand: "Johnverly", price: 5.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-012", name: "Rimel Vive Amor a Primera Vista", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.50, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-013", name: "Máscara Efecto Pestañas de Muñeca", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-014", name: "Máscara de Pestañas - Iconic Length", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-015", name: "Máscara para Pestañas Volumen Lash Negro", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 8.00, unit: "10 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-016", name: "Máscara de Pestañas Mayor Definición Waterproof", category: "Maquillaje de Ojos", brand: "Dolce Bella", price: 5.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-017", name: "Máscara para Pestañas Waterproof Maybelline", category: "Maquillaje de Ojos", brand: "Falsies Surreal", price: 18.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-018", name: "Pestañina - Al Infinito", category: "Maquillaje de Ojos", brand: "Vogue", price: 6.50, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-019", name: "Pestañina a Prueba de Agua Luzette", category: "Maquillaje de Ojos", brand: "Vogue", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-020", name: "Pestañina - Iconic Volume", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-021", name: "Pestañina - Mascara 3d #2 Café", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-022", name: "Tintas de labios JBL", category: "Labios", brand: "JBL", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-023", name: "Brillo Voluminizador", category: "Labios", brand: "Karité", price: 3.00, unit: "5 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-024", name: "Tinta de labios paleta de helado", category: "Labios", brand: "Nice Face", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-025", name: "Tinta para labios Ohayo", category: "Labios", brand: "Ohayo", price: 2.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-026", name: "Voluminizador Volu Lip – Miis Cosmetics", category: "Labios", brand: "Miis Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-027", name: "Brillo Labial Diamond Sparks", category: "Labios", brand: "Samy Cosmetics", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-028", name: "Hidratante de Labios", category: "Labios", brand: "Ligne D’or", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-029", name: "Iconic Lip Gloss Bari Atenea", category: "Labios", brand: "Atenea", price: 4.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-030", name: "Labial Líquido Mate Vogue Colorissimo", category: "Labios", brand: "Vogue", price: 3.50, unit: "5 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-031", name: "Labial Resist a prueba de besos", category: "Labios", brand: "Vogue", price: 7.00, unit: "3 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-032", name: "Labial Humectante y Vitamina E", category: "Labios", brand: "Samy Cosmetics", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-033", name: "Labial Mate Engol collections", category: "Labios", brand: "Engol", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-034", name: "Labial Voluminizador", category: "Labios", brand: "Áloe Karite", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-035", name: "Lapiz delineador Labios Kolor Factory", category: "Labios", brand: "Samy Cosmetics", price: 2.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-036", name: "Rubor individual", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 3.50, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-037", name: "Rubor Maybelucky 2 en 1", category: "Maquillaje de Rostro", brand: "Maybelucky", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-038", name: "Rubor Ushas Duo", category: "Maquillaje de Rostro", brand: "Ushas", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-039", name: "Rubor en barra Yaxi Beauty", category: "Maquillaje de Rostro", brand: "Yaxi Beauty", price: 5.00, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-040", name: "Primer Rosado", category: "Preparación de Piel", brand: "MYK", price: 5.00, unit: "32 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-041", name: "Gel primer reductor de poros", category: "Preparación de Piel", brand: "Ligne D’or", price: 6.00, unit: "20 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-042", name: "Primer Spray Engol Collections", category: "Preparación de Piel", brand: "Engol", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-043", name: "Corrector de Ojeras", category: "Maquillaje de Rostro", brand: "Dolce Bella", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-044", name: "Corrector de Liquido", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-045", name: "Corrector de Liquido", category: "Maquillaje de Rostro", brand: "Nailen", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-046", name: "Base Correctora Cremosa", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-047", name: "Paleta De Correctores Y Neutralizadores Samy X6", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-048", name: "Paleta De Correctores Y Contornos Samy X6", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-049", name: "Fijador de Maquillaje Myk Fixing spray", category: "Fijadores", brand: "MYK", price: 6.50, unit: "85 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-050", name: "Fijador Matte", category: "Fijadores", brand: "Engol", price: 5.00, unit: "85 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-051", name: "Fijador de maquillaje", category: "Fijadores", brand: "Samy Cosmetics", price: 10.50, unit: "80 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-052", name: "Polvo Suelto Translúcido Matte Touch", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 5.50, unit: "7 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-053", name: "Polvo Suelto Traslucido", category: "Maquillaje de Rostro", brand: "MYK", price: 4.50, unit: "8 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-054", name: "Polvo Compacto Flawless Skin Piel Mixta a Grasa", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.50, unit: "9 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-055", name: "Polvo compacto Samy Banana", category: "Maquillaje de Rostro", brand: "Samy Cosmetics", price: 6.50, unit: "9.5 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-056", name: "Polvo de hadas crso beauty", category: "Iluminadores", brand: "CRSO", price: 5.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-057", name: "Polvo de hada Maybelucky 5D", category: "Iluminadores", brand: "Maybelucky", price: 3.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-058", name: "Paleta de Sombras x 12 Tonos Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 8.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-059", name: "Paleta de sombras x 30 tonos", category: "Maquillaje de Ojos", brand: "Otros", price: 10.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-060", name: "Paleta neutral", category: "Maquillaje de Ojos", brand: "Miis Cosmetics", price: 9.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-061", name: "Paleta de sombras Karol G", category: "Maquillaje de Ojos", brand: "Otros", price: 9.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-062", name: "Paleta dolce bella Nude", category: "Maquillaje de Ojos", brand: "Dolce Bella", price: 8.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-063", name: "Paleta de iluminadores MyK", category: "Iluminadores", brand: "MYK", price: 5.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-064", name: "Paleta Huda Beauty Empowered", category: "Maquillaje de Ojos", brand: "Huda Beauty", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-065", name: "Paleta Make up Beauty", category: "Maquillaje de Ojos", brand: "Otros", price: 12.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-066", name: "Ofra Pro Palette", category: "Iluminadores", brand: "Otros", price: 11.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-067", name: "Palette elements", category: "Maquillaje de Ojos", brand: "Otros", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-068", name: "Base Líquida Resist", category: "Base de Maquillaje", brand: "Vogue", price: 7.00, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-069", name: "Base Vogue Mate Natural", category: "Base de Maquillaje", brand: "Vogue", price: 5.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-070", name: "Base liquida Vogue Efecto total 6", category: "Base de Maquillaje", brand: "Vogue", price: 5.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-071", name: "Base Líquida Go Bright Samy", category: "Base de Maquillaje", brand: "Samy Cosmetics", price: 9.00, unit: "30 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-072", name: "Base Líquida Matificante", category: "Base de Maquillaje", brand: "Samy Cosmetics", price: 9.00, unit: "23 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-073", name: "Base líquida matificante BBROSE alta cobertura", category: "Base de Maquillaje", brand: "Bbrose", price: 8.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-074", name: "Crema Facial Dia y Noche Antiedad", category: "Cuidado Facial", brand: "Ligne D’or", price: 6.00, unit: "60 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-075", name: "Espuma facial", category: "Cuidado Facial", brand: "Ligne D’or", price: 6.00, unit: "150 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-076", name: "Agua Micelar Rosada Todo en uno 400 ml", category: "Cuidado Facial", brand: "Garnier Skinactive", price: 8.00, unit: "400 ml", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-077", name: "Agua micelar fine lady x 220 ml", category: "Cuidado Facial", brand: "Johnverly", price: 4.00, unit: "220 ml", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-078", name: "Desodorante LB Antitranspirante y Aclarador", category: "Cuidado Corporal", brand: "LB", price: 10.00, unit: "60 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-079", name: "Cera Fijadora en Barra Dromatic", category: "Cuidado Capilar", brand: "Dromatic", price: 7.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-080", name: "Body Glow 6039 Myk", category: "Cuidado Corporal", brand: "MYK", price: 6.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-081", name: "Papeles Antigrasa Absorbentes de Arroz + Pomo Aplicador", category: "Cuidado Facial", brand: "MYK", price: 4.50, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-082", name: "Gel Para Cejas Y Pestañas Samy", category: "Cejas y Pestañas", brand: "Samy Cosmetics", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-083", name: "Jabón de cejas RIMOCOO", category: "Cejas y Pestañas", brand: "Rimocoo", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-084", name: "Maquillaje cremoso para cejas SAMY", category: "Cejas y Pestañas", brand: "Samy Cosmetics", price: 3.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-085", name: "Kit de cejas LULA", category: "Cejas y Pestañas", brand: "LULA", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-086", name: "Tinta líquida de cejas", category: "Cejas y Pestañas", brand: "Vogue", price: 5.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-087", name: "Lápiz Bbrose para cejas", category: "Cejas y Pestañas", brand: "Bbrose", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-088", name: "Toallitas Desmaquillantes 0% alcohol", category: "Cuidado Facial", brand: "LULA", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-089", name: "Plumon Perfect Liner Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 6.50, unit: "1.2 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-090", name: "Delineador Ultramate Precision Liner Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 7.00, unit: "1.2 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-091", name: "Delineador Líquido de Ojos Negro", category: "Maquillaje de Ojos", brand: "Vogue", price: 4.00, unit: "9 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-092", name: "Sombras Compactas Trio Samy", category: "Maquillaje de Ojos", brand: "Samy Cosmetics", price: 3.50, unit: "4 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-093", name: "Splash dama", category: "Perfumes", brand: "Otros", price: 6.00, unit: "250 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-094", name: "Exfoliantes corporales", category: "Cuidado Corporal", brand: "Otros", price: 5.00, unit: "350 g", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-095", name: "Henna para cejas", category: "Cejas y Pestañas", brand: "Otros", price: 6.00, unit: "3 g", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-096", name: "Pestañas Individuales Premium", category: "Pestañas Postizas", brand: "Atenea", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-097", name: "Kit de Pestañas Reflect", category: "Pestañas Postizas", brand: "Atenea", price: 7.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-098", name: "Pestañas New Show", category: "Pestañas Postizas", brand: "New Show", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-099", name: "Pestañas Volumen Ruso 10D", category: "Pestañas Postizas", brand: "Otros", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-100", name: "Laca Profesional Fijacion Fuerte", category: "Cuidado Capilar", brand: "René Chardon", price: 6.00, unit: "170 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-101", name: "Beauty blender X2 corazon", category: "Herramientas", brand: "Otros", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-102", name: "Beautyblender Krismar", category: "Herramientas", brand: "Krismar", price: 1.50, unit: "170 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-103", name: "Borlas Engol collections", category: "Herramientas", brand: "Engol", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-104", name: "Borlas 4pcs Engol", category: "Herramientas", brand: "Engol", price: 2.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-105", name: "Borlas x2", category: "Herramientas", brand: "Engol", price: 1.50, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-106", name: "50 cepillos para cejas y pestañas", category: "Herramientas", brand: "Otros", price: 4.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-107", name: "Brocha para polvo", category: "Herramientas", brand: "Espression", price: 4.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-108", name: "Brocha profesional para cejas", category: "Herramientas", brand: "Otros", price: 3.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-109", name: "Brocha para polvo Engol", category: "Herramientas", brand: "Engol", price: 4.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-110", name: "Kit 12 brochas", category: "Herramientas", brand: "Otros", price: 7.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-111", name: "Brochas para ojos x7", category: "Herramientas", brand: "Otros", price: 5.00, unit: "N/A", gender: "Unisex", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-112", name: "Cosmetiquera cartuchera", category: "Accesorios", brand: "Otros", price: 5.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
+            { id: "EC/MT-113", name: "Enchinadores Cristy", category: "Herramientas", brand: "Otros", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" }
+        ];
 
-        // Estado local
         let cartState = {};
-        // Callback para el modal de confirmación
         let confirmCallback = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Cargar Navbar/Footer
             const currentYear = new Date().getFullYear();
 
-            // Navbar Component (MEGA MENÚ ACTUALIZADO)
+            // Navbar SIMPLIFICADO para Checkout
             const navbarComponent = `
             <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-20">
+                        <!-- Logo -->
                         <div class="flex-shrink-0 flex items-center">
                             <a href="/" class="flex items-center gap-2">
                                 <img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo">
                             </a>
                         </div>
                         
-                        <!-- MENÚ ESCRITORIO -->
-                        <div class="hidden md:flex items-center space-x-8">
-                            <a href="/" class="text-gray-600 hover:text-montero-dark font-medium transition">Inicio</a>
-                            
-                            <!-- Dropdown Productos MEGA MENÚ (Posición Fija) -->
-                            <div class="relative group h-full flex items-center">
-                                <a href="productos" class="text-gray-600 hover:text-montero-dark font-medium transition flex items-center gap-1 cursor-pointer py-6">
-                                    Productos <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
-                                </a>
-                                
-                                <!-- Mega Menú Contenedor AJUSTADO -->
-                                <div class="fixed left-0 right-0 top-20 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 opacity-0 invisible group-hover:opacity-100 group-hover:visible mega-menu z-50">
-                                    <div class="bg-white shadow-2xl rounded-b-xl border-t-4 border-montero-gold overflow-hidden grid grid-cols-12 divide-x divide-gray-100">
-                                        
-                                        <!-- COL 1: CATEGORÍAS (35%) -->
-                                        <div class="col-span-4 p-8 bg-gray-50">
-                                            <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-gray-200 pb-2 uppercase tracking-wider">Categorías</h3>
-                                            <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-gray-600">
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Perfumes y Splash</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Manos y Pies</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Maquillaje</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Protección Solar</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Cuidado Facial</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Infantil</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Cuidado del Cabello</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Regalos</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Cuidado Corporal</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Corporal Spa</a>
-                                                <a href="productos.html#categorias-sec" class="hover:text-montero-gold hover:translate-x-1 transition-transform">Cuidado Masculino</a>
-                                            </div>
-                                        </div>
-
-                                        <!-- COL 2: MARCAS (40%) -->
-                                        <div class="col-span-5 p-8 bg-white">
-                                            <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-gray-100 pb-2 uppercase tracking-wider">Marcas</h3>
-                                            <div class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-600">
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Ligne D'or</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Lula</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">MyK Cosmetics</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Samy</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Vogue</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Dolce Bella</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Ruby Rose</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Raquel</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Nailen</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Engol</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">DIOR</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Maybelline</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Clarins</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Milani</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">La Roche Posay</a>
-                                                <a href="productos.html#marcas-sec" class="hover:text-montero-dark transition">Skin1004</a>
-                                            </div>
-                                            <a href="productos.html#marcas-sec" class="block mt-6 text-xs font-bold text-montero-gold hover:underline">Ver todas las marcas &rarr;</a>
-                                        </div>
-
-                                        <!-- COL 3: LO MEJOR PARA TI (25%) -->
-                                        <div class="col-span-3 p-8 bg-montero-pink/10">
-                                            <h3 class="font-serif font-bold text-montero-dark mb-4 border-b border-white pb-2 uppercase tracking-wider">Lo Mejor Para Ti</h3>
-                                            <div class="flex flex-col gap-4 text-sm">
-                                                <a href="shop" class="flex items-center gap-2 font-bold text-montero-dark hover:text-xmas-red transition">
-                                                    <i class="fa-solid fa-gift text-montero-gold text-lg"></i> Regalos Navidad
-                                                </a>
-                                                <a href="productos.html#lomejor-sec" class="flex items-center gap-2 text-gray-700 hover:text-montero-dark transition">
-                                                    <i class="fa-solid fa-star text-montero-pink text-lg"></i> K-Beauty
-                                                </a>
-                                                <a href="productos.html#lomejor-sec" class="flex items-center gap-2 text-gray-700 hover:text-montero-dark transition">
-                                                    <i class="fa-solid fa-fire text-orange-400 text-lg"></i> Lo Más Vendido
-                                                </a>
-                                                <a href="productos.html#lomejor-sec" class="flex items-center gap-2 text-gray-700 hover:text-montero-dark transition">
-                                                    <i class="fa-solid fa-percent text-green-500 text-lg"></i> Ofertas del Mes
-                                                </a>
-                                                
-                                                <div class="mt-6 p-4 bg-white rounded-lg shadow-sm border border-montero-pink/30 text-center">
-                                                    <p class="text-xs text-gray-500 mb-2 font-medium">¿No sabes qué elegir?</p>
-                                                    <a href="contacto" class="text-xs font-bold text-montero-dark hover:underline border border-montero-dark px-3 py-1 rounded-full">Escríbenos</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <a href="shop" class="text-xmas-red font-bold hover:text-red-700 transition flex items-center gap-1"><i class="fa-solid fa-star text-xs"></i> Edición Limitada</a>
-                            <a href="contacto" class="text-gray-600 hover:text-montero-dark font-medium transition relative group">Contacto</a>
-                            
-                            <!-- Icono Carrito -->
-                            <a href="#" class="relative cursor-pointer group">
-                                <i class="fa-solid fa-cart-shopping text-xl text-montero-dark group-hover:text-montero-gold transition"></i>
-                                <span id="badge-desk" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                        <!-- BOTÓN SEGUIR COMPRANDO -->
+                        <div>
+                            <a href="productos" class="flex items-center gap-2 px-6 py-2 rounded-full border-2 border-montero-dark text-montero-dark font-bold hover:bg-montero-pink hover:border-montero-pink transition shadow-sm text-sm md:text-base">
+                                <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
                             </a>
                         </div>
-
-                        <!-- BOTÓN HAMBURGUESA (MÓVIL) -->
-                        <div class="flex items-center md:hidden gap-4">
-                            <a href="#" class="relative cursor-pointer">
-                                <i class="fa-solid fa-cart-shopping text-xl text-montero-dark"></i>
-                                <span id="badge-mob" class="absolute -top-2 -right-2 bg-montero-gold text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                            </a>
-                            <button id="mobile-menu-btn" class="text-montero-dark hover:text-gray-600 focus:outline-none p-2">
-                                <i class="fa-solid fa-bars text-2xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MENÚ MÓVIL (Con acordeón para Productos CENTRADO) -->
-                <div id="mobile-menu" class="mobile-menu md:hidden bg-montero-pink border-t border-white shadow-lg overflow-y-auto">
-                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center">
-                        <a href="/" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition">Inicio</a>
-                        
-                        <!-- Productos Submenú Móvil ACORDEÓN -->
-                        <div class="w-full">
-                            <button onclick="toggleMobileSubmenu('mob-prod-sub')" class="w-full px-3 py-3 text-montero-dark font-bold bg-white/30 rounded relative flex items-center justify-center">
-                                <span>Productos</span>
-                                <i class="fa-solid fa-chevron-down text-xs absolute right-4 text-montero-dark/70"></i>
-                            </button>
-                            <div id="mob-prod-sub" class="hidden pl-2 pr-2 pb-2 space-y-4 bg-white/40 mt-1 rounded text-left">
-                                <!-- Categorías Móvil -->
-                                <div class="mt-2">
-                                    <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Categorías</p>
-                                    <div class="grid grid-cols-2 gap-2 pl-2">
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Perfumes</a>
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Maquillaje</a>
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Facial</a>
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Capilar</a>
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Corporal</a>
-                                        <a href="productos.html#categorias-sec" class="text-sm text-gray-700 truncate">Infantil</a>
-                                    </div>
-                                </div>
-                                <!-- Marcas Móvil -->
-                                <div>
-                                    <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Marcas Top</p>
-                                    <div class="grid grid-cols-2 gap-2 pl-2">
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Ligne D'or</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">MyK</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Vogue</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Ruby Rose</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700">Dolce Bella</a>
-                                        <a href="productos.html#marcas-sec" class="text-sm text-gray-700 font-bold">Ver Todas</a>
-                                    </div>
-                                </div>
-                                <!-- Lo Mejor Móvil -->
-                                <div>
-                                    <p class="text-xs font-bold text-montero-gold uppercase mb-1 pl-2">Destacados</p>
-                                    <a href="shop" class="block text-sm text-xmas-red font-bold pl-2 mb-1"><i class="fa-solid fa-gift mr-1"></i> Navidad</a>
-                                    <a href="productos.html#lomejor-sec" class="block text-sm text-gray-700 pl-2 mb-1"><i class="fa-solid fa-fire mr-1 text-orange-400"></i> Lo Más Vendido</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="shop" class="block px-3 py-2 text-xmas-red font-bold w-full text-center hover:bg-white rounded transition">Edición Limitada</a>
-                        <a href="contacto" class="block px-3 py-2 text-montero-dark w-full text-center hover:bg-white rounded transition">Contacto</a>
-                        <a href="rastreo" class="block px-3 py-2 text-montero-dark font-bold w-full text-center bg-white/50 rounded transition">Rastreo</a>
                     </div>
                 </div>
             </nav>`;
 
-            // Footer Component (Sin cambios)
+            // Footer Simple
             const footerComponent = `<footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div><div class="max-w-7xl mx-auto px-4"><div class="text-center"><p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p></div></div></footer>`;
 
             document.getElementById('navbar-container').innerHTML = navbarComponent;
             document.getElementById('footer-container').innerHTML = footerComponent;
 
-             setTimeout(() => {
-                const btnMobile = document.getElementById('mobile-menu-btn');
-                const menuMobile = document.getElementById('mobile-menu');
-                if(btnMobile) btnMobile.addEventListener('click', () => menuMobile.classList.toggle('open'));
-            }, 100);
-
-            // LOGICA DEL CARRITO
             loadCartData();
-            loadShippingDataIfAvailable(); // Intentar rellenar formulario si hay datos guardados
+            loadShippingDataIfAvailable();
         });
-
-        // Función para togglear submenú en móvil (Nueva)
-        window.toggleMobileSubmenu = function(id) {
-            const el = document.getElementById(id);
-            if(el) {
-                el.classList.toggle('hidden');
-            }
-        }
 
         // --- FUNCIONES DEL MODAL ---
         function showModal(title, message, type = 'alert', iconClass = 'fa-solid fa-bell text-montero-dark', onConfirm = null) {
@@ -398,14 +330,11 @@
             const content = document.getElementById('modal-content');
             const iconContainer = document.getElementById('modal-icon');
             
-            // Texto
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-message').innerText = message;
             
-            // Icono
             iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
 
-            // Botones
             const btnCancel = document.getElementById('btn-cancel');
             const btnConfirm = document.getElementById('btn-confirm');
             
@@ -425,7 +354,6 @@
                 btnConfirm.onclick = closeModal;
             }
 
-            // Mostrar
             modal.classList.remove('invisible', 'opacity-0');
             content.classList.remove('scale-95');
             content.classList.add('scale-100');
@@ -460,37 +388,44 @@
             }
         }
 
-        function updateQty(id, change) {
-            if (cartState[id] + change >= 0) {
-                cartState[id] += change;
-                if (cartState[id] === 0) delete cartState[id];
+        function updateQty(productName, change) {
+            // Verifica si existe la clave en cartState
+            if (cartState[productName] !== undefined) {
+                const newQty = cartState[productName] + change;
+                
+                if (newQty > 0) {
+                    cartState[productName] = newQty;
+                } else {
+                    // Si llega a 0, preguntamos si quiere eliminar
+                    removeProduct(productName);
+                    return; 
+                }
+                
                 localStorage.setItem('monteroCart', JSON.stringify(cartState));
                 renderCart();
             }
         }
 
-        // ELIMINAR PRODUCTO (Actualizado con Modal)
-        function removeProduct(id) {
+        function removeProduct(productName) {
             showModal(
                 'Eliminar Producto',
                 '¿Estás seguro de que quieres eliminar este producto de tu carrito?',
                 'confirm',
                 'fa-solid fa-trash-can text-red-500',
                 () => {
-                    delete cartState[id];
+                    delete cartState[productName];
                     localStorage.setItem('monteroCart', JSON.stringify(cartState));
                     renderCart();
                 }
             );
         }
 
-        // VACIAR CARRITO (Actualizado con Modal)
         function clearCart() {
             if (Object.keys(cartState).length === 0) return;
 
             showModal(
                 'Vaciar Carrito',
-                '¿Estás seguro de que quieres eliminar todos los productos del carrito? Esta acción no se puede deshacer.',
+                '¿Estás seguro de que quieres eliminar todos los productos del carrito?',
                 'confirm',
                 'fa-solid fa-triangle-exclamation text-orange-500',
                 () => {
@@ -504,74 +439,93 @@
         function renderCart() {
             const container = document.getElementById('cart-items');
             const totalEl = document.getElementById('total-amount');
-            const badgeD = document.getElementById('badge-desk');
-            const badgeM = document.getElementById('badge-mob');
             
             let html = '';
             let total = 0;
-            let totalCount = 0;
+            let hasItems = false;
 
-            for (const [key, qty] of Object.entries(cartState)) {
+            // Iteramos sobre las claves del carrito (que son los NOMBRES de productos)
+            for (const [productName, qty] of Object.entries(cartState)) {
                 if (qty > 0) {
-                    const product = productsDB[key];
-                    const subtotal = product.price * qty;
-                    total += subtotal;
-                    totalCount += qty;
+                    hasItems = true;
+                    // Buscar el producto completo en la base de datos por nombre
+                    const product = productsDB.find(p => p.name === productName);
+                    
+                    if (product) {
+                        const subtotal = product.price * qty;
+                        total += subtotal;
 
-                    html += `
-                    <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 transition gap-4">
-                        <div class="flex items-center gap-4">
-                            <div class="text-sm">
-                                <p class="font-bold text-gray-800">${product.name}</p>
-                                <p class="text-gray-500">$${product.price.toFixed(2)} c/u</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
-                            <!-- Controles de cantidad -->
-                            <div class="flex items-center border border-gray-300 rounded-lg bg-white">
-                                <button onclick="updateQty('${key}', -1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-l-lg transition">-</button>
-                                <span class="px-3 py-1 text-sm font-bold w-8 text-center">${qty}</span>
-                                <button onclick="updateQty('${key}', 1)" class="px-3 py-1 bg-gray-50 hover:bg-gray-200 text-gray-600 font-bold rounded-r-lg transition">+</button>
+                        html += `
+                        <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 transition gap-4 border-b border-gray-100 last:border-0">
+                            <div class="flex items-center gap-4">
+                                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded-lg border border-gray-200">
+                                <div class="text-sm">
+                                    <p class="font-bold text-gray-800 text-base">${product.name}</p>
+                                    <p class="text-gray-500 mb-1">${product.brand} | ${product.category}</p>
+                                    <p class="text-montero-dark font-bold">$${product.price.toFixed(2)} c/u</p>
+                                </div>
                             </div>
                             
-                            <div class="flex items-center gap-3">
-                                <span class="font-bold text-montero-dark w-20 text-right">$${subtotal.toFixed(2)}</span>
-                                <button onclick="removeProduct('${key}')" class="text-gray-400 hover:text-red-500 transition px-2" title="Eliminar producto">
+                            <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto mt-2 sm:mt-0">
+                                <!-- Controles -->
+                                <div class="flex items-center border border-gray-200 rounded-full bg-white shadow-sm">
+                                    <button onclick="updateQty('${productName}', -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-montero-dark font-bold rounded-l-full transition">-</button>
+                                    <span class="w-8 text-center text-sm font-bold text-gray-800">${qty}</span>
+                                    <button onclick="updateQty('${productName}', 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-montero-dark font-bold rounded-r-full transition">+</button>
+                                </div>
+                                
+                                <div class="text-right min-w-[80px]">
+                                    <p class="font-bold text-montero-dark text-lg">$${subtotal.toFixed(2)}</p>
+                                </div>
+
+                                <button onclick="removeProduct('${productName}')" class="text-gray-400 hover:text-red-500 transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50" title="Eliminar">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
+                    } else {
+                        // Si el producto está en localStorage pero ya no existe en la DB (raro pero posible)
+                        delete cartState[productName];
+                        localStorage.setItem('monteroCart', JSON.stringify(cartState));
+                    }
                 }
             }
 
-            if (total === 0) {
-                html = `<div class="p-8 text-center text-gray-500 flex flex-col items-center gap-2"><i class="fa-solid fa-basket-shopping text-4xl text-gray-300"></i><p>Tu carrito está vacío.</p><a href="shop" class="text-montero-dark font-bold hover:underline">Ir a la tienda</a></div>`;
+            if (!hasItems) {
+                html = `
+                <div class="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-gray-300">
+                        <i class="fa-solid fa-basket-shopping text-4xl"></i>
+                    </div>
+                    <p class="text-lg">Tu carrito está vacío.</p>
+                    <a href="productos" class="text-montero-dark font-bold hover:underline">Ir a la tienda</a>
+                </div>`;
             }
 
             container.innerHTML = html;
             totalEl.innerText = `$${total.toFixed(2)}`;
-            
-            if(badgeD) badgeD.innerText = totalCount;
-            if(badgeM) badgeM.innerText = totalCount;
         }
 
-        // ENVIAR WHATSAPP (Actualizado con Modal de Alerta)
         function sendToWhatsApp() {
-            // 1. Validar Productos
+            // 1. Validar Carrito
             let total = 0;
             let productListText = "";
-            for (const [key, qty] of Object.entries(cartState)) {
+            let hasItems = false;
+
+            for (const [productName, qty] of Object.entries(cartState)) {
                 if (qty > 0) {
-                    const product = productsDB[key];
-                    const subtotal = product.price * qty;
-                    total += subtotal;
-                    productListText += `▫️ ${product.name} (x${qty}): $${subtotal.toFixed(2)}\n`;
+                    const product = productsDB.find(p => p.name === productName);
+                    if (product) {
+                        hasItems = true;
+                        const subtotal = product.price * qty;
+                        total += subtotal;
+                        // Formato de lista para WhatsApp
+                        productListText += `▫️ ${product.name} (x${qty}): $${subtotal.toFixed(2)}\n`;
+                    }
                 }
             }
 
-            if (total === 0) {
-                // MODAL EN LUGAR DE ALERT
+            if (!hasItems) {
                 showModal(
                     'Carrito Vacío',
                     'Tu carrito está vacío. Por favor agrega productos antes de confirmar el pedido.',
@@ -597,8 +551,8 @@
             const address = document.getElementById('address').value;
 
             // 4. Construir Mensaje
-            let message = "*¡Hola Montero's! 🎄 Quiero realizar el siguiente pedido:*\n\n";
-            message += "*PRODUCTOS:*\n";
+            let message = "*¡Hola Montero's! 💄 Quiero realizar el siguiente pedido:*\n\n";
+            message += "*RESUMEN DE PRODUCTOS:*\n";
             message += productListText;
             message += `\n*TOTAL A PAGAR: $${total.toFixed(2)}*\n`;
             message += "----------------------------------\n";
@@ -612,14 +566,17 @@
             // 5. Enviar
             const whatsappNumber = "593981540453";
             const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Guardar datos de envío para la próxima vez
+            const shippingData = { fullname, id: idNumber, phone, province, city, address };
+            localStorage.setItem('monteroShipping', JSON.stringify(shippingData));
+
             window.open(url, '_blank');
 
-            // 6. Reiniciar
-            form.reset();
-            localStorage.removeItem('monteroShipping');
-            cartState = {}; 
-            localStorage.removeItem('monteroCart');
-            renderCart();
+            // 6. Limpiar carrito (Opcional: puedes dejarlo o vaciarlo)
+            // cartState = {}; 
+            // localStorage.removeItem('monteroCart');
+            // renderCart();
         }
     </script>
 </body>
