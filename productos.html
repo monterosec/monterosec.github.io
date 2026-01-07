@@ -102,8 +102,7 @@
                         </button>
                     </div>
 
-                    <!-- ACORDEÓN DE FILTROS (Oculto en móvil por defecto, Flex en Desktop) -->
-                    <!-- Usamos 'hidden' y 'lg:flex' para controlar la visibilidad por defecto -->
+                    <!-- ACORDEÓN DE FILTROS -->
                     <div id="filters-wrapper" class="hidden lg:flex flex-col lg:flex-row gap-3 lg:items-center lg:justify-end w-full transition-all duration-300 ease-in-out border-t lg:border-t-0 border-gray-100 pt-4 lg:pt-0 mt-2 lg:mt-0">
                         
                         <!-- Select Categoría -->
@@ -213,8 +212,14 @@
                 <!-- Col 2: Info -->
                 <div class="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto">
                     <div class="mb-6">
-                        <span id="modal-category" class="text-xs font-bold text-gray-400 uppercase tracking-wider">Categoría</span>
-                        <h2 id="modal-name" class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mt-1 mb-2 font-serif">Nombre</h2>
+                        <div class="flex justify-between items-start">
+                            <span id="modal-category" class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Categoría</span>
+                            <!-- NUEVO: ID del producto -->
+                            <span id="modal-id" class="text-[10px] text-gray-400 font-mono bg-gray-50 px-2 py-0.5 rounded border border-gray-100">REF: --</span>
+                        </div>
+                        
+                        <h2 id="modal-name" class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight mb-2 font-serif">Nombre</h2>
+                        
                         <div class="flex items-center gap-2 mb-4">
                             <span id="modal-price" class="text-2xl font-bold text-montero-dark">$0.00</span>
                             <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">Incluye IVA</span>
@@ -236,21 +241,23 @@
                             </div>
                         </div>
 
-                        <!-- Selector Cantidad (Arreglado Diseño y + / -) -->
-                        <div class="flex flex-col sm:flex-row items-center gap-4">
-                            <div class="flex items-center border border-gray-300 rounded-full overflow-hidden w-full sm:w-auto h-12">
-                                <!-- Botón Menos (type="button" para evitar submits raros) -->
-                                <button type="button" onclick="changeModalQuantity(-1)" class="w-12 h-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition flex items-center justify-center text-lg font-bold select-none">-</button>
+                        <!-- Selector Cantidad y Botón (Diseño mejorado para móvil: una sola fila) -->
+                        <div class="flex flex-row items-center gap-3">
+                            <!-- Selector numérico compacto -->
+                            <div class="flex items-center border border-gray-300 rounded-full overflow-hidden h-12 flex-shrink-0">
+                                <!-- Botón Menos -->
+                                <button type="button" onclick="changeModalQuantity(-1)" class="w-10 md:w-12 h-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition flex items-center justify-center text-lg font-bold select-none active:bg-gray-200">-</button>
                                 
-                                <!-- Input centrado -->
-                                <input type="number" id="modal-quantity" value="1" min="1" readonly class="w-12 h-full text-center border-x border-gray-100 text-gray-800 font-bold focus:outline-none bg-white">
+                                <!-- Input -->
+                                <input type="number" id="modal-quantity" value="1" min="1" readonly class="w-10 md:w-12 h-full text-center border-x border-gray-100 text-gray-800 font-bold focus:outline-none bg-white text-sm md:text-base">
                                 
                                 <!-- Botón Más -->
-                                <button type="button" onclick="changeModalQuantity(1)" class="w-12 h-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition flex items-center justify-center text-lg font-bold select-none">+</button>
+                                <button type="button" onclick="changeModalQuantity(1)" class="w-10 md:w-12 h-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition flex items-center justify-center text-lg font-bold select-none active:bg-gray-200">+</button>
                             </div>
                             
-                            <button onclick="addToCartFromModal()" class="w-full flex-grow bg-montero-dark text-white font-bold h-12 px-6 rounded-full hover:bg-gray-900 transition shadow-lg transform active:scale-95 flex justify-center items-center gap-2">
-                                <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                            <!-- Botón Agregar (Toma el resto del espacio) -->
+                            <button onclick="addToCartFromModal()" class="flex-grow bg-montero-dark text-white font-bold h-12 px-4 rounded-full hover:bg-gray-900 transition shadow-lg transform active:scale-95 flex justify-center items-center gap-2 text-sm md:text-base">
+                                <i class="fa-solid fa-cart-plus"></i> <span class="hidden xs:inline">Agregar</span>
                             </button>
                         </div>
                     </div>
@@ -697,6 +704,8 @@
             document.getElementById('modal-img').src = product.image;
             document.getElementById('modal-brand-tag').innerText = product.brand;
             document.getElementById('modal-category').innerText = product.category;
+            // Set ID
+            document.getElementById('modal-id').innerText = `REF: ${product.id}`;
             document.getElementById('modal-name').innerText = product.name;
             document.getElementById('modal-price').innerText = `$${product.price.toFixed(2)}`;
             document.getElementById('modal-unit').innerText = product.unit;
