@@ -17,7 +17,7 @@
                         'montero-pink': '#ffe4e6',
                         'montero-dark': '#881337',
                         'montero-gold': '#d4af37',
-                        'xmas-red': '#be123c',
+                        'fresh-pink': '#fb7185',
                     },
                     fontFamily: {
                         sans: ['Lato', 'sans-serif'],
@@ -28,148 +28,148 @@
         }
     </script>
     <style>
-        body { font-family: 'Lato', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Lato', sans-serif; background-color: #f9fafb; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         
-        /* Animación Menú Móvil */
-        .mobile-menu {
-            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
+        /* Ocultar flechas del input number */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
         }
-        .mobile-menu.open { max-height: 800px; opacity: 1; }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen text-gray-800 pt-20">
+<body class="flex flex-col min-h-screen pt-24">
 
-    <div id="navbar-container"></div>
+    <!-- NAVBAR SIMPLIFICADO PARA CHECKOUT -->
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center gap-2">
+                        <img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo">
+                    </a>
+                </div>
+                
+                <!-- Botón de Regreso (Único elemento de navegación) -->
+                <div>
+                    <a href="productos" class="flex items-center gap-2 text-montero-dark font-bold hover:text-montero-gold transition bg-montero-pink/20 px-4 py-2 rounded-full">
+                        <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Regresar a comprar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <main class="flex-grow py-10 px-4">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-3xl font-bold text-center text-montero-dark mb-8">Finalizar Compra</h1>
-
-            <!-- 1. RESUMEN DE PRODUCTOS -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 mb-8">
-                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex flex-wrap justify-between items-center gap-3">
-                    <span class="font-bold text-gray-700 flex items-center">
-                        <i class="fa-solid fa-basket-shopping mr-2"></i>Tu Carrito
-                    </span>
-                    
-                    <div class="flex items-center gap-4 text-xs">
-                        <button onclick="clearCart()" class="text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition" title="Eliminar todos los productos">
-                            <i class="fa-solid fa-trash-can"></i> Vaciar
-                        </button>
-                    </div>
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="checkout-content">
+            
+            <!-- SECCIÓN 1: RESUMEN DEL CARRITO -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-fit order-2 lg:order-1">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-montero-gold"></i> Resumen
+                    </h2>
+                    <button onclick="clearCart()" class="text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1 transition">
+                        <i class="fa-solid fa-trash"></i> Vaciar Carrito
+                    </button>
+                </div>
+                
+                <div id="cart-items-container" class="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- Los items se inyectan aquí -->
+                    <p class="text-gray-500 text-center py-4">Cargando carrito...</p>
                 </div>
 
-                <div id="cart-items" class="divide-y divide-gray-100">
-                    <div class="p-12 text-center text-gray-500">
-                        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-montero-gold"></i>
-                        <p class="mt-2">Cargando productos...</p>
+                <div class="border-t pt-4 space-y-2">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="subtotal-display">$0.00</span>
                     </div>
-                </div>
-
-                <div class="bg-montero-pink/30 px-6 py-6 border-t border-gray-200">
-                    <div class="flex justify-between items-center text-2xl font-bold text-montero-dark">
-                        <span>Total a Pagar:</span>
-                        <span id="total-amount">$0.00</span>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Envío</span>
+                        <span class="text-xs text-green-600 font-bold">A coordinar</span>
+                    </div>
+                    <div class="flex justify-between text-2xl font-bold text-montero-dark pt-2">
+                        <span>Total Estimado</span>
+                        <span id="total-display">$0.00</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. FORMULARIO DE ENVÍO -->
-            <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-montero-gold relative">
-                <div class="flex items-center gap-3 mb-6 border-b pb-4">
-                    <div class="bg-montero-dark text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">2</div>
-                    <h3 class="text-xl font-bold text-gray-800">Datos de Envío</h3>
-                </div>
+            <!-- SECCIÓN 2: DATOS DE ENVÍO -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 order-1 lg:order-2">
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-truck-fast text-montero-gold"></i> Datos de Envío
+                </h2>
+                
+                <form id="shipping-form" onsubmit="event.preventDefault(); sendOrder();" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Nombre Completo</label>
+                        <input type="text" id="fullname" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Ej: María Pérez">
+                    </div>
 
-                <form id="shipping-form" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <!-- Nombre -->
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Nombre y Apellido</label>
-                            <input type="text" id="fullname" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: María Montero">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Cédula / RUC (10 dígitos)</label>
+                            <input type="number" id="id-number" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Ej: 1712345678">
                         </div>
-                        <!-- Cédula -->
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Cédula / Pasaporte</label>
-                            <input type="text" id="id_number" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: 1726543210">
-                        </div>
-                        <!-- Celular -->
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Celular</label>
-                            <input type="tel" id="phone" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: 0981540453">
-                        </div>
-                        <!-- País -->
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">País</label>
-                            <input type="text" value="Ecuador" disabled class="w-full px-4 py-2 rounded border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Celular (10 dígitos)</label>
+                            <input type="number" id="phone" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Ej: 0991234567">
                         </div>
                     </div>
 
-                    <!-- Dirección -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Provincia</label>
-                            <select id="province" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none bg-white transition">
-                                <option value="">Selecciona...</option>
-                                <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                            </select>
+                            <input type="text" id="province" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Ej: Pichincha">
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Ciudad / Cantón</label>
-                            <input type="text" id="city" required class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: Pimampiro">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Ciudad</label>
+                            <input type="text" id="city" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Ej: Quito">
                         </div>
                     </div>
-                    
+
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Dirección de las calles y referencia</label>
-                        <textarea id="address" required rows="2" class="w-full px-4 py-2 rounded border border-gray-300 focus:border-montero-gold focus:ring-1 focus:ring-montero-gold outline-none transition" placeholder="Ej: Calle Juan Montalvo y Paquisha, casa verde"></textarea>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Dirección Exacta</label>
+                        <textarea id="address" required rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-montero-gold transition bg-gray-50 focus:bg-white" placeholder="Calle principal, secundaria, número de casa y referencia..."></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2 text-lg">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar Pedido a WhatsApp
+                        </button>
+                        <p class="text-xs text-center text-gray-400 mt-3">
+                            Al hacer clic, se abrirá WhatsApp con el detalle de tu pedido listo para enviar.
+                        </p>
                     </div>
                 </form>
             </div>
-
-            <!-- BOTÓN WHATSAPP -->
-            <div class="mt-8 text-center px-4 pb-12">
-                <button onclick="sendToWhatsApp()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-full shadow-xl hover:shadow-2xl transform transition hover:-translate-y-1 flex items-center justify-center gap-3 mx-auto border-4 border-white ring-4 ring-green-100">
-                    <i class="fa-brands fa-whatsapp text-3xl"></i>
-                    <div class="text-left">
-                        <span class="block text-xs uppercase tracking-wider opacity-90">Todo listo</span>
-                        <span class="block text-lg leading-none">Confirmar Pedido</span>
-                    </div>
-                </button>
-                <p class="text-xs text-gray-500 mt-4">Se abrirá WhatsApp con el detalle completo.</p>
-            </div>
         </div>
 
-        <!-- COMPONENTE: MODAL PERSONALIZADO -->
-        <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300 px-4">
-            <div id="modal-content" class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-sm w-full text-center transform scale-95 transition-all duration-300 border-t-8 border-montero-gold relative">
-                <!-- Icono -->
-                <div id="modal-icon" class="w-16 h-16 bg-montero-pink/30 rounded-full flex items-center justify-center mx-auto mb-4 text-montero-dark text-3xl shadow-inner">
-                    <!-- Dinámico -->
-                </div>
-                
-                <!-- Texto -->
-                <h3 id="modal-title" class="text-2xl font-bold text-montero-dark mb-2 font-serif">Título</h3>
-                <p id="modal-message" class="text-gray-600 mb-6 text-sm">Mensaje...</p>
-                
-                <!-- Botones -->
-                <div id="modal-buttons" class="flex gap-3 justify-center">
-                    <button id="btn-cancel" class="hidden px-6 py-2 rounded-full border border-gray-300 text-gray-600 font-bold hover:bg-gray-100 transition">Cancelar</button>
-                    <button id="btn-confirm" class="px-8 py-2 rounded-full bg-montero-dark text-white font-bold hover:bg-montero-gold transition shadow-lg">Aceptar</button>
-                </div>
+        <!-- ESTADO VACÍO -->
+        <div id="empty-cart-msg" class="hidden text-center py-20">
+            <div class="inline-flex bg-gray-100 p-6 rounded-full mb-6">
+                <i class="fa-solid fa-cart-arrow-down text-4xl text-gray-400"></i>
             </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Tu carrito está vacío</h2>
+            <p class="text-gray-500 mb-8">Parece que aún no has agregado productos.</p>
+            <a href="productos" class="px-8 py-3 bg-montero-dark text-white font-bold rounded-full hover:bg-montero-gold transition">
+                Ir al Catálogo
+            </a>
         </div>
 
     </main>
 
     <div id="footer-container"></div>
 
+    <!-- Script Global -->
     <script>
-        // BASE DE DATOS COMPLETA (Sincronizada con Productos)
+        // --- BASE DE DATOS DE PRODUCTOS (Para referencia de precios e imágenes) ---
+        // Copiada de productos.html para tener consistencia de datos
         const productsDB = [
             { id: "EC/MT-0001", name: "Sérum con vitamina C 3 en 1", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
             { id: "EC/MT-0002", name: "Sérum Iluminador Hyalu Glow", category: "Cuidado Facial", brand: "Ligne D’or", price: 8.50, unit: "30 ml", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" },
@@ -286,297 +286,240 @@
             { id: "EC/MT-113", name: "Enchinadores Cristy", category: "Herramientas", brand: "Otros", price: 3.00, unit: "N/A", gender: "Femenino", image: "https://monterosec.github.io/img/productos/inventario.png" }
         ];
 
-        let cartState = {};
-        let confirmCallback = null;
-
         document.addEventListener('DOMContentLoaded', () => {
             const currentYear = new Date().getFullYear();
 
-            // Navbar SIMPLIFICADO para Checkout
-            const navbarComponent = `
-            <nav class="bg-white shadow-md fixed w-full top-0 z-50 border-b-4 border-montero-pink">
+            // Footer Component
+            const footerComponent = `
+            <footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-20">
-                        <!-- Logo -->
-                        <div class="flex-shrink-0 flex items-center">
-                            <a href="/" class="flex items-center gap-2">
-                                <img class="h-10 w-auto md:h-16" src="https://monterosec.github.io/img/monteros.png" alt="Logo">
-                            </a>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                            <img src="https://monterosec.github.io/img/monter0s.png" alt="Logo" class="h-20 mb-4 rounded-lg p-1">
+                            <p class="text-gray-400 text-sm mb-4">Realzando tu belleza natural con los mejores productos del mercado.</p>
                         </div>
-                        
-                        <!-- BOTÓN SEGUIR COMPRANDO -->
-                        <div>
-                            <a href="productos" class="flex items-center gap-2 px-6 py-2 rounded-full border-2 border-montero-dark text-montero-dark font-bold hover:bg-montero-pink hover:border-montero-pink transition shadow-sm text-sm md:text-base">
-                                <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
-                            </a>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">SERVICIO AL CLIENTE</h3>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li><a href="preguntas_frecuentes" class="hover:text-montero-pink transition">Preguntas Frecuentes</a></li>
+                                <li><a href="tyc" class="hover:text-montero-pink transition">Términos y Condiciones</a></li>
+                                <li><a href="pdp" class="hover:text-montero-pink transition">Política de Privacidad</a></li>
+                                <li><a href="pdc" class="hover:text-montero-pink transition">Política de Cookies</a></li>
+                                <li><a href="cdd" class="hover:text-montero-pink transition">Condiciones de devolución</a></li>
+                                <li><a href="rastreo" class="hover:text-montero-pink transition">Rastreo de Pedidos</a></li>
+                            </ul>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">ACERCA DE NOSOTROS</h3>
+                            <ul class="space-y-3 text-sm text-gray-300">
+                                <li><a href="equipo" class="text-montero-pink font-bold transition flex items-center justify-center md:justify-start gap-2"><i class="fa-solid fa-users text-montero-gold"></i> Equipo</a></li>
+                                <li class="flex items-start justify-center md:justify-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-montero-pink"></i><a href="https://maps.app.goo.gl/Td4HtMzEt1oY1Yt49" target="_blank" class="hover:text-white transition">Pimampiro, Calle Juan Montalvo y Paquisha</a></li>
+                                <li class="flex items-center justify-center md:justify-start"><i class="fa-solid fa-phone mr-2 text-montero-pink"></i><a href="tel:+593981540453" class="hover:text-white transition">0981540453</a></li>
+                                <li class="flex items-center justify-center md:justify-start"><i class="fa-solid fa-envelope mr-2 text-montero-pink"></i><a href="mailto:monteros.ec@gmail.com" class="hover:text-white transition">monteros.ec@gmail.com</a></li>
+                            </ul>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h3 class="text-montero-gold font-serif text-lg font-bold mb-4 border-b border-gray-700 pb-2">SÍGUENOS</h3>
+                            <div class="flex justify-center md:justify-start space-x-4 mb-6">
+                                <a href="https://www.facebook.com/" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/monteros.ec" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.tiktok.com/@monteros.ec" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-tiktok"></i></a>
+                                <a href="https://chat.whatsapp.com/HTnBdNevj7mB7uDFPQLYZS" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                                <a href="https://t.me/+lgjZ4bwTftdhN2Qx" target="_blank" class="bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center hover:bg-montero-dark transition text-white"><i class="fa-brands fa-telegram"></i></a>
+                            </div>
                         </div>
                     </div>
+                    <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-500">
+                        <p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p>
+                    </div>
                 </div>
-            </nav>`;
+            </footer>`;
 
-            // Footer Simple
-            const footerComponent = `<footer class="bg-gray-900 text-white pt-12 pb-6 border-t-4 border-montero-gold relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-green-600 to-red-600 opacity-50"></div><div class="max-w-7xl mx-auto px-4"><div class="text-center"><p>&copy; ${currentYear} Montero's Tienda de Maquillaje.</p></div></div></footer>`;
-
-            document.getElementById('navbar-container').innerHTML = navbarComponent;
             document.getElementById('footer-container').innerHTML = footerComponent;
 
-            loadCartData();
-            loadShippingDataIfAvailable();
+            // --- Lógica Carrito ---
+            renderCart();
         });
 
-        // --- FUNCIONES DEL MODAL ---
-        function showModal(title, message, type = 'alert', iconClass = 'fa-solid fa-bell text-montero-dark', onConfirm = null) {
-            const modal = document.getElementById('custom-modal');
-            const content = document.getElementById('modal-content');
-            const iconContainer = document.getElementById('modal-icon');
-            
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            
-            iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+        // ----------------------------------------------------
+        // LÓGICA DE CARRITO Y ENVÍO
+        // ----------------------------------------------------
 
-            const btnCancel = document.getElementById('btn-cancel');
-            const btnConfirm = document.getElementById('btn-confirm');
+        function getCartData() {
+            return JSON.parse(localStorage.getItem('monteroCart')) || {};
+        }
+
+        function renderCart() {
+            const cart = getCartData();
+            const container = document.getElementById('cart-items-container');
+            const subtotalDisplay = document.getElementById('subtotal-display');
+            const totalDisplay = document.getElementById('total-display');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const checkoutContent = document.getElementById('checkout-content');
             
-            if (type === 'confirm') {
-                btnCancel.classList.remove('hidden');
-                confirmCallback = onConfirm;
-                btnConfirm.innerText = "Sí, continuar";
-                btnConfirm.onclick = () => {
-                    if (confirmCallback) confirmCallback();
-                    closeModal();
-                };
-                btnCancel.onclick = closeModal;
+            // Si el carrito está vacío
+            if (Object.keys(cart).length === 0) {
+                checkoutContent.classList.add('hidden');
+                emptyMsg.classList.remove('hidden');
+                return;
             } else {
-                btnCancel.classList.add('hidden');
-                confirmCallback = null;
-                btnConfirm.innerText = "Entendido";
-                btnConfirm.onclick = closeModal;
+                checkoutContent.classList.remove('hidden');
+                emptyMsg.classList.add('hidden');
             }
 
-            modal.classList.remove('invisible', 'opacity-0');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-        }
+            // Render Items
+            let html = '';
+            let total = 0;
 
-        function closeModal() {
-            const modal = document.getElementById('custom-modal');
-            const content = document.getElementById('modal-content');
-            modal.classList.add('invisible', 'opacity-0');
-            content.classList.add('scale-95');
-            content.classList.remove('scale-100');
-        }
-
-        // --- FUNCIONES DE CARRITO ---
-
-        function loadCartData() {
-            const storedCart = localStorage.getItem('monteroCart');
-            if (storedCart) cartState = JSON.parse(storedCart);
-            renderCart();
-        }
-
-        function loadShippingDataIfAvailable() {
-            const storedShip = localStorage.getItem('monteroShipping');
-            if (storedShip) {
-                const data = JSON.parse(storedShip);
-                if(document.getElementById('fullname')) document.getElementById('fullname').value = data.fullname || '';
-                if(document.getElementById('id_number')) document.getElementById('id_number').value = data.id || '';
-                if(document.getElementById('phone')) document.getElementById('phone').value = data.phone || '';
-                if(document.getElementById('province')) document.getElementById('province').value = data.province || '';
-                if(document.getElementById('city')) document.getElementById('city').value = data.city || '';
-                if(document.getElementById('address')) document.getElementById('address').value = data.address || '';
-            }
-        }
-
-        function updateQty(productName, change) {
-            // Verifica si existe la clave en cartState
-            if (cartState[productName] !== undefined) {
-                const newQty = cartState[productName] + change;
+            for (const [productName, qty] of Object.entries(cart)) {
+                // Buscar info del producto en la DB
+                const product = productsDB.find(p => p.name === productName);
                 
-                if (newQty > 0) {
-                    cartState[productName] = newQty;
-                } else {
-                    // Si llega a 0, preguntamos si quiere eliminar
-                    removeProduct(productName);
-                    return; 
+                if (product) {
+                    const lineTotal = product.price * qty;
+                    total += lineTotal;
+
+                    html += `
+                    <div class="flex gap-4 items-center border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                        <div class="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0 relative">
+                            <img src="${product.image}" class="max-h-12 object-contain" alt="img">
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-sm text-gray-800 line-clamp-1">${product.name}</h4>
+                            <p class="text-xs text-gray-500 mb-1">${product.brand} | $${product.price.toFixed(2)} c/u</p>
+                            
+                            <!-- Controles de Cantidad -->
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateItemQuantity('${product.name}', -1)" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center text-xs transition">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <span class="text-sm font-bold text-gray-700 min-w-[20px] text-center">${qty}</span>
+                                <button onclick="updateItemQuantity('${product.name}', 1)" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center text-xs transition">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end justify-between h-full min-h-[60px]">
+                            <span class="font-bold text-montero-dark">$${lineTotal.toFixed(2)}</span>
+                            <button onclick="removeFromCart('${product.name}')" class="text-gray-400 hover:text-red-500 transition p-2" title="Eliminar Producto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>`;
                 }
-                
-                localStorage.setItem('monteroCart', JSON.stringify(cartState));
+            }
+
+            container.innerHTML = html;
+            subtotalDisplay.innerText = `$${total.toFixed(2)}`;
+            totalDisplay.innerText = `$${total.toFixed(2)}`;
+        }
+
+        // Nueva función para actualizar cantidades
+        function updateItemQuantity(name, change) {
+            let cart = getCartData();
+            if (cart[name]) {
+                const newQty = cart[name] + change;
+                if (newQty < 1) {
+                    // Si baja de 1, preguntamos si quiere eliminarlo
+                    if(confirm("¿Deseas eliminar este producto del carrito?")) {
+                        delete cart[name];
+                    }
+                } else {
+                    cart[name] = newQty;
+                }
+                localStorage.setItem('monteroCart', JSON.stringify(cart));
                 renderCart();
             }
         }
 
-        function removeProduct(productName) {
-            showModal(
-                'Eliminar Producto',
-                '¿Estás seguro de que quieres eliminar este producto de tu carrito?',
-                'confirm',
-                'fa-solid fa-trash-can text-red-500',
-                () => {
-                    delete cartState[productName];
-                    localStorage.setItem('monteroCart', JSON.stringify(cartState));
-                    renderCart();
-                }
-            );
+        // Eliminar producto individualmente
+        function removeFromCart(name) {
+            let cart = getCartData();
+            delete cart[name];
+            localStorage.setItem('monteroCart', JSON.stringify(cart));
+            renderCart();
         }
 
+        // Vaciar todo el carrito
         function clearCart() {
-            if (Object.keys(cartState).length === 0) return;
-
-            showModal(
-                'Vaciar Carrito',
-                '¿Estás seguro de que quieres eliminar todos los productos del carrito?',
-                'confirm',
-                'fa-solid fa-triangle-exclamation text-orange-500',
-                () => {
-                    cartState = {};
-                    localStorage.removeItem('monteroCart');
-                    renderCart();
-                }
-            );
+            if(confirm("¿Estás seguro de que quieres vaciar todo el carrito?")) {
+                localStorage.removeItem('monteroCart');
+                renderCart();
+            }
         }
 
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            const totalEl = document.getElementById('total-amount');
-            
-            let html = '';
-            let total = 0;
-            let hasItems = false;
+        function sendOrder() {
+            // 1. Obtener Datos del Carrito
+            const cart = getCartData();
+            if (Object.keys(cart).length === 0) return alert("Tu carrito está vacío");
 
-            // Iteramos sobre las claves del carrito (que son los NOMBRES de productos)
-            for (const [productName, qty] of Object.entries(cartState)) {
-                if (qty > 0) {
-                    hasItems = true;
-                    // Buscar el producto completo en la base de datos por nombre
-                    const product = productsDB.find(p => p.name === productName);
-                    
-                    if (product) {
-                        const subtotal = product.price * qty;
-                        total += subtotal;
-
-                        html += `
-                        <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 transition gap-4 border-b border-gray-100 last:border-0">
-                            <div class="flex items-center gap-4">
-                                <img src="${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded-lg border border-gray-200">
-                                <div class="text-sm">
-                                    <p class="font-bold text-gray-800 text-base">${product.name}</p>
-                                    <p class="text-gray-500 mb-1">${product.brand} | ${product.category}</p>
-                                    <p class="text-montero-dark font-bold">$${product.price.toFixed(2)} c/u</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto mt-2 sm:mt-0">
-                                <!-- Controles -->
-                                <div class="flex items-center border border-gray-200 rounded-full bg-white shadow-sm">
-                                    <button onclick="updateQty('${productName}', -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-montero-dark font-bold rounded-l-full transition">-</button>
-                                    <span class="w-8 text-center text-sm font-bold text-gray-800">${qty}</span>
-                                    <button onclick="updateQty('${productName}', 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-montero-dark font-bold rounded-r-full transition">+</button>
-                                </div>
-                                
-                                <div class="text-right min-w-[80px]">
-                                    <p class="font-bold text-montero-dark text-lg">$${subtotal.toFixed(2)}</p>
-                                </div>
-
-                                <button onclick="removeProduct('${productName}')" class="text-gray-400 hover:text-red-500 transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50" title="Eliminar">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </div>`;
-                    } else {
-                        // Si el producto está en localStorage pero ya no existe en la DB (raro pero posible)
-                        delete cartState[productName];
-                        localStorage.setItem('monteroCart', JSON.stringify(cartState));
-                    }
-                }
-            }
-
-            if (!hasItems) {
-                html = `
-                <div class="p-12 text-center text-gray-500 flex flex-col items-center gap-4">
-                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-gray-300">
-                        <i class="fa-solid fa-basket-shopping text-4xl"></i>
-                    </div>
-                    <p class="text-lg">Tu carrito está vacío.</p>
-                    <a href="productos" class="text-montero-dark font-bold hover:underline">Ir a la tienda</a>
-                </div>`;
-            }
-
-            container.innerHTML = html;
-            totalEl.innerText = `$${total.toFixed(2)}`;
-        }
-
-        function sendToWhatsApp() {
-            // 1. Validar Carrito
-            let total = 0;
             let productListText = "";
-            let hasItems = false;
+            let total = 0;
 
-            for (const [productName, qty] of Object.entries(cartState)) {
-                if (qty > 0) {
-                    const product = productsDB.find(p => p.name === productName);
-                    if (product) {
-                        hasItems = true;
-                        const subtotal = product.price * qty;
-                        total += subtotal;
-                        // Formato de lista para WhatsApp
-                        productListText += `▫️ ${product.name} (x${qty}): $${subtotal.toFixed(2)}\n`;
-                    }
+            for (const [productName, qty] of Object.entries(cart)) {
+                const product = productsDB.find(p => p.name === productName);
+                if (product) {
+                    const lineTotal = product.price * qty;
+                    total += lineTotal;
+                    productListText += `• (${qty}) ${product.name} - $${lineTotal.toFixed(2)}\n`;
                 }
             }
 
-            if (!hasItems) {
-                showModal(
-                    'Carrito Vacío',
-                    'Tu carrito está vacío. Por favor agrega productos antes de confirmar el pedido.',
-                    'alert',
-                    'fa-solid fa-basket-shopping text-montero-dark'
-                );
-                return;
-            }
-
-            // 2. Validar Formulario
-            const form = document.getElementById('shipping-form');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            // 3. Capturar Datos
+            // 2. Obtener Datos del Formulario
             const fullname = document.getElementById('fullname').value;
-            const idNumber = document.getElementById('id_number').value;
+            const idNumber = document.getElementById('id-number').value;
             const phone = document.getElementById('phone').value;
             const province = document.getElementById('province').value;
             const city = document.getElementById('city').value;
             const address = document.getElementById('address').value;
 
+            // 3. Validaciones
+            if(!fullname || !phone || !address || !idNumber || !province || !city) {
+                alert("Por favor completa todos los campos obligatorios");
+                return;
+            }
+
+            // Validación de 10 dígitos
+            if(idNumber.length !== 10) {
+                alert("La Cédula/RUC debe tener exactamente 10 dígitos.");
+                return;
+            }
+            if(phone.length !== 10) {
+                alert("El número de celular debe tener exactamente 10 dígitos.");
+                return;
+            }
+
             // 4. Construir Mensaje
-            let message = "*¡Hola Montero's! 💄 Quiero realizar el siguiente pedido:*\n\n";
-            message += "*RESUMEN DE PRODUCTOS:*\n";
+            let message = `*¡Hola Montero's! 💄 Quiero realizar el siguiente pedido:*\n\n`;
+            message += `*RESUMEN DE PRODUCTOS:*\n`;
             message += productListText;
             message += `\n*TOTAL A PAGAR: $${total.toFixed(2)}*\n`;
-            message += "----------------------------------\n";
-            message += "*DATOS DE ENVÍO:*\n";
+            message += `----------------------------------\n`;
+            message += `*DATOS DE ENVÍO:*\n`;
             message += `👤 *Cliente:* ${fullname}\n`;
             message += `🆔 *Cédula:* ${idNumber}\n`;
             message += `📱 *Celular:* ${phone}\n`;
             message += `📍 *Ubicación:* ${city}, ${province}\n`;
             message += `🏠 *Dirección:* ${address}`;
 
-            // 5. Enviar
+            // 5. Enviar a WhatsApp
             const whatsappNumber = "593981540453";
             const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             
-            // Guardar datos de envío para la próxima vez
-            const shippingData = { fullname, id: idNumber, phone, province, city, address };
-            localStorage.setItem('monteroShipping', JSON.stringify(shippingData));
-
+            // Abrir WhatsApp
             window.open(url, '_blank');
 
-            // 6. Limpiar carrito (Opcional: puedes dejarlo o vaciarlo)
-            // cartState = {}; 
-            // localStorage.removeItem('monteroCart');
-            // renderCart();
+            // === 6. RESETEAR DATOS (NUEVA LÓGICA) ===
+            
+            // A. Vaciar el carrito en localStorage
+            localStorage.removeItem('monteroCart');
+
+            // B. Limpiar el formulario visualmente
+            document.getElementById('shipping-form').reset();
+
+            // C. Refrescar la vista del carrito (esto mostrará el mensaje de "Carrito vacío")
+            renderCart();
         }
     </script>
 </body>
